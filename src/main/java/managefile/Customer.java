@@ -24,6 +24,8 @@ public class Customer {
         this.password = password;
         this.credit = credit;
     }
+    public Customer() {
+    }
 
     public String getId() {
         return id;

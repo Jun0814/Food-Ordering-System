@@ -11,15 +11,16 @@ import managefile.*;
  * @author USER
  */
 public class login_back {
-    public boolean validateCredentials(String email, String password) {
+    public Customer validateCredentials(String email, String password) {
         readAccount acc = new readAccount();
         List<Customer> customers = acc.readCustomer();
 
         for (Customer customer : customers) {
             if (customer.getEmail().equals(email) && customer.getPassword().equals(password)) {
-                return true;
+                System.out.println(customer);
+                return customer;
             }
         }
-        return false;
+        return null;
     }
 }
