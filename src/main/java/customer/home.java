@@ -14,7 +14,7 @@ import managefile.Customer;
  * @author USER
  */
 public class home extends javax.swing.JFrame {
-    Customer customer = new Customer();
+    Customer customer = new Customer("C01", "Chin Xuan Han", "xuanhanchin@gmail.com", "010-59898989", "abcd", 20.00);
     private List<Customer> userInfo;
     /** Creates new form home */
     public home(List<Customer> userInfo) {
