@@ -17,6 +17,7 @@ public class login_backend {
 
         for (Customer customer : customers) {
             if (customer.getEmail().equals(email) && customer.getPassword().equals(password)) {
+                System.out.println(customer.getId());
                 return customer.getId();
             }
         }
