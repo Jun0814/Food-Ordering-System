@@ -15,7 +15,6 @@ public class Customer extends GeneralRole {
         super(id, name, email, phone, password);
         this.credit = credit;
     }
-    
 
     public double getCredit() {
         return credit;

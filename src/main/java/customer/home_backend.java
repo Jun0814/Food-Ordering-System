@@ -3,21 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package customer;
+
 import java.util.List;
-import managefile.*;
+import managefile.Customer;
+import managefile.readAccount;
 
 /**
  *
  * @author USER
  */
-public class login_back {
-    public Customer validateCredentials(String email, String password) {
+public class home_backend {
+    public Customer getSpecificCustomerDetail(String customerid){
         readAccount acc = new readAccount();
         List<Customer> customers = acc.readCustomer();
-
         for (Customer customer : customers) {
-            if (customer.getEmail().equals(email) && customer.getPassword().equals(password)) {
-                System.out.println(customer);
+            if (customer.getId().equals(customerid)){
                 return customer;
             }
         }

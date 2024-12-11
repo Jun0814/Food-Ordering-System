@@ -129,17 +129,17 @@ public class login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String email = emailaddress.getText();
         String password = new String(jPasswordField1.getPassword());
-        login_back backend = new login_back();
-        Customer loginValid = backend.validateCredentials(email, password);
-        if (loginValid != null) {
+        login_backend backend = new login_backend();
+        String customerID = backend.validateCredentials(email, password);
+        if (customerID != null) {
             JOptionPane.showMessageDialog(null,"Login Successfully!");
-            List<Customer> customerList = List.of(loginValid);
-            home homepage = new home(customerList);
+            Home homepage = new Home(customerID);
             homepage.run();
             this.dispose();
         }else{
