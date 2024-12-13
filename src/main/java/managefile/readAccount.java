@@ -10,14 +10,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
  *
  * @author USER
  */
 public class readAccount {
-    public List readCustomer(){
-        String filePath = "src\\main\\java\\repository\\customer.txt";
-        List<Customer> users = new ArrayList<>();
+    public List readFile(String filePath){
+        List<GeneralRole> users = new ArrayList<>();
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
@@ -29,12 +29,22 @@ public class readAccount {
                 String email = fields[2];
                 String phone = fields[3];
                 String password = fields[4];
-                double credit = Double.parseDouble(fields[5]);
-                users.add(new Customer(id,name,email,phone,password,credit));
+//                double credit = Double.parseDouble(fields[5]);
+//                System.out.println(credit);
+//                users.add(new Customer(id,name,email,phone,password,credit));
+                if (fields.length > 5){
+                    if(fields[5].matches("\\d+\\.\\d+")){
+                        double credit = Double.parseDouble(fields[5]);
+                        users.add(new Customer(id,name,email,phone,password,credit));
+                    }
+                } else {
+                    users.add(new GeneralRole(id, name, email, phone, password));
+                }
             }
         }catch(IOException e){
             e.printStackTrace();
         }
         return users;
     }
+    
 }
