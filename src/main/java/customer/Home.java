@@ -7,6 +7,7 @@ package customer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import managefile.Customer;
+import managefile.readCustomerAccount;
 import method.scaleImage;
 
 /**
@@ -22,7 +23,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
     public Home(String customerID) {
         this.customerID = customerID;
         initComponents();
-        home_backend backend = new home_backend();
+        readCustomerAccount backend = new readCustomerAccount();
         Customer customerDetails = backend.getSpecificCustomerDetail(customerID);
         jLabel1.setText(customerDetails.getName());
         jLabel2.setIcon(scale.processImage("src\\main\\java\\repository\\logo.png", 160, 80));

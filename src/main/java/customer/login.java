@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import managefile.Customer;
+import managefile.readCustomerAccount;
 
 /**
  *
@@ -134,9 +135,10 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String email = emailaddress.getText();
+        String filePath = "src\\main\\java\\repository\\customer.txt";
         String password = new String(jPasswordField1.getPassword());
-        login_backend backend = new login_backend();
-        String customerID = backend.validateCredentials(email, password);
+        readCustomerAccount backend = new readCustomerAccount();
+        String customerID = backend.validateCredentials(email, password, filePath);
         if (customerID != null) {
             JOptionPane.showMessageDialog(null,"Login Successfully!");
             Home homepage = new Home(customerID);
