@@ -26,7 +26,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         readCustomerAccount backend = new readCustomerAccount();
         Customer customerDetails = backend.getSpecificCustomerDetail(customerID);
         jLabel1.setText(customerDetails.getName());
-        jLabel2.setIcon(scale.processImage("src\\main\\java\\repository\\logo.png", 160, 80));
+        jLabel2.setIcon(scale.processImage("src\\main\\java\\repository\\logo.png", 150, 120));
     }
 
     /**
