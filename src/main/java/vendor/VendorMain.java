@@ -5,7 +5,6 @@
 package vendor;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import method.scaleImage;
@@ -14,19 +13,20 @@ import method.scaleImage;
  *
  * @author TPY
  */
-public class VendorUI extends javax.swing.JFrame {
+public class VendorMain extends javax.swing.JFrame {
 
     /**
-     * Creates new form VendorUI
+     * Creates new form VendorMain
      */
     scaleImage scaleImage = new scaleImage();
-    
-    public VendorUI() {
+        
+    public VendorMain() {
         initComponents();
         switchToPanel(new VendorHome());
-        this.setBackground(Color.black);
-        
-        logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\repository\\gastrogo.png", 130, 100));
+        this.setTitle("Vendor");
+        this.setSize(1000, 600);
+        this.setLocationRelativeTo(null); 
+        logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\gastrogo.png", 130, 100));
         
         logoLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -54,14 +54,13 @@ public class VendorUI extends javax.swing.JFrame {
         });
     }
     
-    private void switchToPanel(javax.swing.JPanel targetPanel) {        
+    protected void switchToPanel(javax.swing.JPanel targetPanel) {        
         if (contentPanel != null) { this.getContentPane().remove(contentPanel); }
         contentPanel = targetPanel;
         this.getContentPane().add(contentPanel, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,14 +188,18 @@ public class VendorUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VendorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VendorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VendorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VendorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -205,19 +208,19 @@ public class VendorUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VendorUI().setVisible(true);
+                new VendorMain().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
-    private javax.swing.JLabel historyLabel;
-    private javax.swing.JLabel logoLabel;
+    protected javax.swing.JLabel historyLabel;
+    protected javax.swing.JLabel logoLabel;
     private javax.swing.JPanel menuPanel;
-    private javax.swing.JLabel orderLabel;
-    private javax.swing.JLabel revenueLabel;
-    private javax.swing.JLabel reviewLabel;
-    private javax.swing.JLabel storeLabel;
+    protected javax.swing.JLabel orderLabel;
+    protected javax.swing.JLabel revenueLabel;
+    protected javax.swing.JLabel reviewLabel;
+    protected javax.swing.JLabel storeLabel;
     // End of variables declaration//GEN-END:variables
 }
