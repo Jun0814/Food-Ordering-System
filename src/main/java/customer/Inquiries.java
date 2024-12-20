@@ -17,8 +17,8 @@ public class Inquiries extends javax.swing.JFrame {
     public Inquiries(String customerID) {
         this.customerID = customerID;
         initComponents();
-        menu_backend backend = new menu_backend(customerID);
-        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\repository\\logo.png",160,80));
+        customer_backend backend = new customer_backend();
+        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png",160,80));
     }
 
     /**

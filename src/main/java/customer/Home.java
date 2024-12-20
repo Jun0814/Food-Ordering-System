@@ -7,7 +7,6 @@ package customer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import managefile.Customer;
-import managefile.readCustomerAccount;
 import method.scaleImage;
 
 /**
@@ -16,17 +15,16 @@ import method.scaleImage;
  */
 public class Home extends javax.swing.JFrame implements ActionListener{
     private String customerID;
-    scaleImage scale = new scaleImage();
     /**
      * Creates new form Home
      */
     public Home(String customerID) {
         this.customerID = customerID;
         initComponents();
-        readCustomerAccount backend = new readCustomerAccount();
+        customer_backend backend = new customer_backend();
         Customer customerDetails = backend.getSpecificCustomerDetail(customerID);
         jLabel1.setText(customerDetails.getName());
-        jLabel2.setIcon(scale.processImage("src\\main\\java\\repository\\logo.png", 160, 80));
+        jLabel2.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 160, 80));
     }
 
     /**
