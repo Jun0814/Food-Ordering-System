@@ -4,6 +4,9 @@
  */
 package customer;
 
+import java.util.List;
+import managefile.Vendor;
+
 /**
  *
  * @author USER
@@ -16,8 +19,11 @@ public class Menu extends javax.swing.JFrame {
     public Menu(String customerID) {
         this.customerID = customerID;
         initComponents();
-        menu_backend backend = new menu_backend(customerID);
-        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\repository\\logo.png",160,80));
+        customer_backend backend = new customer_backend();
+        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png",160,80));
+        Vendor vendorList = backend.getVendor();
+        System.out.println(vendorList);
+        System.out.println(vendorList.getId());
     }
 
     /**
@@ -34,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         back_button = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,11 +86,17 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 488, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -125,5 +138,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
