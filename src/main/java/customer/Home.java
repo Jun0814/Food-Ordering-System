@@ -24,8 +24,10 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         customer_backend backend = new customer_backend();
         Customer customerDetails = backend.getSpecificCustomerDetail(customerID);
         jLabel1.setText(customerDetails.getName());
-        jLabel2.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 160, 80));
-        jLabel2.setIcon(backend.scale.processImage("src\\main\\java\\repository\\logo.png", 150, 120));
+        jLabel2.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 180, 144));
+        logout.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\log-out.png", 40, 40));
+        logout.setFocusable(false);
+        logout.addActionListener(this);
     }
 
     /**
@@ -45,6 +47,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        logout = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         order = new javax.swing.JButton();
 
@@ -118,6 +121,15 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Welcome Back,");
 
+        logout.setBackground(new java.awt.Color(39, 40, 56));
+        logout.setBorder(null);
+        logout.setBorderPainted(false);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,21 +141,29 @@ public class Home extends javax.swing.JFrame implements ActionListener{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(logout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))))
         );
 
         order.setBackground(new java.awt.Color(243, 222, 138));
@@ -208,6 +228,11 @@ actionPerformed(evt);    }//GEN-LAST:event_menuActionPerformed
     private void orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderActionPerformed
 actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
 
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutActionPerformed
+
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==menu){
@@ -226,6 +251,10 @@ actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
             Order page = new Order(customerID);
             page.run();
             this.dispose();
+        }else if (e.getSource()==logout){
+            login page = new login();
+            page.run();
+            this.dispose();
         }
     }
     public void run() {
@@ -241,6 +270,7 @@ actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton logout;
     private javax.swing.JButton menu;
     private javax.swing.JButton order;
     // End of variables declaration//GEN-END:variables

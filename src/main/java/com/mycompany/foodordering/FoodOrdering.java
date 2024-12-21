@@ -13,8 +13,7 @@ import customer.*;
 public class FoodOrdering {
 
     public static void main(String[] args) {
-        customer.login login = new customer.login();
-//        customer.login_backend login1 = new customer.login_backend();
-        login.run();
+        selectRole role = new selectRole();
+        role.run();
     }
 }
