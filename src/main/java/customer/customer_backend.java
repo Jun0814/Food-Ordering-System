@@ -38,7 +38,7 @@ public class customer_backend{
         }
         return null;
     }
-    public Vendor getVendor(){
-        return null;
+    public List<Vendor> getVendors(){
+        return acc.readVendorAccount(vendorFile);
     }
 }

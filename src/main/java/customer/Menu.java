@@ -4,7 +4,18 @@
  */
 package customer;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import managefile.Vendor;
 
 /**
@@ -13,17 +24,25 @@ import managefile.Vendor;
  */
 public class Menu extends javax.swing.JFrame {
     private final String customerID;
-    /**
-     * Creates new form menu
-     */
+    private List<Vendor> vendorList;
+    customer_backend backend = new customer_backend();
+        
     public Menu(String customerID) {
         this.customerID = customerID;
         initComponents();
-        customer_backend backend = new customer_backend();
-        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png",160,80));
-        Vendor vendorList = backend.getVendor();
-        System.out.println(vendorList);
-        System.out.println(vendorList.getId());
+        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
+        vendorList = backend.getVendors();
+
+        JPanel vendorPanel = new JPanel();
+        
+        for (Vendor vendor:vendorList){
+            vendorPanel.add(addVendorPanel(vendor));
+        }
+        
+        JScrollPane scrollPane = new JScrollPane(vendorPanel);
+        scrollPane.setPreferredSize(new Dimension(1200,610));
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(scrollPane, BorderLayout.CENTER);
     }
 
     /**
@@ -40,7 +59,6 @@ public class Menu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         back_button = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,8 +85,8 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(back_button, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 420, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 459, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -86,17 +104,11 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+            .addGap(0, 1025, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 470, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -110,7 +122,7 @@ public class Menu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -123,11 +135,39 @@ public class Menu extends javax.swing.JFrame {
         homepage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
-
     
-    /**
-     * @param args the command line arguments
-     */
+    private JPanel addVendorPanel(Vendor vendor){
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+        panel.setBackground(new Color(255, 255, 204));
+        panel.setPreferredSize(new Dimension(350, 350));
+        
+        JLabel image = new JLabel();
+        image.setIcon(backend.scale.processImage(vendor.getImagePath(), 250, 250));
+        image.setPreferredSize(new Dimension(250,250));
+        image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        
+        JLabel vendorName = new JLabel();
+        vendorName.setText(vendor.getStallName());
+        vendorName.setFont(new Font("Segeo UI",Font.BOLD,20));
+        
+        JLabel vendorType = new JLabel();
+        vendorType.setText(vendor.getStallType());
+        vendorType.setFont(new Font("Segeo UI",Font.BOLD,20));
+        
+        JButton button = new JButton();
+        button.setBackground(new Color(0, 102, 204));
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("SansSerif", Font.BOLD, 16));
+        button.setPreferredSize(new Dimension(200, 40));
+        button.setText("View Menu");
+        
+        panel.add(vendorName);
+        panel.add(vendorType);
+        panel.add(button);
+        return panel;
+    }
+    
     public void run() {
         new Menu(customerID).setVisible(true);
     }
@@ -138,6 +178,5 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

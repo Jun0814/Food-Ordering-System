@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import managefile.Vendor;
 
 
 /**
@@ -66,15 +65,15 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                String id = fields[0];
-                String name = fields[1];
-                String email = fields[2];
-                String phone = fields[3];
-                String password = fields[4];
-                String stallname = fields[5];
-                String stalltype = fields[6];
-                String imagepath = fields[7];
-                users.add(new Vendor(id,name,email,phone,password,stallname,stalltype,imagepath));
+                    String id = fields[0];
+                    String name = fields[1];
+                    String email = fields[2];
+                    String phone = fields[3];
+                    String password = fields[4];
+                    String stallname = fields[5];
+                    String stalltype = fields[6];
+                    String imagepath = fields[7];
+                    users.add(new Vendor(id,name,email,phone,password,stallname,stalltype,imagepath));
             }
         }catch(IOException e){
             e.printStackTrace();

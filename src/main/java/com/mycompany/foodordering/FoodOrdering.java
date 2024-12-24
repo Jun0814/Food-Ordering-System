@@ -12,8 +12,11 @@ import main.MainMenu;
  */
 public class FoodOrdering {
     public static void main(String[] args) {
-        customer.login login = new customer.login();
         MainMenu main = new MainMenu();
         main.run();
+        /*
+        selectRole role = new selectRole();
+        role.run();
+        */
     }
 }
