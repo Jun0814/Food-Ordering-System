@@ -69,6 +69,7 @@ public class MainMenu extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         bgBackground = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
@@ -79,7 +80,7 @@ public class MainMenu extends javax.swing.JFrame {
         runnerButton = new method.roundedButton();
         customerButton = new method.roundedButton();
         adminButton = new method.roundedButton();
-        vendorButton1 = new method.roundedButton();
+        vendorButton = new method.roundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 565));
@@ -112,10 +113,17 @@ public class MainMenu extends javax.swing.JFrame {
         rightPanel.setBackground(new java.awt.Color(126, 127, 154));
         rightPanel.setMinimumSize(new java.awt.Dimension(500, 568));
         rightPanel.setPreferredSize(new java.awt.Dimension(500, 568));
+        rightPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(243, 222, 138));
         jLabel1.setText("LOGIN AS");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(116, 196, 0, 0);
+        rightPanel.add(jLabel1, gridBagConstraints);
 
         managerButton.setForeground(new java.awt.Color(60, 63, 65));
         managerButton.setText("MANAGER");
@@ -127,6 +135,15 @@ public class MainMenu extends javax.swing.JFrame {
                 managerButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 99;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 151, 0, 143);
+        rightPanel.add(managerButton, gridBagConstraints);
 
         runnerButton.setForeground(new java.awt.Color(60, 63, 65));
         runnerButton.setText("RUNNER");
@@ -138,6 +155,15 @@ public class MainMenu extends javax.swing.JFrame {
                 runnerButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 113;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 151, 137, 143);
+        rightPanel.add(runnerButton, gridBagConstraints);
 
         customerButton.setForeground(new java.awt.Color(60, 63, 65));
         customerButton.setText("CUSTOMER");
@@ -149,6 +175,15 @@ public class MainMenu extends javax.swing.JFrame {
                 customerButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 95;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 151, 0, 143);
+        rightPanel.add(customerButton, gridBagConstraints);
 
         adminButton.setForeground(new java.awt.Color(60, 63, 65));
         adminButton.setText("ADMIN");
@@ -160,54 +195,35 @@ public class MainMenu extends javax.swing.JFrame {
                 adminButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 123;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 151, 0, 143);
+        rightPanel.add(adminButton, gridBagConstraints);
 
-        vendorButton1.setForeground(new java.awt.Color(60, 63, 65));
-        vendorButton1.setText("VENDOR");
-        vendorButton1.setBorderColor(new java.awt.Color(126, 127, 154));
-        vendorButton1.setFont(new java.awt.Font("Microsoft YaHei", 1, 14)); // NOI18N
-        vendorButton1.setRadius(30);
-        vendorButton1.addActionListener(new java.awt.event.ActionListener() {
+        vendorButton.setForeground(new java.awt.Color(60, 63, 65));
+        vendorButton.setText("VENDOR");
+        vendorButton.setBorderColor(new java.awt.Color(126, 127, 154));
+        vendorButton.setFont(new java.awt.Font("Microsoft YaHei", 1, 14)); // NOI18N
+        vendorButton.setRadius(30);
+        vendorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vendorButton1ActionPerformed(evt);
+                vendorButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
-        rightPanel.setLayout(rightPanelLayout);
-        rightPanelLayout.setHorizontalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(194, 194, 194))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                        .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(runnerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(managerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(customerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(adminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(vendorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(143, 143, 143))))
-        );
-        rightPanelLayout.setVerticalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(customerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(adminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(managerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(vendorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(runnerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 113;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 151, 0, 143);
+        rightPanel.add(vendorButton, gridBagConstraints);
 
         bgBackground.add(rightPanel);
 
@@ -226,28 +242,28 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
-        this.dispose();
-        login login = new login();
-        login.run();
+
     }//GEN-LAST:event_managerButtonActionPerformed
 
     private void runnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerButtonActionPerformed
-        this.dispose();
-        VendorMain vendorMain = new VendorMain();
-        vendorMain.run();
+
     }//GEN-LAST:event_runnerButtonActionPerformed
 
     private void customerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        login login = new login();
+        login.run();
     }//GEN-LAST:event_customerButtonActionPerformed
 
     private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_adminButtonActionPerformed
 
-    private void vendorButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vendorButton1ActionPerformed
+    private void vendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorButtonActionPerformed
+        this.dispose();
+        VendorMain vendorMain = new VendorMain();
+        vendorMain.run();
+    }//GEN-LAST:event_vendorButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.roundedButton adminButton;
@@ -259,6 +275,6 @@ public class MainMenu extends javax.swing.JFrame {
     private method.roundedButton managerButton;
     private javax.swing.JPanel rightPanel;
     private method.roundedButton runnerButton;
-    private method.roundedButton vendorButton1;
+    private method.roundedButton vendorButton;
     // End of variables declaration//GEN-END:variables
 }
