@@ -3,7 +3,7 @@
  */
 
 package com.mycompany.foodordering;
-import customer.*;
+import main.MainMenu;
         
 
 /**
@@ -11,10 +11,9 @@ import customer.*;
  * @author USER
  */
 public class FoodOrdering {
-
     public static void main(String[] args) {
         customer.login login = new customer.login();
-//        customer.login_backend login1 = new customer.login_backend();
-        login.run();
+        MainMenu main = new MainMenu();
+        main.run();
     }
 }

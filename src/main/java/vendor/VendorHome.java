@@ -4,11 +4,9 @@
  */
 package vendor;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import method.createRoundButton;
 import method.scaleImage;
 
 /**
@@ -18,7 +16,6 @@ import method.scaleImage;
 public class VendorHome extends javax.swing.JPanel{
 
     scaleImage scaleImage = new scaleImage();
-    createRoundButton RoundedButton = new createRoundButton();
     
     /**
      * Creates new form VendorStore
@@ -30,9 +27,6 @@ public class VendorHome extends javax.swing.JPanel{
         leftPanel.setOpaque(false);        
         rightPanel.setOpaque(false);
         contentPanel.setOpaque(false);
-        
-        viewButton = RoundedButton.createRoundedButton("View", 30, 2, new Color(217, 217, 217));
-        backButton = RoundedButton.createRoundedButton("Back", 30, 2, new Color(217, 217, 217));
         
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -47,11 +41,13 @@ public class VendorHome extends javax.swing.JPanel{
                 rightPanel.setBounds(0, 0, newWidth/2, newHeight);
 
                 for (Component component : jLayeredPane1.getComponents()) { component.setBounds(0, 0, newWidth, newHeight); }
+                
+                revalidate();
+                repaint();
             }
         });
-            
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
