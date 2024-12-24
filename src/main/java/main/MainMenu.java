@@ -5,9 +5,11 @@
 package main;
 
 import customer.login;
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import method.scaleImage;
 
 /**
@@ -22,12 +24,28 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public MainMenu() {
-        initComponents();
+        initComponents();        
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
-        this.setLocationRelativeTo(null); 
+        this.setLocationRelativeTo(null);
+        
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\gastrogo.png", 250, 192));
+                        
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int newWidth = getWidth();
+                int newHeight = getHeight();
+
+                leftPanel.setBounds(0, 0, newWidth/2, newHeight);
+                rightPanel.setBounds(0, 0, newWidth/2, newHeight);
+
                 
+                revalidate();
+                repaint();
+            }
+        });        
+        
         leftPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -37,12 +55,13 @@ public class MainMenu extends javax.swing.JFrame {
         gbc.fill = GridBagConstraints.NONE; 
 
         leftPanel.add(logoLabel, gbc);
+        
     }
         
     public void run() {
         new MainMenu().setVisible(true);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +72,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        bgBackground = new javax.swing.JPanel();
+        bgPanel = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         logoLabel = new javax.swing.JLabel();
         rightPanel = new javax.swing.JPanel();
@@ -66,14 +85,18 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(1000, 565));
+        setPreferredSize(null);
 
-        bgBackground.setLayout(new java.awt.BorderLayout());
+        bgPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bgPanel.setMinimumSize(new java.awt.Dimension(1000, 565));
+        bgPanel.setName(""); // NOI18N
+        bgPanel.setLayout(new java.awt.BorderLayout());
 
         leftPanel.setBackground(new java.awt.Color(39, 40, 56));
         leftPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        leftPanel.setMinimumSize(new java.awt.Dimension(500, 568));
-        leftPanel.setPreferredSize(new java.awt.Dimension(500, 568));
+        leftPanel.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        leftPanel.setMinimumSize(new java.awt.Dimension(500, 565));
+        leftPanel.setPreferredSize(new java.awt.Dimension(500, 565));
 
         logoLabel.setAlignmentX(0.5F);
         logoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -91,12 +114,11 @@ public class MainMenu extends javax.swing.JFrame {
             .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        bgBackground.add(leftPanel, java.awt.BorderLayout.WEST);
+        bgPanel.add(leftPanel, java.awt.BorderLayout.WEST);
 
         rightPanel.setBackground(new java.awt.Color(126, 127, 154));
-        rightPanel.setMaximumSize(new java.awt.Dimension(32767, 32767));
-        rightPanel.setMinimumSize(new java.awt.Dimension(500, 568));
-        rightPanel.setPreferredSize(new java.awt.Dimension(500, 568));
+        rightPanel.setMinimumSize(new java.awt.Dimension(500, 565));
+        rightPanel.setPreferredSize(new java.awt.Dimension(500, 565));
         rightPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -209,20 +231,9 @@ public class MainMenu extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 151, 0, 143);
         rightPanel.add(vendorButton, gridBagConstraints);
 
-        bgBackground.add(rightPanel, java.awt.BorderLayout.CENTER);
+        bgPanel.add(rightPanel, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        bgBackground.getAccessibleContext().setAccessibleParent(null);
+        getContentPane().add(bgPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -259,7 +270,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.roundedButton adminButton;
-    private javax.swing.JPanel bgBackground;
+    private javax.swing.JPanel bgPanel;
     private method.roundedButton customerButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel leftPanel;
