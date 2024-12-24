@@ -5,13 +5,10 @@
 package main;
 
 import customer.login;
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import method.scaleImage;
-import vendor.VendorMain;
 
 /**
  *
@@ -30,7 +27,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.setSize(1000, 600);
         this.setLocationRelativeTo(null); 
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\gastrogo.png", 250, 192));
-        
+                
         leftPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -40,23 +37,8 @@ public class MainMenu extends javax.swing.JFrame {
         gbc.fill = GridBagConstraints.NONE; 
 
         leftPanel.add(logoLabel, gbc);
-        
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                int newWidth = getWidth();
-                int newHeight = getHeight();
-                
-                bgBackground.setPreferredSize(new Dimension(newWidth, newHeight));
-                leftPanel.setPreferredSize(new Dimension(newWidth / 2, newHeight));
-                rightPanel.setPreferredSize(new Dimension(newWidth / 2, newHeight));
-                
-                revalidate();
-                repaint();
-            }
-        });
     }
-    
+        
     public void run() {
         new MainMenu().setVisible(true);
     }
@@ -83,9 +65,10 @@ public class MainMenu extends javax.swing.JFrame {
         vendorButton = new method.roundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(1000, 565));
 
-        bgBackground.setLayout(new java.awt.GridLayout(1, 0));
+        bgBackground.setLayout(new java.awt.BorderLayout());
 
         leftPanel.setBackground(new java.awt.Color(39, 40, 56));
         leftPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -100,7 +83,7 @@ public class MainMenu extends javax.swing.JFrame {
         leftPanelLayout.setHorizontalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
-                .addGap(423, 423, 423)
+                .addContainerGap()
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         leftPanelLayout.setVerticalGroup(
@@ -108,9 +91,10 @@ public class MainMenu extends javax.swing.JFrame {
             .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        bgBackground.add(leftPanel);
+        bgBackground.add(leftPanel, java.awt.BorderLayout.WEST);
 
         rightPanel.setBackground(new java.awt.Color(126, 127, 154));
+        rightPanel.setMaximumSize(new java.awt.Dimension(32767, 32767));
         rightPanel.setMinimumSize(new java.awt.Dimension(500, 568));
         rightPanel.setPreferredSize(new java.awt.Dimension(500, 568));
         rightPanel.setLayout(new java.awt.GridBagLayout());
@@ -225,45 +209,53 @@ public class MainMenu extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 151, 0, 143);
         rightPanel.add(vendorButton, gridBagConstraints);
 
-        bgBackground.add(rightPanel);
+        bgBackground.add(rightPanel, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bgBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bgBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
+
+        bgBackground.getAccessibleContext().setAccessibleParent(null);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
+    private void runnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerButtonActionPerformed
+        this.dispose();
+        UserLogin userlogin = new UserLogin("runner");
+        userlogin.run();
+    }//GEN-LAST:event_runnerButtonActionPerformed
 
+    private void vendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorButtonActionPerformed
+        this.dispose();
+        UserLogin userlogin = new UserLogin("vendor");
+        userlogin.run();
+    }//GEN-LAST:event_vendorButtonActionPerformed
+
+    private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
+        this.dispose();
+        UserLogin userlogin = new UserLogin("manager");
+        userlogin.run();
     }//GEN-LAST:event_managerButtonActionPerformed
 
-    private void runnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerButtonActionPerformed
-
-    }//GEN-LAST:event_runnerButtonActionPerformed
+    private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
+        this.dispose();
+        UserLogin userlogin = new UserLogin("admin");
+        userlogin.run();
+    }//GEN-LAST:event_adminButtonActionPerformed
 
     private void customerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButtonActionPerformed
         this.dispose();
         login login = new login();
         login.run();
     }//GEN-LAST:event_customerButtonActionPerformed
-
-    private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
-
-    }//GEN-LAST:event_adminButtonActionPerformed
-
-    private void vendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorButtonActionPerformed
-        this.dispose();
-        VendorMain vendorMain = new VendorMain();
-        vendorMain.run();
-    }//GEN-LAST:event_vendorButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.roundedButton adminButton;

@@ -4,11 +4,11 @@
  */
 package customer;
 //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
-import com.mycompany.foodordering.selectRole;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import main.MainMenu;
 import managefile.Customer;
 
 /**
@@ -213,8 +213,12 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        /*
         selectRole role = new selectRole();
         role.run();
+        */
+        MainMenu main = new MainMenu();
+        main.run();
         this.dispose();
     }//GEN-LAST:event_backActionPerformed
     
