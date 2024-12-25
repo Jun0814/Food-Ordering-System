@@ -8,7 +8,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.io.File;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -31,16 +34,32 @@ public class Menu extends javax.swing.JFrame {
         this.customerID = customerID;
         initComponents();
         jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
+        addVendorScrollPane();
+    }
+    
+    private void addVendorScrollPane(){
         vendorList = backend.getVendors();
 
-        JPanel vendorPanel = new JPanel();
+        JPanel vendorPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         
         for (Vendor vendor:vendorList){
-            vendorPanel.add(addVendorPanel(vendor));
+            JPanel panel = addVendorPanel(vendor);
+            vendorPanel.setBackground(Color.LIGHT_GRAY);
+            vendorPanel.add(panel, gbc);
+            gbc.gridx++;
+            if (gbc.gridx == 3) {
+                gbc.gridx = 0;
+                gbc.gridy++;
+            }
         }
         
         JScrollPane scrollPane = new JScrollPane(vendorPanel);
-        scrollPane.setPreferredSize(new Dimension(1200,610));
+        scrollPane.setPreferredSize(new Dimension(1200,470));
         jPanel2.setLayout(new BorderLayout());
         jPanel2.add(scrollPane, BorderLayout.CENTER);
     }
@@ -108,7 +127,7 @@ public class Menu extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGap(0, 466, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -122,7 +141,7 @@ public class Menu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -137,35 +156,66 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_back_buttonActionPerformed
     
     private JPanel addVendorPanel(Vendor vendor){
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
         panel.setBackground(new Color(255, 255, 204));
-        panel.setPreferredSize(new Dimension(350, 350));
+        panel.setPreferredSize(new Dimension(300, 340));
         
         JLabel image = new JLabel();
-        image.setIcon(backend.scale.processImage(vendor.getImagePath(), 250, 250));
+        File imageFile = new File(vendor.getImagePath());
+        if (imageFile.exists()){
+            image.setIcon(backend.scale.processImage(vendor.getImagePath(), 200, 200));
+        }else{
+            image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 200, 200));
+        }
         image.setPreferredSize(new Dimension(250,250));
         image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
         JLabel vendorName = new JLabel();
         vendorName.setText(vendor.getStallName());
-        vendorName.setFont(new Font("Segeo UI",Font.BOLD,20));
+        vendorName.setFont(new Font("Segeo UI",Font.BOLD,18));
         
         JLabel vendorType = new JLabel();
         vendorType.setText(vendor.getStallType());
-        vendorType.setFont(new Font("Segeo UI",Font.BOLD,20));
+        vendorType.setFont(new Font("Segeo UI",Font.BOLD,15));
         
         JButton button = new JButton();
         button.setBackground(new Color(0, 102, 204));
         button.setForeground(Color.WHITE);
         button.setFont(new Font("SansSerif", Font.BOLD, 16));
-        button.setPreferredSize(new Dimension(200, 40));
+        button.setPreferredSize(new Dimension(250, 20));
         button.setText("View Menu");
+        button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewMenuButton(vendor.getId());
+            }
+        });
         
-        panel.add(vendorName);
-        panel.add(vendorType);
-        panel.add(button);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(image, gbc);
+
+        gbc.gridy = 1;
+        panel.add(vendorName,gbc);
+
+        gbc.gridy = 2;
+        panel.add(vendorType,gbc);
+        
+        gbc.gridy = 3;
+        panel.add(button, gbc);
+        
         return panel;
+    }
+    
+    private void viewMenuButton(String id){                                          
+        Food foodpage = new Food(customerID,id);
+        foodpage.run();
+        this.dispose();
     }
     
     public void run() {

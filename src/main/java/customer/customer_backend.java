@@ -4,7 +4,10 @@
  */
 package customer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import managefile.Customer;
 import managefile.Vendor;
 import managefile.readFile;
@@ -17,6 +20,7 @@ import method.scaleImage;
 public class customer_backend{
     private final String customerFile = "src\\main\\java\\repository\\customer.txt";
     private final String vendorFile = "src\\main\\java\\repository\\vendor.txt";
+    private final String foodFile = "src\\main\\java\\repository\\food.txt";
     private readFile acc = new readFile();
     scaleImage scale = new scaleImage();
     
@@ -40,5 +44,26 @@ public class customer_backend{
     }
     public List<Vendor> getVendors(){
         return acc.readVendorAccount(vendorFile);
+    }
+    public Map<String, Object> getSpecificVendorDetail(String vendorid){
+        List<Vendor> vendors = acc.readVendorAccount(vendorFile);
+        List<managefile.Food> foods = acc.readFood(foodFile);
+        List<Vendor> matchedVendors = new ArrayList<>();
+        List<managefile.Food> matchedFoods = new ArrayList<>();
+        
+        for (Vendor vendor : vendors) {
+            if (vendor.getId().equals(vendorid)){
+                matchedVendors.add(vendor);
+            }
+        }
+        for (managefile.Food food:foods){
+            if (food.getVendorid().equals(vendorid)){
+                matchedFoods.add(food);
+            }
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("vendors", matchedVendors);
+        result.put("foods", matchedFoods);
+        return result;
     }
 }

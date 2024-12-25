@@ -4,8 +4,13 @@
  */
 package main;
 
+import customer.Home;
+import customer.customer_backend;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import method.scaleImage;
 import vendor.VendorMain;
 
@@ -13,10 +18,10 @@ import vendor.VendorMain;
  *
  * @author TPY
  */
-public class UserLogin extends javax.swing.JFrame {
-    
+public class UserLogin extends javax.swing.JFrame implements ActionListener{
     scaleImage scaleImage = new scaleImage();
     protected String role;
+    protected int clickCount;
     
     /**
      * Creates new form UserLogin
@@ -53,6 +58,46 @@ public class UserLogin extends javax.swing.JFrame {
     
     public void run() {
         new UserLogin(role).setVisible(true);
+    }
+    public void validationCustomer(){
+        if (clickCount < 3){
+            String email = usernameTextField.getText();
+            String password = passwordTextField.getText();
+            customer_backend backend = new customer_backend();
+            String customerID = backend.validateCredentials(email, password);
+            if (customerID != null) {
+                JOptionPane.showMessageDialog(null,"Login Successfully!");
+                Home homepage = new Home(customerID);
+                homepage.run();
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
+            }
+            clickCount ++;
+        }else{
+            try {
+                JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
+                Thread.sleep(40000);
+                clickCount = 0;
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == backButton){
+            MainMenu main = new MainMenu();
+            main.run();
+            this.dispose();
+        }else if (e.getSource() == loginButton && role.equals("vendor")){
+            VendorMain vendorMain = new VendorMain();
+            vendorMain.run();
+            this.dispose();
+        }else if (e.getSource() == loginButton && role.equals("customer")){
+            validationCustomer();
+        }
     }
 
     /**
@@ -212,15 +257,11 @@ public class UserLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        this.dispose();
-        MainMenu main = new MainMenu();
-        main.run();
+        actionPerformed(evt);
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        this.dispose();
-        VendorMain vendorMain = new VendorMain();
-        vendorMain.run();
+        actionPerformed(evt);
     }//GEN-LAST:event_loginButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -80,4 +80,26 @@ public class readFile {
         }
         return users;
     }
+    public List readFood(String filePath){
+        List<Food> foods = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+                    String id = fields[0];
+                    String name = fields[1];
+                    String quantity = fields[2];
+                    String description = fields[3];
+                    String price = fields[4];
+                    String imagepath = fields[5];
+                    String vendorid = fields[6];
+                    foods.add(new Food(id,name,quantity,description,price,imagepath,vendorid));
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return foods;
+    }
 }
