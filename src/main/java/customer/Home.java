@@ -6,6 +6,7 @@ package customer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import main.UserLogin;
 import managefile.Customer;
 import method.scaleImage;
 
@@ -252,8 +253,8 @@ actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
             page.run();
             this.dispose();
         }else if (e.getSource()==logout){
-            login page = new login();
-            page.run();
+            UserLogin loginpage = new UserLogin("customer");
+            loginpage.run();
             this.dispose();
         }
     }

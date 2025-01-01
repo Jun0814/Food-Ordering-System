@@ -4,7 +4,6 @@
  */
 package main;
 
-import customer.login;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -239,33 +238,34 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerButtonActionPerformed
-        this.dispose();
         UserLogin userlogin = new UserLogin("runner");
         userlogin.run();
+        this.dispose();
     }//GEN-LAST:event_runnerButtonActionPerformed
 
     private void vendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorButtonActionPerformed
-        this.dispose();
         UserLogin userlogin = new UserLogin("vendor");
         userlogin.run();
+        this.dispose();
     }//GEN-LAST:event_vendorButtonActionPerformed
 
     private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
         this.dispose();
         UserLogin userlogin = new UserLogin("manager");
         userlogin.run();
+        this.dispose();
     }//GEN-LAST:event_managerButtonActionPerformed
 
     private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
-        this.dispose();
         UserLogin userlogin = new UserLogin("admin");
         userlogin.run();
+        this.dispose();
     }//GEN-LAST:event_adminButtonActionPerformed
 
     private void customerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButtonActionPerformed
+        UserLogin userlogin = new UserLogin("customer");
+        userlogin.run();
         this.dispose();
-        login login = new login();
-        login.run();
     }//GEN-LAST:event_customerButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
