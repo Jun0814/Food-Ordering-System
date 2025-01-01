@@ -43,21 +43,27 @@ public class Data {
         }
     }
     
+    private String getResolvedPath(String relativeFilePath){        
+        String resolvedPath = "";
+        
+        if (relativeFilePath != null) {
+            File file = Paths.get(relativeFilePath).toFile();
+            if (!file.isAbsolute()) {
+                file = new File(System.getProperty("user.dir"), relativeFilePath);
+            }
+            resolvedPath = file.getAbsolutePath();
+        }
+        return resolvedPath;
+    }
+    
     //*** Create/Append data ***//
     public void appendData (String content, String filepath){
-        if (filepath != null) {
-            File file = Paths.get(filepath).toFile();
-            if (!file.isAbsolute()) {
-                file = new File(System.getProperty("user.dir"), filepath);
-            }
-            String resolvedPath = file.getAbsolutePath();
-
-            assignID(resolvedPath);
-            int newId = ++currentMaxId; // Generate a new ID
-            data.putIfAbsent(newId, new ArrayList<>());
-            data.get(newId).add(content);
-            saveToFile(resolvedPath);   
-        }
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+        assignID(resolvedPath);
+        int newId = ++currentMaxId; // Generate a new ID
+        data.putIfAbsent(newId, new ArrayList<>());
+        data.get(newId).add(content);
+        saveToFile(resolvedPath);
     }
     
     //*** Update single data By Id and Index ***//
@@ -108,34 +114,36 @@ public class Data {
         }
     }
     
-    //*** Retrieve single data by username and password based on the index ***//
+    // Retrieve single data by username and password based on the index //
     public String retrieveData(String username, String password, int indexId, String filepath) {
+
+        String resolvedPath = Data.this.getResolvedPath(filepath);
         String output = null;
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+
+            // Skip the first line (header)
+            String headerLine = br.readLine();
             String line;
-            // Read file line by line
+
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split("=", 2);
+                String[] credentials = line.split(","); 
 
-                // Check for proper formatting
-                if (parts.length == 2) {
-                    String[] credentials = parts[0].split(",");
+                if (credentials.length > 4) {
+                    String fileUsername = credentials[2].trim(); 
+                    String filePassword = credentials[4].trim();
 
-                    if (credentials.length >= 2) { // Ensure there are enough parts for username and password
-                        String fileUsername = credentials[2].trim(); // First part for username
-                        String filePassword = credentials[5].trim(); // Second part for password
+                    // Use .equals for String comparison
+                    if (fileUsername.equals(username) && filePassword.equals(password)) {
+                        ArrayList<String> list = new ArrayList<>(Arrays.asList(credentials));
 
-                        // Check if username and password match
-                        if (fileUsername.equals(username) && filePassword.equals(password)) {
-                            String[] values = parts[1].split(","); // Data values after '='
-                            ArrayList<String> list = new ArrayList<>(Arrays.asList(values));
+                        System.out.println(list); // Debugging purpose
 
-                            // Retrieve data at the given index
-                            if (indexId >= 0 && indexId < list.size()) {
-                                output = list.get(indexId);
-                            }
-                            break; // Exit loop once the match is found
+                        // Retrieve data at the given index
+                        if (indexId >= 0 && indexId < list.size()) {
+                            output = list.get(indexId);
                         }
+                        break; 
                     }
                 }
             }
@@ -146,6 +154,7 @@ public class Data {
         }
         return output;
     }
+
 
     
     //*** Retrieve single data by Id and Index ***//

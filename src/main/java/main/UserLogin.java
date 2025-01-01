@@ -76,23 +76,17 @@ public class UserLogin extends javax.swing.JFrame {
         }
         
         if(isFilled == true){
-            switch(this.role) {
-                case "vendor":
-                    Vendor vendor = new Vendor();
-                    String filepath = vendor.getFilepath();
-                    String id = data.retrieveData(username, password, 0, filepath);
-                    System.out.println(id);
-                    if(id != null){ 
-                        JOptionPane.showMessageDialog(null,"Login Successfully!");
-                        this.dispose();
-                        VendorMain vendorMain = new VendorMain(id);
-                        vendorMain.run();
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Login Failed!");
-                    }
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Role not recognized!");
+            Vendor vendor = new Vendor();
+            String filepath = vendor.getFilepath();
+            String id = data.retrieveData(username, password, 0, filepath);
+            System.out.println(id);
+            if(id != null){ 
+                JOptionPane.showMessageDialog(null,"Login Successfully!");
+                this.dispose();
+                VendorMain vendorMain = new VendorMain(id);
+                vendorMain.run();
+            }else{
+                JOptionPane.showMessageDialog(null,"Login Failed!");
             }
         }
     }
@@ -203,7 +197,7 @@ public class UserLogin extends javax.swing.JFrame {
 
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(243, 222, 138));
-        usernameLabel.setText("Username");
+        usernameLabel.setText("Email");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
