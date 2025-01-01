@@ -44,9 +44,8 @@ public class Data {
     }
     
     //*** Create/Append data ***//
-    protected void appendData (String content, String filepath){
+    public void appendData (String content, String filepath){
         if (filepath != null) {
-
             File file = Paths.get(filepath).toFile();
             if (!file.isAbsolute()) {
                 file = new File(System.getProperty("user.dir"), filepath);
@@ -62,7 +61,7 @@ public class Data {
     }
     
     //*** Update single data By Id and Index ***//
-    protected void updateData(int targetId, int indexId, String newest, String filepath) {
+    public void updateData(int targetId, int indexId, String newest, String filepath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             StringBuilder updatedContent = new StringBuilder();
             String line;
@@ -109,8 +108,48 @@ public class Data {
         }
     }
     
+    //*** Retrieve single data by username and password based on the index ***//
+    public String retrieveData(String username, String password, int indexId, String filepath) {
+        String output = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            String line;
+            // Read file line by line
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("=", 2);
+
+                // Check for proper formatting
+                if (parts.length == 2) {
+                    String[] credentials = parts[0].split(",");
+
+                    if (credentials.length >= 2) { // Ensure there are enough parts for username and password
+                        String fileUsername = credentials[2].trim(); // First part for username
+                        String filePassword = credentials[5].trim(); // Second part for password
+
+                        // Check if username and password match
+                        if (fileUsername.equals(username) && filePassword.equals(password)) {
+                            String[] values = parts[1].split(","); // Data values after '='
+                            ArrayList<String> list = new ArrayList<>(Arrays.asList(values));
+
+                            // Retrieve data at the given index
+                            if (indexId >= 0 && indexId < list.size()) {
+                                output = list.get(indexId);
+                            }
+                            break; // Exit loop once the match is found
+                        }
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException ex) {
+            System.out.println("Error parsing the file content. Ensure proper formatting.");
+        }
+        return output;
+    }
+
+    
     //*** Retrieve single data by Id and Index ***//
-    protected String retrieveData(int targetId, int indexId, String filepath) {
+    public String retrieveData(int targetId, int indexId, String filepath) {
         String output = null;
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line;
@@ -141,7 +180,7 @@ public class Data {
     }
     
     //*** Remove single record By Id ***//
-    protected void removeRowById(int targetId, String filepath) {
+    public void removeRowById(int targetId, String filepath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             StringBuilder updatedContent = new StringBuilder();
             String line;
@@ -178,7 +217,7 @@ public class Data {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }
     }
-        
+            
     // Method to save the HashMap to a file
     private void saveToFile(String filepath){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filepath, true))) {
