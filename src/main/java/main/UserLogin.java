@@ -33,7 +33,7 @@ public class UserLogin extends javax.swing.JFrame {
         initComponents();
         this.role = role.toLowerCase();
         
-        titleLabel.setText("LOGIN AS " + this.role);
+        titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
         
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
