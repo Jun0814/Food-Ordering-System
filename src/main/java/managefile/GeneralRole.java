@@ -15,6 +15,8 @@ public class GeneralRole {
     private String phone;
     private String password;
     
+    public GeneralRole() {}
+    
     public GeneralRole(String id, String name, String email, String phone, String password){
         this.id = id;
         this.name = name;

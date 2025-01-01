@@ -19,8 +19,11 @@ public class VendorMain extends javax.swing.JFrame {
      * Creates new form VendorMain
      */
     scaleImage scaleImage = new scaleImage();
+    public String userId = "";
         
-    public VendorMain() {
+    public VendorMain(String userId) {
+        this.userId = userId;
+        
         initComponents();
         switchToPanel(new VendorHome());
         this.setTitle("Vendor");
@@ -63,7 +66,7 @@ public class VendorMain extends javax.swing.JFrame {
     }
     
     public void run(){
-        new VendorMain().setVisible(true);
+        new VendorMain(userId).setVisible(true);
     }
 
     /**

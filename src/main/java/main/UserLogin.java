@@ -9,8 +9,9 @@ import customer.customer_backend;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import managefile.Data;
+import managefile.Vendor;
 import method.scaleImage;
 import vendor.VendorMain;
 
@@ -18,7 +19,9 @@ import vendor.VendorMain;
  *
  * @author TPY
  */
-public class UserLogin extends javax.swing.JFrame implements ActionListener{
+public class UserLogin extends javax.swing.JFrame {
+    
+    Data data = new Data();
     scaleImage scaleImage = new scaleImage();
     protected String role;
     protected int clickCount;
@@ -28,9 +31,9 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
      */
     public UserLogin(String role) {
         initComponents();
-        this.role = role;
+        this.role = role.toLowerCase();
         
-        titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
+        titleLabel.setText("LOGIN AS " + this.role);
         
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
@@ -59,6 +62,41 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
     public void run() {
         new UserLogin(role).setVisible(true);
     }
+    
+    public void validationVendor(){
+        Boolean isFilled = false;
+        String username = usernameTextField.getText();
+        String password = passwordTextField.getText();
+        
+        if(username == null || password == null){
+            isFilled = false;
+            JOptionPane.showMessageDialog(null,"Please fill in your information!");
+        }else{
+            isFilled = true;
+        }
+        
+        if(isFilled == true){
+            switch(this.role) {
+                case "vendor":
+                    Vendor vendor = new Vendor();
+                    String filepath = vendor.getFilepath();
+                    String id = data.retrieveData(username, password, 0, filepath);
+                    System.out.println(id);
+                    if(id != null){ 
+                        JOptionPane.showMessageDialog(null,"Login Successfully!");
+                        this.dispose();
+                        VendorMain vendorMain = new VendorMain(id);
+                        vendorMain.run();
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Login Failed!");
+                    }
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Role not recognized!");
+            }
+        }
+    }
+    
     public void validationCustomer(){
         if (clickCount < 3){
             String email = usernameTextField.getText();
@@ -84,17 +122,14 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
             }
         }
     }
-    
-    @Override
+        
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton){
             MainMenu main = new MainMenu();
             main.run();
             this.dispose();
         }else if (e.getSource() == loginButton && role.equals("vendor")){
-            VendorMain vendorMain = new VendorMain();
-            vendorMain.run();
-            this.dispose();
+            validationVendor();
         }else if (e.getSource() == loginButton && role.equals("customer")){
             validationCustomer();
         }
@@ -108,6 +143,7 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         bgBackground = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
@@ -153,18 +189,66 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
         rightPanel.setBackground(new java.awt.Color(126, 127, 154));
         rightPanel.setMinimumSize(new java.awt.Dimension(500, 568));
         rightPanel.setPreferredSize(new java.awt.Dimension(500, 568));
+        rightPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 329;
+        gridBagConstraints.ipady = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 60, 0, 60);
+        rightPanel.add(usernameTextField, gridBagConstraints);
 
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(243, 222, 138));
         usernameLabel.setText("Username");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 58, 0, 0);
+        rightPanel.add(usernameLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 329;
+        gridBagConstraints.ipady = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 60, 0, 60);
+        rightPanel.add(passwordTextField, gridBagConstraints);
 
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         passwordLabel.setForeground(new java.awt.Color(243, 222, 138));
         passwordLabel.setText("Password");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 58, 0, 0);
+        rightPanel.add(passwordLabel, gridBagConstraints);
 
         titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(243, 222, 138));
-        titleLabel.setText("LOGIN AS ROLE");
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setText("LOGIN AS XXXXXX");
+        titleLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        titleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 180;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(150, 58, 0, 49);
+        rightPanel.add(titleLabel, gridBagConstraints);
+        titleLabel.getAccessibleContext().setAccessibleDescription("");
 
         backButton.setForeground(new java.awt.Color(60, 63, 65));
         backButton.setText("BACK");
@@ -176,6 +260,14 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
                 backButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.ipadx = 103;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(31, 43, 162, 49);
+        rightPanel.add(backButton, gridBagConstraints);
 
         loginButton.setForeground(new java.awt.Color(60, 63, 65));
         loginButton.setText("LOGIN");
@@ -187,48 +279,15 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
                 loginButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
-        rightPanel.setLayout(rightPanelLayout);
-        rightPanelLayout.setHorizontalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(usernameLabel)
-                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(49, 49, 49))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLabel)
-                .addGap(158, 158, 158))
-        );
-        rightPanelLayout.setVerticalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(titleLabel)
-                .addGap(18, 18, 18)
-                .addComponent(usernameLabel)
-                .addGap(6, 6, 6)
-                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(passwordLabel)
-                .addGap(6, 6, 6)
-                .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 99;
+        gridBagConstraints.ipady = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(32, 58, 162, 0);
+        rightPanel.add(loginButton, gridBagConstraints);
 
         bgBackground.add(rightPanel, java.awt.BorderLayout.CENTER);
 
