@@ -161,22 +161,18 @@ public class UserLogin extends javax.swing.JFrame {
         leftPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         leftPanel.setMinimumSize(new java.awt.Dimension(500, 568));
         leftPanel.setPreferredSize(new java.awt.Dimension(500, 568));
+        leftPanel.setLayout(new java.awt.GridBagLayout());
 
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoLabel.setAlignmentX(0.5F);
         logoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
-        leftPanel.setLayout(leftPanelLayout);
-        leftPanelLayout.setHorizontalGroup(
-            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(leftPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE))
-        );
-        leftPanelLayout.setVerticalGroup(
-            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 500;
+        gridBagConstraints.ipady = 568;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        leftPanel.add(logoLabel, gridBagConstraints);
 
         bgBackground.add(leftPanel, java.awt.BorderLayout.WEST);
 

@@ -38,7 +38,6 @@ public class MainMenu extends javax.swing.JFrame {
 
                 leftPanel.setBounds(0, 0, newWidth/2, newHeight);
                 rightPanel.setBounds(0, 0, newWidth/2, newHeight);
-
                 
                 revalidate();
                 repaint();
@@ -84,7 +83,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(null);
 
         bgPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         bgPanel.setMinimumSize(new java.awt.Dimension(1000, 565));
@@ -106,11 +104,11 @@ public class MainMenu extends javax.swing.JFrame {
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
         );
 
         bgPanel.add(leftPanel, java.awt.BorderLayout.WEST);

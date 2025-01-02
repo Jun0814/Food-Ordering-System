@@ -19,13 +19,15 @@ public class VendorMain extends javax.swing.JFrame {
      * Creates new form VendorMain
      */
     scaleImage scaleImage = new scaleImage();
-    public String userId = "";
-        
+    public String userId;
+    
+    public VendorMain() {}
+    
     public VendorMain(String userId) {
         this.userId = userId;
         
         initComponents();
-        switchToPanel(new VendorHome());
+        switchToPanel(new VendorOrder());
         this.setTitle("Vendor");
         this.setSize(1000, 600);
         this.setLocationRelativeTo(null); 
@@ -33,7 +35,7 @@ public class VendorMain extends javax.swing.JFrame {
         
         logoLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorHome()); }
+            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorHome(userId)); }
         });
         storeLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -56,7 +58,7 @@ public class VendorMain extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent e) { switchToPanel(new VendorRevenue()); }
         });
     }
-    
+        
     protected void switchToPanel(javax.swing.JPanel targetPanel) {        
         if (contentPanel != null) { this.getContentPane().remove(contentPanel); }
         contentPanel = targetPanel;
@@ -68,7 +70,12 @@ public class VendorMain extends javax.swing.JFrame {
     public void run(){
         new VendorMain(userId).setVisible(true);
     }
-
+    
+    public void run(javax.swing.JPanel targetPanel){
+        new VendorMain(userId).setVisible(true);
+        switchToPanel(targetPanel);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

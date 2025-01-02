@@ -16,6 +16,10 @@ public class VendorOrder extends javax.swing.JPanel {
     public VendorOrder() {
         initComponents();
     }
+    
+    public void run(){
+        new VendorOrder().setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

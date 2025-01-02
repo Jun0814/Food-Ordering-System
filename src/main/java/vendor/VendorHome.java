@@ -5,22 +5,29 @@
 package vendor;
 
 import java.awt.Component;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import main.MainMenu;
 import method.scaleImage;
 
 /**
  *
  * @author TPY
  */
-public class VendorHome extends javax.swing.JPanel{
+public class VendorHome extends javax.swing.JPanel {
 
+    private String userId;
     scaleImage scaleImage = new scaleImage();
     
     /**
      * Creates new form VendorStore
+     *
      */
-    public VendorHome() {
+    public VendorHome(String userId) {
+        this.userId = userId;
+        
         initComponents();
         setLayout(null); 
         jLayeredPane1.setLayout(null);
@@ -47,7 +54,23 @@ public class VendorHome extends javax.swing.JPanel{
             }
         });
     }
-    
+        
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == backButton){
+            Window[] windows = Window.getWindows();
+            for (Window window : windows) { window.dispose(); }
+            MainMenu main = new MainMenu();
+            main.run();
+        } else if(e.getSource() == viewButton){
+            
+            Window[] windows = Window.getWindows();
+            for (Window window : windows) { window.dispose(); }
+            
+            VendorMain vendorMain = new VendorMain(userId);
+            vendorMain.run(new VendorOrder());
+        }
+    }
+            
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,7 +93,6 @@ public class VendorHome extends javax.swing.JPanel{
 
         setBackground(new java.awt.Color(126, 127, 154));
         setPreferredSize(new java.awt.Dimension(1000, 445));
-        setLayout(new java.awt.BorderLayout());
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1000, 445));
 
@@ -79,7 +101,8 @@ public class VendorHome extends javax.swing.JPanel{
 
         contentPanel.setLayout(new java.awt.BorderLayout());
 
-        leftPanel.setPreferredSize(new java.awt.Dimension(300, 445));
+        leftPanel.setMinimumSize(new java.awt.Dimension(300, 445));
+        leftPanel.setPreferredSize(new java.awt.Dimension(600, 445));
         leftPanel.setLayout(new java.awt.GridBagLayout());
 
         vendorImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -88,40 +111,47 @@ public class VendorHome extends javax.swing.JPanel{
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.ipadx = 189;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 247;
         gridBagConstraints.ipady = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(177, 177, 0, 197);
+        gridBagConstraints.insets = new java.awt.Insets(73, 149, 0, 167);
         leftPanel.add(vendorImageLabel, gridBagConstraints);
 
         storeNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        storeNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         storeNameLabel.setText("jLabel1");
         storeNameLabel.setToolTipText("");
-        storeNameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         storeNameLabel.setAlignmentX(0.5F);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 205;
+        gridBagConstraints.ipady = 177;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 251, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 149, 0, 167);
         leftPanel.add(storeNameLabel, gridBagConstraints);
 
         backButton.setText("Back");
         backButton.setAlignmentX(0.5F);
-        backButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 55;
+        gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(27, 76, 160, 197);
+        gridBagConstraints.insets = new java.awt.Insets(12, 30, 75, 167);
         leftPanel.add(backButton, gridBagConstraints);
 
         viewButton.setText("View");
         viewButton.setAlignmentX(0.5F);
-        viewButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        viewButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewButtonActionPerformed(evt);
@@ -130,11 +160,15 @@ public class VendorHome extends javax.swing.JPanel{
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 55;
+        gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(27, 177, 160, 0);
+        gridBagConstraints.insets = new java.awt.Insets(12, 149, 75, 0);
         leftPanel.add(viewButton, gridBagConstraints);
 
         contentPanel.add(leftPanel, java.awt.BorderLayout.CENTER);
+
+        rightPanel.setPreferredSize(new java.awt.Dimension(400, 445));
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
@@ -156,7 +190,7 @@ public class VendorHome extends javax.swing.JPanel{
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -165,7 +199,7 @@ public class VendorHome extends javax.swing.JPanel{
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -173,12 +207,25 @@ public class VendorHome extends javax.swing.JPanel{
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        add(jLayeredPane1, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_viewButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_backButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
