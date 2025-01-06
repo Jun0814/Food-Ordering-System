@@ -37,6 +37,9 @@ public class RoundedButton extends JButton {
         fontColorOver = Color.BLACK;
         fontColorClick = Color.BLACK;
         setContentAreaFilled(false);
+        setFocusPainted(false);
+        setBorderPainted(false);
+        
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
