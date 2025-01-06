@@ -102,4 +102,25 @@ public class readFile {
         }
         return foods;
     }
+    
+    public List readManagerAccount(String filepath){
+        List<Manager> managers = new ArrayList<>();
+        try {
+            FileReader fr = new FileReader(filepath);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while((line = br.readLine()) != null) {
+                String [] fields = line.split(",");
+                String id = fields[0];
+                String name = fields[1];
+                String email = fields[2];
+                String phone = fields[3];
+                String password = fields[4];
+                managers.add(new Manager(id, name, email, phone, password));
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return managers;
+    }
 }

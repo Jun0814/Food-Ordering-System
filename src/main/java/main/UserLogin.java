@@ -11,8 +11,11 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import manager.managerAccountManager;
+import manager.managerHome;
 import method.scaleImage;
 import vendor.VendorMain;
+
 
 /**
  *
@@ -59,6 +62,7 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
     public void run() {
         new UserLogin(role).setVisible(true);
     }
+    
     public void validationCustomer(){
         if (clickCount < 3){
             String email = usernameTextField.getText();
@@ -68,6 +72,32 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
             if (customerID != null) {
                 JOptionPane.showMessageDialog(null,"Login Successfully!");
                 Home homepage = new Home(customerID);
+                homepage.run();
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
+            }
+            clickCount ++;
+        }else{
+            try {
+                JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
+                Thread.sleep(40000);
+                clickCount = 0;
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+    
+    public void validateManager(){
+        if (clickCount < 3){
+            String email = usernameTextField.getText();
+            String password = passwordTextField.getText();
+            managerAccountManager backend = new managerAccountManager();
+            String managerId = backend.validateCredentials(email, password);
+            if (managerId != null) {
+                JOptionPane.showMessageDialog(null,"Login Successfully!");
+                managerHome homepage = new managerHome(managerId);
                 homepage.run();
                 this.dispose();
             }else{
@@ -97,6 +127,8 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
             this.dispose();
         }else if (e.getSource() == loginButton && role.equals("customer")){
             validationCustomer();
+        }else if (e.getSource() == loginButton && role.equals("manager")){
+            validateManager();
         }
     }
 
