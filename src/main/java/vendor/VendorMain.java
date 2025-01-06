@@ -97,7 +97,6 @@ public class VendorMain extends javax.swing.JFrame {
         logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         storeButton.setBackground(new java.awt.Color(140, 75, 242));
-        storeButton.setForeground(new java.awt.Color(255, 255, 255));
         storeButton.setText("Store");
         storeButton.setAlignmentX(0.5F);
         storeButton.setBorderColor(new java.awt.Color(140, 75, 242));
@@ -117,7 +116,6 @@ public class VendorMain extends javax.swing.JFrame {
         });
 
         orderButton.setBackground(new java.awt.Color(140, 75, 242));
-        orderButton.setForeground(new java.awt.Color(255, 255, 255));
         orderButton.setText("Order");
         orderButton.setAlignmentX(0.5F);
         orderButton.setBorderColor(new java.awt.Color(140, 75, 242));
@@ -137,7 +135,6 @@ public class VendorMain extends javax.swing.JFrame {
         });
 
         revenueButton.setBackground(new java.awt.Color(140, 75, 242));
-        revenueButton.setForeground(new java.awt.Color(255, 255, 255));
         revenueButton.setText("Revenue");
         revenueButton.setAlignmentX(0.5F);
         revenueButton.setBorderColor(new java.awt.Color(140, 75, 242));
@@ -157,7 +154,6 @@ public class VendorMain extends javax.swing.JFrame {
         });
 
         historyButton.setBackground(new java.awt.Color(140, 75, 242));
-        historyButton.setForeground(new java.awt.Color(255, 255, 255));
         historyButton.setText("History");
         historyButton.setAlignmentX(0.5F);
         historyButton.setBorderColor(new java.awt.Color(140, 75, 242));
@@ -177,7 +173,6 @@ public class VendorMain extends javax.swing.JFrame {
         });
 
         reviewButton.setBackground(new java.awt.Color(140, 75, 242));
-        reviewButton.setForeground(new java.awt.Color(255, 255, 255));
         reviewButton.setText("Review");
         reviewButton.setAlignmentX(0.5F);
         reviewButton.setBorderColor(new java.awt.Color(140, 75, 242));
