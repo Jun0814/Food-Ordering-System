@@ -1,6 +1,3 @@
+ID,Name,Email,Phone,Password,Stall Name, Stall Type, Image path
 V1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,null
-V2,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,YoYo,Chinese Food,null
-V2,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,YoYo,Chinese Food,null
-V2,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,YoYo,Chinese Food,null
-V2,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,YoYo,Chinese Food,null
-V2,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,YoYo,Chinese Food,null
+V2,PoYeh,poyeh@gmail.com,010-3891107,1234,YoYo,Chinese Food,null
