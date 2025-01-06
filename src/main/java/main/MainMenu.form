@@ -128,7 +128,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="managerButton">
+            <Component class="method.RoundedButton" name="managerButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>
@@ -151,7 +151,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="runnerButton">
+            <Component class="method.RoundedButton" name="runnerButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>
@@ -174,7 +174,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="customerButton">
+            <Component class="method.RoundedButton" name="customerButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>
@@ -197,7 +197,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="adminButton">
+            <Component class="method.RoundedButton" name="adminButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>
@@ -220,7 +220,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="vendorButton">
+            <Component class="method.RoundedButton" name="vendorButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>

@@ -148,8 +148,8 @@ public class UserLogin extends javax.swing.JFrame {
         passwordTextField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
-        backButton = new method.roundedButton();
-        loginButton = new method.roundedButton();
+        backButton = new method.RoundedButton();
+        loginButton = new method.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -314,10 +314,10 @@ public class UserLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private method.roundedButton backButton;
+    private method.RoundedButton backButton;
     private javax.swing.JPanel bgBackground;
     private javax.swing.JPanel leftPanel;
-    private method.roundedButton loginButton;
+    private method.RoundedButton loginButton;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;

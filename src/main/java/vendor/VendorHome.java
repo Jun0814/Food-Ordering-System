@@ -5,11 +5,10 @@
 package vendor;
 
 import java.awt.Component;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import main.MainMenu;
+import managefile.Data;
+import managefile.Vendor;
 import method.scaleImage;
 
 /**
@@ -19,15 +18,19 @@ import method.scaleImage;
 public class VendorHome extends javax.swing.JPanel {
 
     private String userId;
+    Data data = new Data();
+    Vendor vendor = new Vendor();
     scaleImage scaleImage = new scaleImage();
     
     /**
      * Creates new form VendorStore
      *
      */
+    public VendorHome() {}
+    
     public VendorHome(String userId) {
         this.userId = userId;
-        
+                
         initComponents();
         setLayout(null); 
         jLayeredPane1.setLayout(null);
@@ -35,12 +38,26 @@ public class VendorHome extends javax.swing.JPanel {
         rightPanel.setOpaque(false);
         contentPanel.setOpaque(false);
         
+        String stallName = data.retrieveData(userId, 5, vendor.getFilepath());
+        stallLabel.setText(stallName);
+        
+        IdLabel.setText("Vendor ID: " +userId);
+        
+        String owner = "Owner: " +  data.retrieveData(userId, 1, vendor.getFilepath());
+        ownerLabel.setText(owner);
+        
+        String email = "Email: " + data.retrieveData(userId, 2, vendor.getFilepath());
+        emailLabel.setText(email);
+        
+        String phone = "Phone: " +data.retrieveData(userId, 3, vendor.getFilepath());
+        phoneLabel.setText(phone);
+                       
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 int newWidth = getWidth();
                 int newHeight = getHeight();
-                bgLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\sushi-background.png", newWidth, newHeight));
+                bgLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\sushi-background-1.png", newWidth, newHeight));
                 bgLabel.setBounds(0, 0, newWidth, newHeight);
                 jLayeredPane1.setBounds(0, 0, newWidth, newHeight);
                 contentPanel.setBounds(0, 0, newWidth, newHeight);
@@ -53,22 +70,6 @@ public class VendorHome extends javax.swing.JPanel {
                 repaint();
             }
         });
-    }
-        
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton){
-            Window[] windows = Window.getWindows();
-            for (Window window : windows) { window.dispose(); }
-            MainMenu main = new MainMenu();
-            main.run();
-        } else if(e.getSource() == viewButton){
-            
-            Window[] windows = Window.getWindows();
-            for (Window window : windows) { window.dispose(); }
-            
-            VendorMain vendorMain = new VendorMain(userId);
-            vendorMain.run(new VendorOrder());
-        }
     }
             
     /**
@@ -85,16 +86,18 @@ public class VendorHome extends javax.swing.JPanel {
         bgLabel = new javax.swing.JLabel();
         contentPanel = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
+        stallLabel = new javax.swing.JLabel();
         vendorImageLabel = new javax.swing.JLabel();
-        storeNameLabel = new javax.swing.JLabel();
-        backButton = new javax.swing.JButton();
-        viewButton = new javax.swing.JButton();
+        phoneLabel = new javax.swing.JLabel();
+        ownerLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        IdLabel = new javax.swing.JLabel();
         rightPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(126, 127, 154));
-        setPreferredSize(new java.awt.Dimension(1000, 445));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
 
-        jLayeredPane1.setPreferredSize(new java.awt.Dimension(1000, 445));
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(1000, 800));
 
         bgLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         bgLabel.setPreferredSize(new java.awt.Dimension(1000, 445));
@@ -102,83 +105,96 @@ public class VendorHome extends javax.swing.JPanel {
         contentPanel.setLayout(new java.awt.BorderLayout());
 
         leftPanel.setMinimumSize(new java.awt.Dimension(300, 445));
-        leftPanel.setPreferredSize(new java.awt.Dimension(600, 445));
+        leftPanel.setPreferredSize(new java.awt.Dimension(500, 800));
         leftPanel.setLayout(new java.awt.GridBagLayout());
 
-        vendorImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        vendorImageLabel.setText("jLabel1");
-        vendorImageLabel.setAlignmentX(0.5F);
+        stallLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        stallLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        stallLabel.setText("Stall Name");
+        stallLabel.setAlignmentX(0.5F);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 247;
-        gridBagConstraints.ipady = 16;
+        gridBagConstraints.ipadx = 163;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(73, 149, 0, 167);
-        leftPanel.add(vendorImageLabel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(202, 95, 0, 0);
+        leftPanel.add(stallLabel, gridBagConstraints);
 
-        storeNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        storeNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        storeNameLabel.setText("jLabel1");
-        storeNameLabel.setToolTipText("");
-        storeNameLabel.setAlignmentX(0.5F);
+        vendorImageLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        vendorImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        vendorImageLabel.setText("Image");
+        vendorImageLabel.setToolTipText("");
+        vendorImageLabel.setAlignmentX(0.5F);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 205;
+        gridBagConstraints.ipadx = 215;
         gridBagConstraints.ipady = 177;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 149, 0, 167);
-        leftPanel.add(storeNameLabel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(12, 95, 0, 0);
+        leftPanel.add(vendorImageLabel, gridBagConstraints);
 
-        backButton.setText("Back");
-        backButton.setAlignmentX(0.5F);
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
+        phoneLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        phoneLabel.setText("Phone");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 55;
-        gridBagConstraints.ipady = 15;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 248;
+        gridBagConstraints.ipady = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 30, 75, 167);
-        leftPanel.add(backButton, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(6, 95, 209, 0);
+        leftPanel.add(phoneLabel, gridBagConstraints);
 
-        viewButton.setText("View");
-        viewButton.setAlignmentX(0.5F);
-        viewButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        viewButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButtonActionPerformed(evt);
-            }
-        });
+        ownerLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ownerLabel.setText("Owner");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 247;
+        gridBagConstraints.ipady = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 95, 0, 0);
+        leftPanel.add(ownerLabel, gridBagConstraints);
+
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        emailLabel.setText("Email");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 253;
+        gridBagConstraints.ipady = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 95, 0, 0);
+        leftPanel.add(emailLabel, gridBagConstraints);
+
+        IdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        IdLabel.setText("Vendor ID");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 55;
-        gridBagConstraints.ipady = 15;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 227;
+        gridBagConstraints.ipady = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 149, 75, 0);
-        leftPanel.add(viewButton, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(6, 95, 0, 111);
+        leftPanel.add(IdLabel, gridBagConstraints);
 
-        contentPanel.add(leftPanel, java.awt.BorderLayout.CENTER);
+        contentPanel.add(leftPanel, java.awt.BorderLayout.LINE_START);
 
-        rightPanel.setPreferredSize(new java.awt.Dimension(400, 445));
+        rightPanel.setPreferredSize(new java.awt.Dimension(500, 800));
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
 
         contentPanel.add(rightPanel, java.awt.BorderLayout.EAST);
@@ -199,12 +215,12 @@ public class VendorHome extends javax.swing.JPanel {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(bgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(349, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -215,28 +231,22 @@ public class VendorHome extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        actionPerformed(evt);
-    }//GEN-LAST:event_viewButtonActionPerformed
-
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        actionPerformed(evt);
-    }//GEN-LAST:event_backButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
+    private javax.swing.JLabel IdLabel;
     private javax.swing.JLabel bgLabel;
     private javax.swing.JPanel contentPanel;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel leftPanel;
+    private javax.swing.JLabel ownerLabel;
+    private javax.swing.JLabel phoneLabel;
     private javax.swing.JPanel rightPanel;
-    private javax.swing.JLabel storeNameLabel;
+    private javax.swing.JLabel stallLabel;
     private javax.swing.JLabel vendorImageLabel;
-    private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }

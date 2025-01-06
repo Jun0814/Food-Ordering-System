@@ -75,11 +75,11 @@ public class MainMenu extends javax.swing.JFrame {
         logoLabel = new javax.swing.JLabel();
         rightPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        managerButton = new method.roundedButton();
-        runnerButton = new method.roundedButton();
-        customerButton = new method.roundedButton();
-        adminButton = new method.roundedButton();
-        vendorButton = new method.roundedButton();
+        managerButton = new method.RoundedButton();
+        runnerButton = new method.RoundedButton();
+        customerButton = new method.RoundedButton();
+        adminButton = new method.RoundedButton();
+        vendorButton = new method.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -267,15 +267,15 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_customerButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private method.roundedButton adminButton;
+    private method.RoundedButton adminButton;
     private javax.swing.JPanel bgPanel;
-    private method.roundedButton customerButton;
+    private method.RoundedButton customerButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JLabel logoLabel;
-    private method.roundedButton managerButton;
+    private method.RoundedButton managerButton;
     private javax.swing.JPanel rightPanel;
-    private method.roundedButton runnerButton;
-    private method.roundedButton vendorButton;
+    private method.RoundedButton runnerButton;
+    private method.RoundedButton vendorButton;
     // End of variables declaration//GEN-END:variables
 }

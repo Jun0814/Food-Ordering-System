@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +44,7 @@ public class Data {
         }
     }
     
-    private String getResolvedPath(String relativeFilePath){        
+   private String getResolvedPath(String relativeFilePath){        
         String resolvedPath = "";
         
         if (relativeFilePath != null) {
@@ -56,7 +57,7 @@ public class Data {
         return resolvedPath;
     }
     
-    //*** Create/Append data ***//
+    // Create/Append data
     public void appendData (String content, String filepath){
         String resolvedPath = Data.this.getResolvedPath(filepath);
         assignID(resolvedPath);
@@ -66,7 +67,7 @@ public class Data {
         saveToFile(resolvedPath);
     }
     
-    //*** Update single data By Id and Index ***//
+    // Update single data By Id and Index 
     public void updateData(int targetId, int indexId, String newest, String filepath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             StringBuilder updatedContent = new StringBuilder();
@@ -114,7 +115,35 @@ public class Data {
         }
     }
     
-    // Retrieve single data by username and password based on the index //
+    
+    //*** Retrieve lines containing vendor data by Id In 2D Array ***//
+    public String[][] retrieveDataAsArray(int indexId, String referenceId, String filepath) {
+
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+
+            // Skip the first line (header)
+            String headerLine = br.readLine();
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] credentials = line.split(",");
+
+                if (line.trim().length() > 0 && credentials[indexId].equals(referenceId)) {
+                    rows.add(credentials); 
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return rows.toArray(new String[0][0]);
+    }
+
+    
+    //*** Retrieve single data by username and password based on the index ***//
     public String retrieveData(String username, String password, int indexId, String filepath) {
 
         String resolvedPath = Data.this.getResolvedPath(filepath);
@@ -154,29 +183,28 @@ public class Data {
         }
         return output;
     }
-
-
+        
     
-    //*** Retrieve single data by Id and Index ***//
-    public String retrieveData(int targetId, int indexId, String filepath) {
+    //*** Retrieve single data by Primary Key By Index ***// 
+    public String retrieveData(String targetId, int indexId, String filepath) {
+        
+        String resolvedPath = Data.this.getResolvedPath(filepath);
         String output = null;
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+            
+            // Skip the first line (header)
+            String headerLine = br.readLine();
             String line;
 
             // Read file line by line
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split("=", 2);
-                if (parts.length == 2) {
-                    int id = Integer.parseInt(parts[0].trim());
-
-                    // Retrieve data for the targetId
-                    if (id == targetId) {
-                        String[] values = parts[1].split(",");
-                        ArrayList<String> list = new ArrayList<>(Arrays.asList(values));
-
-                        if (indexId >= 0 && indexId < list.size()) {
-                            output = list.get(indexId);
-                        }
+                String[] data = line.split(",");
+                if (data.length > indexId) {
+                    String primaryKey = data[0].trim();
+                    if (primaryKey.equals(targetId)) {
+                        output = data[indexId].trim();
+                        break;
                     }
                 }
             }
@@ -188,7 +216,8 @@ public class Data {
         return output;
     }
     
-    //*** Remove single record By Id ***//
+    
+    //Remove single record By Id
     public void removeRowById(int targetId, String filepath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             StringBuilder updatedContent = new StringBuilder();
