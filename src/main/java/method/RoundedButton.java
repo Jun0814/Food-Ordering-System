@@ -11,7 +11,6 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
-import javax.swing.UIManager;
 
 /**
  *
@@ -38,14 +37,6 @@ public class RoundedButton extends JButton {
         fontColorOver = Color.BLACK;
         fontColorClick = Color.BLACK;
         setContentAreaFilled(false);
-        setFocusPainted(false);
-        
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
@@ -166,4 +157,3 @@ public class RoundedButton extends JButton {
         super.paintComponent(grphcs);
     }
 }
-
