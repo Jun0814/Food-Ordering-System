@@ -9,7 +9,7 @@ package managefile;
  * @author Asus
  */
 public class Manager extends GeneralRole{
-    private String filepath = "src\\main\\java\\repository\\manager.txt";
+    private String filepath = "\\src\\main\\java\\repository\\manager.txt";
     
     public Manager() {}
     

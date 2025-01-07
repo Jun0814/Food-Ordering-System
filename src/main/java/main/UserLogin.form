@@ -80,27 +80,19 @@
             </Constraint>
           </Constraints>
 
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="logoLabel" pref="494" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="logoLabel" alignment="0" pref="568" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="logoLabel">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="alignmentX" type="float" value="0.5"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                  <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="500" ipadY="568" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+                </Constraint>
+              </Constraints>
             </Component>
           </SubComponents>
         </Container>
@@ -139,7 +131,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="8a" green="de" red="f3" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Username"/>
+                <Property name="text" type="java.lang.String" value="Email"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -194,7 +186,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="backButton">
+            <Component class="method.RoundedButton" name="backButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>
@@ -217,7 +209,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="method.roundedButton" name="loginButton">
+            <Component class="method.RoundedButton" name="loginButton">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="3f" red="3c" type="rgb"/>

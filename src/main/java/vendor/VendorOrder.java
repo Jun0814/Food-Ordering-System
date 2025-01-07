@@ -16,6 +16,10 @@ public class VendorOrder extends javax.swing.JPanel {
     public VendorOrder() {
         initComponents();
     }
+    
+    public void run(){
+        new VendorOrder().setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,7 +33,7 @@ public class VendorOrder extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(126, 127, 154));
-        setPreferredSize(new java.awt.Dimension(1000, 445));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel1.setText("Order");
@@ -39,16 +43,16 @@ public class VendorOrder extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(236, 236, 236)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addContainerGap(633, Short.MAX_VALUE))
+                .addContainerGap(843, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(148, 148, 148)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(364, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
