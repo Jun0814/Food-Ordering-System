@@ -29,7 +29,7 @@
     <Container class="javax.swing.JPanel" name="menuPanel">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="f2" green="4b" red="8c" type="rgb"/>
+          <Color blue="38" green="28" red="28" type="rgb"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[280, 800]"/>
@@ -46,29 +46,17 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                  <Component id="logoLabel" min="-2" pref="224" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
                   <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                  <Component id="storeButton" min="-2" pref="268" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="storeButton" min="-2" pref="268" max="-2" attributes="0"/>
+                      <Component id="orderButton" min="-2" pref="268" max="-2" attributes="0"/>
+                      <Component id="historyButton" min="-2" pref="268" max="-2" attributes="0"/>
+                      <Component id="reviewButton" min="-2" pref="268" max="-2" attributes="0"/>
+                      <Component id="revenueButton" min="-2" pref="268" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="6" max="32767" attributes="0"/>
               </Group>
-              <Group type="102" attributes="0">
-                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                  <Component id="orderButton" min="-2" pref="268" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                  <Component id="historyButton" min="-2" pref="268" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                  <Component id="reviewButton" min="-2" pref="268" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                  <Component id="revenueButton" min="-2" pref="268" max="-2" attributes="0"/>
-              </Group>
+              <Component id="logoLabel" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -102,21 +90,21 @@
         <Component class="method.RoundedButton" name="storeButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Store"/>
             <Property name="alignmentX" type="float" value="0.5"/>
             <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="8a" green="de" red="f3" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -125,10 +113,10 @@
               <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="radius" type="int" value="30"/>
@@ -140,21 +128,21 @@
         <Component class="method.RoundedButton" name="orderButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Order"/>
             <Property name="alignmentX" type="float" value="0.5"/>
             <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="8a" green="de" red="f3" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -163,10 +151,10 @@
               <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="radius" type="int" value="30"/>
@@ -178,21 +166,21 @@
         <Component class="method.RoundedButton" name="revenueButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Revenue"/>
             <Property name="alignmentX" type="float" value="0.5"/>
             <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="8a" green="de" red="f3" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -201,10 +189,10 @@
               <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="radius" type="int" value="30"/>
@@ -216,21 +204,21 @@
         <Component class="method.RoundedButton" name="historyButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="History"/>
             <Property name="alignmentX" type="float" value="0.5"/>
             <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="8a" green="de" red="f3" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -239,10 +227,10 @@
               <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="radius" type="int" value="30"/>
@@ -254,21 +242,21 @@
         <Component class="method.RoundedButton" name="reviewButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Review"/>
             <Property name="alignmentX" type="float" value="0.5"/>
             <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="8a" green="de" red="f3" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -277,10 +265,10 @@
               <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
             <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+              <Color blue="ff" green="d8" red="e3" type="rgb"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="radius" type="int" value="30"/>

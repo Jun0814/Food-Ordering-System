@@ -32,7 +32,7 @@ public class VendorMain extends javax.swing.JFrame {
         this.setTitle("Vendor");
         this.setSize(1000, 600);
         this.setLocationRelativeTo(null); 
-        logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));        
+        logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
     }
         
     protected void switchToPanel(javax.swing.JPanel targetPanel) {        
@@ -89,24 +89,24 @@ public class VendorMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(126, 127, 154));
 
-        menuPanel.setBackground(new java.awt.Color(140, 75, 242));
+        menuPanel.setBackground(new java.awt.Color(40, 40, 56));
         menuPanel.setPreferredSize(new java.awt.Dimension(280, 800));
         menuPanel.setRequestFocusEnabled(false);
 
         logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        storeButton.setBackground(new java.awt.Color(140, 75, 242));
+        storeButton.setBackground(new java.awt.Color(40, 40, 56));
         storeButton.setText("Store");
         storeButton.setAlignmentX(0.5F);
-        storeButton.setBorderColor(new java.awt.Color(140, 75, 242));
-        storeButton.setColor(new java.awt.Color(140, 75, 242));
-        storeButton.setColorClick(new java.awt.Color(227, 216, 255));
-        storeButton.setColorOver(new java.awt.Color(227, 216, 255));
+        storeButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        storeButton.setColor(new java.awt.Color(40, 40, 56));
+        storeButton.setColorClick(new java.awt.Color(243, 222, 138));
+        storeButton.setColorOver(new java.awt.Color(140, 75, 242));
         storeButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         storeButton.setFontColor(new java.awt.Color(227, 216, 255));
-        storeButton.setFontColorClick(new java.awt.Color(140, 75, 242));
-        storeButton.setFontColorOver(new java.awt.Color(140, 75, 242));
+        storeButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        storeButton.setFontColorOver(new java.awt.Color(227, 216, 255));
         storeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         storeButton.setRadius(30);
         storeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -115,17 +115,17 @@ public class VendorMain extends javax.swing.JFrame {
             }
         });
 
-        orderButton.setBackground(new java.awt.Color(140, 75, 242));
+        orderButton.setBackground(new java.awt.Color(40, 40, 56));
         orderButton.setText("Order");
         orderButton.setAlignmentX(0.5F);
-        orderButton.setBorderColor(new java.awt.Color(140, 75, 242));
-        orderButton.setColor(new java.awt.Color(140, 75, 242));
-        orderButton.setColorClick(new java.awt.Color(227, 216, 255));
-        orderButton.setColorOver(new java.awt.Color(227, 216, 255));
+        orderButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        orderButton.setColor(new java.awt.Color(40, 40, 56));
+        orderButton.setColorClick(new java.awt.Color(243, 222, 138));
+        orderButton.setColorOver(new java.awt.Color(140, 75, 242));
         orderButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         orderButton.setFontColor(new java.awt.Color(227, 216, 255));
-        orderButton.setFontColorClick(new java.awt.Color(140, 75, 242));
-        orderButton.setFontColorOver(new java.awt.Color(140, 75, 242));
+        orderButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        orderButton.setFontColorOver(new java.awt.Color(227, 216, 255));
         orderButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         orderButton.setRadius(30);
         orderButton.addActionListener(new java.awt.event.ActionListener() {
@@ -134,17 +134,17 @@ public class VendorMain extends javax.swing.JFrame {
             }
         });
 
-        revenueButton.setBackground(new java.awt.Color(140, 75, 242));
+        revenueButton.setBackground(new java.awt.Color(40, 40, 56));
         revenueButton.setText("Revenue");
         revenueButton.setAlignmentX(0.5F);
-        revenueButton.setBorderColor(new java.awt.Color(140, 75, 242));
-        revenueButton.setColor(new java.awt.Color(140, 75, 242));
-        revenueButton.setColorClick(new java.awt.Color(227, 216, 255));
-        revenueButton.setColorOver(new java.awt.Color(227, 216, 255));
+        revenueButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        revenueButton.setColor(new java.awt.Color(40, 40, 56));
+        revenueButton.setColorClick(new java.awt.Color(243, 222, 138));
+        revenueButton.setColorOver(new java.awt.Color(140, 75, 242));
         revenueButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         revenueButton.setFontColor(new java.awt.Color(227, 216, 255));
-        revenueButton.setFontColorClick(new java.awt.Color(140, 75, 242));
-        revenueButton.setFontColorOver(new java.awt.Color(140, 75, 242));
+        revenueButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        revenueButton.setFontColorOver(new java.awt.Color(227, 216, 255));
         revenueButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         revenueButton.setRadius(30);
         revenueButton.addActionListener(new java.awt.event.ActionListener() {
@@ -153,17 +153,17 @@ public class VendorMain extends javax.swing.JFrame {
             }
         });
 
-        historyButton.setBackground(new java.awt.Color(140, 75, 242));
+        historyButton.setBackground(new java.awt.Color(40, 40, 56));
         historyButton.setText("History");
         historyButton.setAlignmentX(0.5F);
-        historyButton.setBorderColor(new java.awt.Color(140, 75, 242));
-        historyButton.setColor(new java.awt.Color(140, 75, 242));
-        historyButton.setColorClick(new java.awt.Color(227, 216, 255));
-        historyButton.setColorOver(new java.awt.Color(227, 216, 255));
+        historyButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        historyButton.setColor(new java.awt.Color(40, 40, 56));
+        historyButton.setColorClick(new java.awt.Color(243, 222, 138));
+        historyButton.setColorOver(new java.awt.Color(140, 75, 242));
         historyButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         historyButton.setFontColor(new java.awt.Color(227, 216, 255));
-        historyButton.setFontColorClick(new java.awt.Color(140, 75, 242));
-        historyButton.setFontColorOver(new java.awt.Color(140, 75, 242));
+        historyButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        historyButton.setFontColorOver(new java.awt.Color(227, 216, 255));
         historyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         historyButton.setRadius(30);
         historyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -172,17 +172,17 @@ public class VendorMain extends javax.swing.JFrame {
             }
         });
 
-        reviewButton.setBackground(new java.awt.Color(140, 75, 242));
+        reviewButton.setBackground(new java.awt.Color(40, 40, 56));
         reviewButton.setText("Review");
         reviewButton.setAlignmentX(0.5F);
-        reviewButton.setBorderColor(new java.awt.Color(140, 75, 242));
-        reviewButton.setColor(new java.awt.Color(140, 75, 242));
-        reviewButton.setColorClick(new java.awt.Color(227, 216, 255));
-        reviewButton.setColorOver(new java.awt.Color(227, 216, 255));
+        reviewButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        reviewButton.setColor(new java.awt.Color(40, 40, 56));
+        reviewButton.setColorClick(new java.awt.Color(243, 222, 138));
+        reviewButton.setColorOver(new java.awt.Color(140, 75, 242));
         reviewButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         reviewButton.setFontColor(new java.awt.Color(227, 216, 255));
-        reviewButton.setFontColorClick(new java.awt.Color(140, 75, 242));
-        reviewButton.setFontColorOver(new java.awt.Color(140, 75, 242));
+        reviewButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        reviewButton.setFontColorOver(new java.awt.Color(227, 216, 255));
         reviewButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         reviewButton.setRadius(30);
         reviewButton.addActionListener(new java.awt.event.ActionListener() {
@@ -196,23 +196,15 @@ public class VendorMain extends javax.swing.JFrame {
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

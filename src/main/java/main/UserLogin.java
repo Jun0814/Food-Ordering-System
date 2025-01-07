@@ -72,26 +72,28 @@ public class UserLogin extends javax.swing.JFrame {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
         
-        if(username == null || password == null){
-            isFilled = false;
-            JOptionPane.showMessageDialog(null,"Please fill in your information!");
-        }else{
-            isFilled = true;
-        }
-        
-        if(isFilled == true){
-            Vendor vendor = new Vendor();
-            String filepath = vendor.getFilepath();
-            String id = data.retrieveData(username, password, 0, filepath);
-            System.out.println(id);
-            if(id != null){ 
-                JOptionPane.showMessageDialog(null,"Login Successfully!");
-                this.dispose();
-                VendorMain vendorMain = new VendorMain(id);
-                vendorMain.run();
+        if (clickCount < 3){
+            if(username == null || password == null){
+                isFilled = false;
+                JOptionPane.showMessageDialog(null,"Please fill in your information!");
             }else{
-                JOptionPane.showMessageDialog(null,"Login Failed!");
+                isFilled = true;
             }
+
+            if(isFilled == true){
+                Vendor vendor = new Vendor();
+                String filepath = vendor.getFilepath();
+                String id = data.retrieveData(username, password, 0, filepath);
+                if(id != null){ 
+                    JOptionPane.showMessageDialog(null,"Login Successfully!");
+                    this.dispose();
+                    VendorMain vendorMain = new VendorMain(id);
+                    vendorMain.run();
+                }else{
+                    JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            clickCount ++;
         }
     }
     

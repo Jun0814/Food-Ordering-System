@@ -6,12 +6,12 @@ package vendor;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import managefile.Data;
 import method.RoundedPanel;
 
@@ -29,19 +29,22 @@ public class VendorStore extends javax.swing.JPanel {
      */
     
     public VendorStore(String userId) {
-        this.userId = userId;
-        String[][] foodData = data.retrieveDataAsArray(6, userId, "src\\main\\java\\repository\\food.txt");
-        categoryPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-
+        this.userId = userId;        
+        addCategoryPanel();
+        initComponents();
+    }
+    
+    public void addCategoryPanel(){
+        String[][] foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
         Map<String, RoundedPanel> foodTypePanels = new HashMap<>();
-
+                    
         for (String[] data : foodData) {
-            try {
+            try{
                 String foodId = data[0].trim();
                 String foodName = data.length > 1 ? data[1].trim() : "Unassigned";
                 String price = data.length > 4 ? data[4].trim() : "";
                 String foodType = data.length > 6 ? data[6].trim() : "General";
-
+                
                 RoundedPanel foodTypePanel = foodTypePanels.get(foodType);
                 if (foodTypePanel == null) {
                     foodTypePanel = new RoundedPanel();
@@ -55,15 +58,46 @@ public class VendorStore extends javax.swing.JPanel {
                 JButton foodButton = new JButton(foodName + " - $" + price);
                 foodButton.setPreferredSize(new Dimension(150, 50));
                 foodTypePanel.add(foodButton);
-
-            } catch (Exception e) {
+                
+            }catch(Exception e){
                 e.printStackTrace();
             }
         }
+    }
+    
+    public void addCategoryPanel2(){
+        SwingUtilities.invokeLater(() -> {
+            String[][] foodData = data.retrieveDataAsArray(6, userId, "src\\main\\java\\repository\\food.txt");
+            Map<String, RoundedPanel> foodTypePanels = new HashMap<>();
 
-        categoryPanel.revalidate();
-        categoryPanel.repaint();
-        initComponents();
+            for (String[] data : foodData) {
+                try {
+                    String foodId = data[0].trim();
+                    String foodName = data.length > 1 ? data[1].trim() : "Unassigned";
+                    String price = data.length > 4 ? data[4].trim() : "";
+                    String foodType = data.length > 6 ? data[6].trim() : "General";
+
+                    System.out.println(foodId+foodName);
+                    
+                    RoundedPanel foodTypePanel = foodTypePanels.get(foodType);
+                    if (foodTypePanel == null) {
+                        foodTypePanel = new RoundedPanel();
+                        foodTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+                        foodTypePanel.setBorder(BorderFactory.createTitledBorder(foodType));
+                        foodTypePanel.setPreferredSize(new Dimension(200, 150)); 
+                        foodTypePanels.put(foodType, foodTypePanel);
+                        categoryPanel.add(foodTypePanel);
+                    }
+
+                    JButton foodButton = new JButton(foodName + " - $" + price);
+                    foodButton.setPreferredSize(new Dimension(150, 50));
+                    foodTypePanel.add(foodButton);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -75,21 +109,23 @@ public class VendorStore extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        categoryPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        categoryPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         foodPanel = new javax.swing.JPanel();
 
-        setBackground(new java.awt.Color(240, 240, 255));
+        setBackground(new java.awt.Color(200, 200, 255));
         setMinimumSize(new java.awt.Dimension(1000, 800));
         setPreferredSize(new java.awt.Dimension(1000, 800));
 
-        jLabel1.setBackground(new java.awt.Color(39, 40, 56));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(140, 75, 242));
-        jLabel1.setText("Food & Beverage");
+        jLabel2.setBackground(new java.awt.Color(39, 40, 56));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(140, 75, 242));
+        jLabel2.setText("Category");
+        add(jLabel2);
 
-        categoryPanel.setBackground(new java.awt.Color(240, 240, 255));
+        categoryPanel.setBackground(new java.awt.Color(200, 200, 255));
+        categoryPanel.setPreferredSize(new java.awt.Dimension(1000, 100));
 
         javax.swing.GroupLayout categoryPanelLayout = new javax.swing.GroupLayout(categoryPanel);
         categoryPanel.setLayout(categoryPanelLayout);
@@ -99,15 +135,19 @@ public class VendorStore extends javax.swing.JPanel {
         );
         categoryPanelLayout.setVerticalGroup(
             categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        jLabel2.setBackground(new java.awt.Color(39, 40, 56));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(140, 75, 242));
-        jLabel2.setText("Category");
+        add(categoryPanel);
 
-        foodPanel.setBackground(new java.awt.Color(240, 240, 255));
+        jLabel1.setBackground(new java.awt.Color(39, 40, 56));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(140, 75, 242));
+        jLabel1.setText("Food & Beverage");
+        add(jLabel1);
+
+        foodPanel.setBackground(new java.awt.Color(200, 200, 255));
+        foodPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
 
         javax.swing.GroupLayout foodPanelLayout = new javax.swing.GroupLayout(foodPanel);
         foodPanel.setLayout(foodPanelLayout);
@@ -117,41 +157,10 @@ public class VendorStore extends javax.swing.JPanel {
         );
         foodPanelLayout.setVerticalGroup(
             foodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(0, 794, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(categoryPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(foodPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(6, 6, 6)
-                .addComponent(categoryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(foodPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        add(foodPanel);
     }// </editor-fold>//GEN-END:initComponents
 
 

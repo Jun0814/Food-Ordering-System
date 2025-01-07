@@ -97,27 +97,25 @@ public class Data {
     public String[][] retrieveDataAsArray(int indexId, String referenceId, String filepath) {
 
         String resolvedPath = Data.this.getResolvedPath(filepath);
-
         List<String[]> rows = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
 
-            // Skip the first line (header)
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+            // Skip the header line
             String headerLine = br.readLine();
             String line;
 
             while ((line = br.readLine()) != null) {
-                String[] credentials = line.split(",");
-
-                if (line.trim().length() > 0 && credentials[indexId].equals(referenceId)) {
-                    rows.add(credentials); 
+                String[] data = line.split(",");
+                if (data.length > indexId && data[indexId].equals(referenceId)) {
+                    rows.add(data);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "Error reading file: " + filepath, e);
         }
-
-        return rows.toArray(new String[0][0]);
+        return rows.toArray(new String[rows.size()][]);
     }
+
 
     
     //*** Retrieve single data by username and password based on the index ***//
@@ -142,8 +140,6 @@ public class Data {
                     // Use .equals for String comparison
                     if (fileUsername.equals(username) && filePassword.equals(password)) {
                         ArrayList<String> list = new ArrayList<>(Arrays.asList(credentials));
-
-                        System.out.println(list); // Debugging purpose
 
                         // Retrieve data at the given index
                         if (indexId >= 0 && indexId < list.size()) {
@@ -174,7 +170,6 @@ public class Data {
             String headerLine = br.readLine();
             String line;
 
-            // Read file line by line
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length > indexId) {
@@ -209,15 +204,13 @@ public class Data {
                 updatedContent.append(headerLine).append(System.lineSeparator());
             }
 
-            // Read the rest of the file line by line
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 String id = parts[0].trim();
 
-                // Compare the ID with the target ID
                 if (id.equals(targetId)) {
-                    isRemoved = true; // Mark the line for removal
-                    continue;         // Skip adding this line to the new content
+                    isRemoved = true; 
+                    continue;         
                 }
 
                 // Append all other lines
