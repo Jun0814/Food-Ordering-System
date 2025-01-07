@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import managefile.Data;
+import managefile.Manager;
 import managefile.Vendor;
 import manager.managerAccountManager;
 import manager.managerHome;
@@ -83,20 +84,34 @@ public class UserLogin extends javax.swing.JFrame {
             switch(this.role) {
                 case "vendor":
                     Vendor vendor = new Vendor();
-                    String filepath = vendor.getFilepath();
-                    String id = data.retrieveData(username, password, 0, filepath);
-                    System.out.println(id);
-                    if(id != null){ 
+                    String vendorfilepath = vendor.getFilepath();
+                    String vendorid = data.retrieveData(username, password, 0, vendorfilepath);
+                    System.out.println(vendorid);
+                    if(vendorid != null){ 
                         JOptionPane.showMessageDialog(null,"Login Successfully!");
                         this.dispose();
-                        VendorMain vendorMain = new VendorMain(id);
+                        VendorMain vendorMain = new VendorMain(vendorid);
                         vendorMain.run();
                     }else{
                         JOptionPane.showMessageDialog(null,"Login Failed!");
                     }
                     break;
+                case "manager": 
+                    Manager manager = new Manager();
+                    String managerfilepath = manager.getFilepath();
+                    String managerid = data.retrieveData(username, password, 0, managerfilepath);
+                    if(managerid != null){
+                        JOptionPane.showMessageDialog(null, "Login Successfully!");
+                        this.dispose();
+                        managerHome homepage = new managerHome(managerid);
+                        homepage.run();
+                        this.dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Login Failed!");
+                    }
                 default:
                     JOptionPane.showMessageDialog(null, "Role not recognized!");
+                    
             }
         }
     }
@@ -127,31 +142,32 @@ public class UserLogin extends javax.swing.JFrame {
         }
     }
     
-    public void validateManager(){
-        if (clickCount < 3){
-            String email = usernameTextField.getText();
-            String password = passwordTextField.getText();
-            managerAccountManager backend = new managerAccountManager();
-            String managerId = backend.validateCredentials(email, password);
-            if (managerId != null) {
-                JOptionPane.showMessageDialog(null,"Login Successfully!");
-                managerHome homepage = new managerHome(managerId);
-                homepage.run();
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
-            }
-            clickCount ++;
-        }else{
-            try {
-                JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
-                Thread.sleep(40000);
-                clickCount = 0;
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
+//    public void validateManager(){
+//        if (clickCount < 3){
+//            Manager manager = new Manager();
+//            String email = usernameTextField.getText();
+//            String password = passwordTextField.getText();
+//            String filepath = manager.getFilepath();
+//            String managerId = backend.validateCredentials(email, password);
+//            if (managerId != null) {
+//                JOptionPane.showMessageDialog(null,"Login Successfully!");
+//                managerHome homepage = new managerHome(managerId);
+//                homepage.run();
+//                this.dispose();
+//            }else{
+//                JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
+//            }
+//            clickCount ++;
+//        }else{
+//            try {
+//                JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
+//                Thread.sleep(40000);
+//                clickCount = 0;
+//            } catch (InterruptedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        }
+//    }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton){
@@ -163,7 +179,7 @@ public class UserLogin extends javax.swing.JFrame {
         }else if (e.getSource() == loginButton && role.equals("customer")){
             validationCustomer();
         }else if (e.getSource() == loginButton && role.equals("manager")){
-            validateManager();
+            validationVendor();
         }
     }
 
