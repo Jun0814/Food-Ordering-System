@@ -5,4 +5,4 @@ F3,Fried Rice,4,Delicious and Juicy Fresh Chicken,15,null, Rice,V1
 F4,Fried Cake,4,Delicious and Juicy Fresh Chicken,20,null, Rice,V1
 F5,Fried Noodle,4,Delicious and Juicy Fresh Chicken,20,null, Rice,V2
 F6,Fried Noodle,4,Delicious and Juicy Fresh Chicken,20,null, Rice,V2
-F7,Fried Noodle,4,Ice & Lemon Tea,20,null, Beverage,V2
+F7,Fried Chicken,4,Ice & Lemon Tea,20,null, Beverage,V2

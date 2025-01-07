@@ -22,102 +22,79 @@ import java.util.logging.Logger;
  *
  * @author TPY
  */
+
+// If want to use this file, the txt file first line must have header
+
 public class Data {
-    protected HashMap<Integer, ArrayList<String>> data = new HashMap<>();
     protected int currentMaxId = 0;
     
-    // Auto generate Id for each data
-    private void assignID(String filepath){
-        try(BufferedReader br = new BufferedReader(new FileReader(filepath))){
-            String line;
-            while((line = br.readLine()) != null){
-                String[] parts = line.split("=", 2);
-                if (parts.length == 2) {
-                    int id = Integer.parseInt(parts[0].trim());
-                    String[] values = parts[1].split(",");
-                    data.put(id, new ArrayList<>(Arrays.asList(values)));
-                    currentMaxId = Math.max(currentMaxId, id);
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
     /*** Get absolute path from relative path ***/
-   private String getResolvedPath(String relativeFilePath){        
-        String resolvedPath = "";
-        
-        if (relativeFilePath != null) {
-            File file = Paths.get(relativeFilePath).toFile();
-            if (!file.isAbsolute()) {
-                file = new File(System.getProperty("user.dir"), relativeFilePath);
-            }
-            resolvedPath = file.getAbsolutePath();
-        }
-        return resolvedPath;
-    }
+    private String getResolvedPath(String relativeFilePath){        
+         String resolvedPath = "";
+
+         if (relativeFilePath != null) {
+             File file = Paths.get(relativeFilePath).toFile();
+             if (!file.isAbsolute()) {
+                 file = new File(System.getProperty("user.dir"), relativeFilePath);
+             }
+             resolvedPath = file.getAbsolutePath();
+         }
+         return resolvedPath;
+     }
     
-    // Create/Append data
-    public void appendData (String content, String filepath){
+    
+    //*** Update a single data element by the first ID and target index in a file ***/
+    public void updateData(String targetId, int targetIndex, String newContent, String filepath) {
         String resolvedPath = Data.this.getResolvedPath(filepath);
-        assignID(resolvedPath);
-        int newId = ++currentMaxId; // Generate a new ID
-        data.putIfAbsent(newId, new ArrayList<>());
-        data.get(newId).add(content);
-        saveToFile(resolvedPath);
-    }
-    
-    // Update single data By Id and Index 
-    public void updateData(int targetId, int indexId, String newest, String filepath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
             StringBuilder updatedContent = new StringBuilder();
+
+            // Read and store the header line
+            String headerLine = br.readLine();
+            if (headerLine != null) {
+                updatedContent.append(headerLine).append(System.lineSeparator());
+            }
+
             String line;
             boolean isUpdated = false;
 
-            // Read file line by line
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split("=", 2);
-                if (parts.length == 2) {
-                    int id = Integer.parseInt(parts[0].trim());
+                String[] parts = line.split(",");
 
-                    // Update only the targetId line
-                    if (id == targetId) {
-                        String[] values = parts[1].split(",");
-                        ArrayList<String> list = new ArrayList<>(Arrays.asList(values));
-
-                        if (indexId >= 0 && indexId < list.size()) {
-                            list.set(indexId, newest);
-                            isUpdated = true;
-                            String updatedValues = String.join(",", list);
-                            line = id + "=" + updatedValues;
-                        } else {
-                            System.out.println("Invalid indexId. No updates were made.");
-                        }
+                // Check if the line's ID matches the target ID
+                if (parts[0].trim().equals(targetId)) {
+                    if (targetIndex >= 0 && targetIndex < parts.length) {
+                        parts[targetIndex] = newContent;
+                        isUpdated = true;
+                    } else {
+                        System.out.println("Invalid index. No updates were made for ID: " + targetId);
                     }
                 }
-                // Append line to the updated content
-                updatedContent.append(line).append(System.lineSeparator());
+
+                // Append the (possibly updated) line to the updated content
+                updatedContent.append(String.join(",", parts)).append(System.lineSeparator());
             }
 
             if (isUpdated) {
-                // Write updated content back to the file
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(filepath))) {
+                // Write the updated content back to the file
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }
-                System.out.println("Updated index '" + indexId + "' to '" + newest + "' for key " + targetId);
+                System.out.println("Updated index '" + targetIndex + "' to '" + newContent + "' for key: " + targetId); //Debug Line
             } else {
-                System.out.println("No updates were made. Key or value not found.");
+                System.out.println("No updates were made. Key '" + targetId + "' not found.");
             }
         } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
         } catch (NumberFormatException ex) {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }
     }
-    
-    
-    //*** Retrieve lines containing vendor data by Id In 2D Array ***//
+
+        
+    //*** Retrieve lines containing vendor data by first id in 2d array ***//
     public String[][] retrieveDataAsArray(int indexId, String referenceId, String filepath) {
 
         String resolvedPath = Data.this.getResolvedPath(filepath);
@@ -186,7 +163,7 @@ public class Data {
     }
         
     
-    //*** Retrieve single data by Primary Key By Index ***// 
+    //*** Retrieve single data by first ID and index ***// 
     public String retrieveData(String targetId, int indexId, String filepath) {
         
         String resolvedPath = Data.this.getResolvedPath(filepath);
@@ -218,81 +195,82 @@ public class Data {
     }
     
     
-    //Remove single record By Id
-    public void removeRowById(int targetId, String filepath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+    //*** Remove a single record by the first ID in a file ***/
+    public void removeRowById(String targetId, String filepath) {
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
             StringBuilder updatedContent = new StringBuilder();
             String line;
             boolean isRemoved = false;
 
-            // Read file line by line
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("=", 2);
-                if (parts.length == 2) {
-                    int id = Integer.parseInt(parts[0].trim());
+            // Read and store the header line
+            String headerLine = br.readLine();
+            if (headerLine != null) {
+                updatedContent.append(headerLine).append(System.lineSeparator());
+            }
 
-                    // Skip adding the line if it matches the targetId
-                    if (id == targetId) {
-                        isRemoved = true;
-                        continue;
-                    }
+            // Read the rest of the file line by line
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                String id = parts[0].trim();
+
+                // Compare the ID with the target ID
+                if (id.equals(targetId)) {
+                    isRemoved = true; // Mark the line for removal
+                    continue;         // Skip adding this line to the new content
                 }
-                // Append non-matching lines to the updated content
+
+                // Append all other lines
                 updatedContent.append(line).append(System.lineSeparator());
             }
 
             if (isRemoved) {
                 // Write updated content back to the file
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(filepath))) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }
-                System.out.println("Removed row for key " + targetId);
+                System.out.println("Removed row for key: " + targetId);
             } else {
-                System.out.println("No row found for key " + targetId);
+                System.out.println("No row found for key: " + targetId);
             }
         } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
         } catch (NumberFormatException ex) {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }
     }
-            
-    // Method to save the HashMap to a file
-    private void saveToFile(String filepath){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filepath, true))) {
-            BufferedReader br = new BufferedReader(new FileReader(filepath));
+    
+    
+    // Auto generate Id for each data
+    /*
+    private void assignID(String filepath){
+        try(BufferedReader br = new BufferedReader(new FileReader(filepath))){
             String line;
-            if ((line = br.readLine()) == null) {                
-                for (var entry : data.entrySet()) {
-                    // Format: key=value1,value2,...
-                    bw.write(entry.getKey() + "=" + String.join(",", entry.getValue()));
-                    bw.newLine();
-                }   
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    // Method to load the HashMap from a file
-    private void loadFromFile(String filepath){
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                // Parse the line: key=value1,value2,...
-                String[] parts = line.split("=", 2);
+            while((line = br.readLine()) != null){
+                String[] parts = line.split(",");
                 if (parts.length == 2) {
-                    int key = Integer.parseInt(parts[0]);
+                    int id = Integer.parseInt(parts[0].trim());
                     String[] values = parts[1].split(",");
-                    ArrayList<String> valueList = new ArrayList<>();
-                    for (String value : values) {
-                        valueList.add(value.trim());
-                    }
-                    data.put(key, valueList);
+                    data.put(id, new ArrayList<>(Arrays.asList(values)));
+                    currentMaxId = Math.max(currentMaxId, id);
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    */
+   
+    // Create/Append data
+    /*
+    public void appendData (String content, String filepath){
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+        assignID(resolvedPath);
+        int newId = ++currentMaxId; // Generate a new ID
+        data.putIfAbsent(newId, new ArrayList<>());
+        data.get(newId).add(content);
+        saveToFile(resolvedPath);
+    }
+    */
 }
