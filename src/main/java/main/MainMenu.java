@@ -4,7 +4,6 @@
  */
 package main;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
@@ -38,7 +37,6 @@ public class MainMenu extends javax.swing.JFrame {
 
                 leftPanel.setBounds(0, 0, newWidth/2, newHeight);
                 rightPanel.setBounds(0, 0, newWidth/2, newHeight);
-
                 
                 revalidate();
                 repaint();
@@ -76,15 +74,14 @@ public class MainMenu extends javax.swing.JFrame {
         logoLabel = new javax.swing.JLabel();
         rightPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        managerButton = new method.roundedButton();
-        runnerButton = new method.roundedButton();
-        customerButton = new method.roundedButton();
-        adminButton = new method.roundedButton();
-        vendorButton = new method.roundedButton();
+        managerButton = new method.RoundedButton();
+        runnerButton = new method.RoundedButton();
+        customerButton = new method.RoundedButton();
+        adminButton = new method.RoundedButton();
+        vendorButton = new method.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(null);
 
         bgPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         bgPanel.setMinimumSize(new java.awt.Dimension(1000, 565));
@@ -106,11 +103,11 @@ public class MainMenu extends javax.swing.JFrame {
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
         );
 
         bgPanel.add(leftPanel, java.awt.BorderLayout.WEST);
@@ -269,15 +266,15 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_customerButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private method.roundedButton adminButton;
+    private method.RoundedButton adminButton;
     private javax.swing.JPanel bgPanel;
-    private method.roundedButton customerButton;
+    private method.RoundedButton customerButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JLabel logoLabel;
-    private method.roundedButton managerButton;
+    private method.RoundedButton managerButton;
     private javax.swing.JPanel rightPanel;
-    private method.roundedButton runnerButton;
-    private method.roundedButton vendorButton;
+    private method.RoundedButton runnerButton;
+    private method.RoundedButton vendorButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -29,7 +29,7 @@ public class VendorRevenue extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(126, 127, 154));
-        setPreferredSize(new java.awt.Dimension(1000, 445));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel1.setText("Revenue");

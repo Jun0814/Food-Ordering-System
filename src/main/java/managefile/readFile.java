@@ -4,6 +4,7 @@
  */
 package managefile;
 
+import customer.Cart;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -102,8 +103,9 @@ public class readFile {
         }
         return foods;
     }
+    
     public List readCart(String filePath){
-        List<Cart> carts = new ArrayList<>();
+        List<managefile.Cart> carts = new ArrayList<>();
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
@@ -116,13 +118,36 @@ public class readFile {
                     String quantity = fields[3];
                     String remarks = fields[4];
                     String datetime = fields[5];
-                    carts.add(new Cart(cartid,customerid,foodid,quantity,remarks,datetime));
+                    carts.add(new managefile.Cart(cartid,customerid,foodid,quantity,remarks,datetime));
             }
-        }catch(IOException e){
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
         return carts;
     }
+    
+    public List readManagerAccount(String filepath){
+        List<Manager> managers = new ArrayList<>();
+        try {
+            FileReader fr = new FileReader(filepath);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while((line = br.readLine()) != null) {
+                String [] fields = line.split(",");
+                String id = fields[0];
+                String name = fields[1];
+                String email = fields[2];
+                String phone = fields[3];
+                String password = fields[4];
+                managers.add(new Manager(id, name, email, phone, password));
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return managers;
+    }
+        
     public List readOrder(String filePath){
         List<Order> orders = new ArrayList<>();
         try{

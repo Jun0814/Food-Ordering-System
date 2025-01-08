@@ -5,6 +5,7 @@
 package vendor;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import method.scaleImage;
@@ -18,54 +19,55 @@ public class VendorMain extends javax.swing.JFrame {
     /**
      * Creates new form VendorMain
      */
+    public String userId;
     scaleImage scaleImage = new scaleImage();
-        
-    public VendorMain() {
-        initComponents();
-        switchToPanel(new VendorHome());
-        this.setTitle("Vendor");
-        this.setSize(1000, 600);
-        this.setLocationRelativeTo(null); 
-        logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\gastrogo.png", 130, 100));
-        
-        logoLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorHome()); }
-        });
-        storeLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorStore()); }
-        });
-        orderLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorOrder()); }
-        });
-        historyLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorHistory()); }
-        });
-        reviewLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorReview()); }
-        });
-        revenueLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorRevenue()); }
-        });
-    }
     
+    public VendorMain() {}
+    
+    public VendorMain(String userId) {
+        initComponents();
+        this.userId = userId;
+        switchToPanel(new VendorHome(userId));
+        this.setTitle("Vendor");
+        this.setSize(1280, 800);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null); 
+        logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
+    }
+        
     protected void switchToPanel(javax.swing.JPanel targetPanel) {        
         if (contentPanel != null) { this.getContentPane().remove(contentPanel); }
         contentPanel = targetPanel;
         this.getContentPane().add(contentPanel, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
+        
+        logoLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) { switchToPanel(new VendorHome(userId)); }
+        });
     }
     
     public void run(){
-        new VendorMain().setVisible(true);
+        new VendorMain(userId).setVisible(true);
     }
-
+    
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == storeButton){
+            switchToPanel(new VendorStore(userId));
+        }else if(e.getSource() == orderButton){
+            switchToPanel(new VendorOrder());
+        }else if(e.getSource() == historyButton){
+            switchToPanel(new VendorHistory());
+        }else if(e.getSource() == reviewButton){
+            switchToPanel(new VendorReview());
+        }else if(e.getSource() == revenueButton){
+            switchToPanel(new VendorRevenue());
+        }else{
+            System.out.println("Invalid Button");
+        }
+    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,97 +79,163 @@ public class VendorMain extends javax.swing.JFrame {
 
         menuPanel = new javax.swing.JPanel();
         logoLabel = new javax.swing.JLabel();
-        storeLabel = new javax.swing.JLabel();
-        orderLabel = new javax.swing.JLabel();
-        historyLabel = new javax.swing.JLabel();
-        reviewLabel = new javax.swing.JLabel();
-        revenueLabel = new javax.swing.JLabel();
+        storeButton = new method.RoundedButton();
+        orderButton = new method.RoundedButton();
+        revenueButton = new method.RoundedButton();
+        historyButton = new method.RoundedButton();
+        reviewButton = new method.RoundedButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(126, 127, 154));
 
-        menuPanel.setBackground(new java.awt.Color(39, 40, 56));
-        menuPanel.setPreferredSize(new java.awt.Dimension(1000, 120));
+        menuPanel.setBackground(new java.awt.Color(40, 40, 56));
+        menuPanel.setPreferredSize(new java.awt.Dimension(280, 800));
         menuPanel.setRequestFocusEnabled(false);
 
-        logoLabel.setText("Image");
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        storeLabel.setBackground(new java.awt.Color(187, 187, 187));
-        storeLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        storeLabel.setForeground(new java.awt.Color(243, 222, 138));
-        storeLabel.setText("Store");
+        storeButton.setBackground(new java.awt.Color(40, 40, 56));
+        storeButton.setText("Store");
+        storeButton.setAlignmentX(0.5F);
+        storeButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        storeButton.setColor(new java.awt.Color(40, 40, 56));
+        storeButton.setColorClick(new java.awt.Color(243, 222, 138));
+        storeButton.setColorOver(new java.awt.Color(140, 75, 242));
+        storeButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        storeButton.setFontColor(new java.awt.Color(227, 216, 255));
+        storeButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        storeButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        storeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        storeButton.setRadius(30);
+        storeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                storeButtonActionPerformed(evt);
+            }
+        });
 
-        orderLabel.setBackground(new java.awt.Color(187, 187, 187));
-        orderLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        orderLabel.setForeground(new java.awt.Color(243, 222, 138));
-        orderLabel.setText("Order");
+        orderButton.setBackground(new java.awt.Color(40, 40, 56));
+        orderButton.setText("Order");
+        orderButton.setAlignmentX(0.5F);
+        orderButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        orderButton.setColor(new java.awt.Color(40, 40, 56));
+        orderButton.setColorClick(new java.awt.Color(243, 222, 138));
+        orderButton.setColorOver(new java.awt.Color(140, 75, 242));
+        orderButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        orderButton.setFontColor(new java.awt.Color(227, 216, 255));
+        orderButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        orderButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        orderButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        orderButton.setRadius(30);
+        orderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderButtonActionPerformed(evt);
+            }
+        });
 
-        historyLabel.setBackground(new java.awt.Color(187, 187, 187));
-        historyLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        historyLabel.setForeground(new java.awt.Color(243, 222, 138));
-        historyLabel.setText("History");
+        revenueButton.setBackground(new java.awt.Color(40, 40, 56));
+        revenueButton.setText("Revenue");
+        revenueButton.setAlignmentX(0.5F);
+        revenueButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        revenueButton.setColor(new java.awt.Color(40, 40, 56));
+        revenueButton.setColorClick(new java.awt.Color(243, 222, 138));
+        revenueButton.setColorOver(new java.awt.Color(140, 75, 242));
+        revenueButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        revenueButton.setFontColor(new java.awt.Color(227, 216, 255));
+        revenueButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        revenueButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        revenueButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        revenueButton.setRadius(30);
+        revenueButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revenueButtonActionPerformed(evt);
+            }
+        });
 
-        reviewLabel.setBackground(new java.awt.Color(187, 187, 187));
-        reviewLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        reviewLabel.setForeground(new java.awt.Color(243, 222, 138));
-        reviewLabel.setText("Review");
+        historyButton.setBackground(new java.awt.Color(40, 40, 56));
+        historyButton.setText("History");
+        historyButton.setAlignmentX(0.5F);
+        historyButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        historyButton.setColor(new java.awt.Color(40, 40, 56));
+        historyButton.setColorClick(new java.awt.Color(243, 222, 138));
+        historyButton.setColorOver(new java.awt.Color(140, 75, 242));
+        historyButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        historyButton.setFontColor(new java.awt.Color(227, 216, 255));
+        historyButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        historyButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        historyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        historyButton.setRadius(30);
+        historyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historyButtonActionPerformed(evt);
+            }
+        });
 
-        revenueLabel.setBackground(new java.awt.Color(187, 187, 187));
-        revenueLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        revenueLabel.setForeground(new java.awt.Color(243, 222, 138));
-        revenueLabel.setText("Revenue");
+        reviewButton.setBackground(new java.awt.Color(40, 40, 56));
+        reviewButton.setText("Review");
+        reviewButton.setAlignmentX(0.5F);
+        reviewButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        reviewButton.setColor(new java.awt.Color(40, 40, 56));
+        reviewButton.setColorClick(new java.awt.Color(243, 222, 138));
+        reviewButton.setColorOver(new java.awt.Color(140, 75, 242));
+        reviewButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        reviewButton.setFontColor(new java.awt.Color(227, 216, 255));
+        reviewButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        reviewButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        reviewButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        reviewButton.setRadius(30);
+        reviewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reviewButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(storeLabel)
-                .addGap(40, 40, 40)
-                .addComponent(orderLabel)
-                .addGap(40, 40, 40)
-                .addComponent(historyLabel)
-                .addGap(40, 40, 40)
-                .addComponent(reviewLabel)
-                .addGap(40, 40, 40)
-                .addComponent(revenueLabel)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(storeLabel)
-                    .addComponent(orderLabel)
-                    .addComponent(historyLabel)
-                    .addComponent(reviewLabel)
-                    .addComponent(revenueLabel))
-                .addContainerGap(44, Short.MAX_VALUE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(menuPanel, java.awt.BorderLayout.NORTH);
+        getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
 
-        contentPanel.setBackground(new java.awt.Color(126, 127, 154));
-        contentPanel.setPreferredSize(new java.awt.Dimension(1000, 445));
+        contentPanel.setBackground(new java.awt.Color(220, 220, 255));
+        contentPanel.setPreferredSize(new java.awt.Dimension(1000, 800));
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1063, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 541, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
 
         getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
@@ -175,14 +243,34 @@ public class VendorMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void storeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_storeButtonActionPerformed
+
+    private void orderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_orderButtonActionPerformed
+
+    private void revenueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revenueButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_revenueButtonActionPerformed
+
+    private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_historyButtonActionPerformed
+
+    private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_reviewButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
-    protected javax.swing.JLabel historyLabel;
+    private method.RoundedButton historyButton;
     protected javax.swing.JLabel logoLabel;
     private javax.swing.JPanel menuPanel;
-    protected javax.swing.JLabel orderLabel;
-    protected javax.swing.JLabel revenueLabel;
-    protected javax.swing.JLabel reviewLabel;
-    protected javax.swing.JLabel storeLabel;
+    private method.RoundedButton orderButton;
+    private method.RoundedButton revenueButton;
+    private method.RoundedButton reviewButton;
+    private method.RoundedButton storeButton;
     // End of variables declaration//GEN-END:variables
 }

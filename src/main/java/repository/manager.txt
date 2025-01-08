@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+=======
+ID,Name,Email,Phone,Password
+M1,Liew Hao Shean,haosheanliew@gmail.com,012-92659958,abcd1234
+>>>>>>> 3c2563189002deaa32ee04804282276d8e6ed521
