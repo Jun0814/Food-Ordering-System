@@ -25,12 +25,12 @@ public class VendorMain extends javax.swing.JFrame {
     public VendorMain() {}
     
     public VendorMain(String userId) {
-        this.userId = userId;
-        
         initComponents();
+        this.userId = userId;
         switchToPanel(new VendorHome(userId));
         this.setTitle("Vendor");
-        this.setSize(1000, 600);
+        this.setSize(1280, 800);
+        this.setResizable(false);
         this.setLocationRelativeTo(null); 
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
     }

@@ -4,16 +4,14 @@
  */
 package vendor;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 import managefile.Data;
+import method.RoundedButton;
 import method.RoundedPanel;
+import vendor.FoodBlock;
 
 /**
  *
@@ -22,82 +20,90 @@ import method.RoundedPanel;
 public class VendorStore extends javax.swing.JPanel {
 
     Data data = new Data();
+    RoundedButton roundedButton = new RoundedButton();
+    String[][] foodData;
     String userId;
     
     /**
      * Creates new form VendorStore
      */
     
-    public VendorStore(String userId) {
-        this.userId = userId;        
-        addCategoryPanel();
+    public VendorStore(String userId) {        
         initComponents();
+        this.userId = userId;
+        foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
+        addCategoryButton();
     }
-    
-    public void addCategoryPanel(){
-        String[][] foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
-        Map<String, RoundedPanel> foodTypePanels = new HashMap<>();
-                    
-        for (String[] data : foodData) {
-            try{
-                String foodId = data[0].trim();
-                String foodName = data.length > 1 ? data[1].trim() : "Unassigned";
-                String price = data.length > 4 ? data[4].trim() : "";
-                String foodType = data.length > 6 ? data[6].trim() : "General";
-                
-                RoundedPanel foodTypePanel = foodTypePanels.get(foodType);
-                if (foodTypePanel == null) {
-                    foodTypePanel = new RoundedPanel();
-                    foodTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-                    foodTypePanel.setBorder(BorderFactory.createTitledBorder(foodType));
-                    foodTypePanel.setPreferredSize(new Dimension(200, 150)); 
-                    foodTypePanels.put(foodType, foodTypePanel);
-                    categoryPanel.add(foodTypePanel);
-                }
 
-                JButton foodButton = new JButton(foodName + " - $" + price);
-                foodButton.setPreferredSize(new Dimension(150, 50));
-                foodTypePanel.add(foodButton);
+    public void addCategoryButton() {
+        Map<String, RoundedButton> foodTypeButtons = new HashMap<>();
+
+        for (String[] data : foodData) {
+            try {
+                String foodType = data.length > 6 ? data[6].trim() : "General";
+
+                System.out.println(foodType);
                 
-            }catch(Exception e){
+                // Create a button for each food type
+                RoundedButton foodTypeButton = foodTypeButtons.get(foodType);
+                if (foodTypeButton == null) {
+                    
+                    foodTypeButton = new RoundedButton();
+                    foodTypeButton.setPreferredSize(new Dimension(150, 50)); 
+                    foodTypeButton.setText(foodType);
+                    foodTypeButton.setRadius(20);
+                    foodTypeButton.setBorderColor(new Color(200,200,255));
+                    
+                    foodTypeButton.setColor(new Color(220,220,255));
+                    foodTypeButton.setColorClick(new Color(243,222,138));
+                    foodTypeButton.setColorOver(new Color(140,75,242));
+                    
+                    foodTypeButton.setFontColor(Color.black);
+                    foodTypeButton.setFontColorClick(Color.black);
+                    foodTypeButton.setFontColorOver(Color.white);
+                    
+                    foodTypeButton.addActionListener(e -> {
+                        addMenuPanel(null);
+                        addMenuPanel(foodType);
+                    });
+
+                    foodTypeButtons.put(foodType, foodTypeButton);
+                    categoryPanel.add(foodTypeButton);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
     
-    public void addCategoryPanel2(){
-        SwingUtilities.invokeLater(() -> {
-            String[][] foodData = data.retrieveDataAsArray(6, userId, "src\\main\\java\\repository\\food.txt");
-            Map<String, RoundedPanel> foodTypePanels = new HashMap<>();
-
-            for (String[] data : foodData) {
-                try {
-                    String foodId = data[0].trim();
-                    String foodName = data.length > 1 ? data[1].trim() : "Unassigned";
-                    String price = data.length > 4 ? data[4].trim() : "";
-                    String foodType = data.length > 6 ? data[6].trim() : "General";
-
-                    System.out.println(foodId+foodName);
+    public void addMenuPanel(String foodCategory){
+        for (String[] data : foodData) {
+            try {
+                String foodType = data.length > 6 ? data[6].trim() : "General";
+                if (foodCategory.equalsIgnoreCase(foodType)) {
+                    String foodId = data.length > 0 ? data[0].trim() : "";
+                    String foodName = data.length > 1 ? data[1].trim() : "Unnamed";
+                    String price = data.length > 4 ? data[4].trim() : "Cash In Counter";
                     
-                    RoundedPanel foodTypePanel = foodTypePanels.get(foodType);
-                    if (foodTypePanel == null) {
-                        foodTypePanel = new RoundedPanel();
-                        foodTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-                        foodTypePanel.setBorder(BorderFactory.createTitledBorder(foodType));
-                        foodTypePanel.setPreferredSize(new Dimension(200, 150)); 
-                        foodTypePanels.put(foodType, foodTypePanel);
-                        categoryPanel.add(foodTypePanel);
-                    }
-
-                    JButton foodButton = new JButton(foodName + " - $" + price);
-                    foodButton.setPreferredSize(new Dimension(150, 50));
-                    foodTypePanel.add(foodButton);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    FoodBlock foodPanel = new FoodBlock();
+                    
+                    foodPanel.setFoodId(foodId);
+                    foodPanel.setFoodName(foodName);
+                    foodPanel.setPriceTag(price);
+                    foodPanel.setEdgeColor(new Color(200,200,255));
+                    foodPanel.setThemeColor(new Color(140,75,242));
+                    foodPanel.setBackgroundColor(new Color(248,248,248));
+                    
+                    menuPanel.add(foodPanel);
+                }else if (foodCategory.equals(null)){
+                    
                 }
+            } catch(Exception e) {
+                e.printStackTrace();
             }
-        });
+        }
+        menuPanel.repaint();
+        menuPanel.revalidate();
     }
 
     /**
@@ -112,7 +118,7 @@ public class VendorStore extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         categoryPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        foodPanel = new javax.swing.JPanel();
+        menuPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(200, 200, 255));
         setMinimumSize(new java.awt.Dimension(1000, 800));
@@ -125,19 +131,7 @@ public class VendorStore extends javax.swing.JPanel {
         add(jLabel2);
 
         categoryPanel.setBackground(new java.awt.Color(200, 200, 255));
-        categoryPanel.setPreferredSize(new java.awt.Dimension(1000, 100));
-
-        javax.swing.GroupLayout categoryPanelLayout = new javax.swing.GroupLayout(categoryPanel);
-        categoryPanel.setLayout(categoryPanelLayout);
-        categoryPanelLayout.setHorizontalGroup(
-            categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        categoryPanelLayout.setVerticalGroup(
-            categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
+        categoryPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
         add(categoryPanel);
 
         jLabel1.setBackground(new java.awt.Color(39, 40, 56));
@@ -146,28 +140,16 @@ public class VendorStore extends javax.swing.JPanel {
         jLabel1.setText("Food & Beverage");
         add(jLabel1);
 
-        foodPanel.setBackground(new java.awt.Color(200, 200, 255));
-        foodPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
-
-        javax.swing.GroupLayout foodPanelLayout = new javax.swing.GroupLayout(foodPanel);
-        foodPanel.setLayout(foodPanelLayout);
-        foodPanelLayout.setHorizontalGroup(
-            foodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        foodPanelLayout.setVerticalGroup(
-            foodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-        );
-
-        add(foodPanel);
+        menuPanel.setBackground(new java.awt.Color(200, 200, 255));
+        menuPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+        add(menuPanel);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel categoryPanel;
-    private javax.swing.JPanel foodPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel menuPanel;
     // End of variables declaration//GEN-END:variables
 }

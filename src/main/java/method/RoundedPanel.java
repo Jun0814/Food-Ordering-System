@@ -16,6 +16,8 @@ import javax.swing.JPanel;
  * @author TPY
  */
 
+import java.awt.*;
+
 public class RoundedPanel extends JPanel {
     private Color backgroundColor;
     private Color borderColor;
@@ -23,10 +25,10 @@ public class RoundedPanel extends JPanel {
 
     public RoundedPanel() {
         setCornerRadius(20);
-        setBackgroundColor(new Color(248,248,248));
-        setBorderColor(new Color(165,165,165));
+        setBackgroundColor(new Color(248, 248, 248));
+        setBorderColor(new Color(165, 165, 165));
     }
-
+    
     public void setCornerRadius(int radius) {
         this.cornerRadius = radius;
         repaint();
@@ -44,7 +46,7 @@ public class RoundedPanel extends JPanel {
     public Color getBackgroundColor() {
         return backgroundColor;
     }
-    
+
     public void setBorderColor(Color color) {
         this.borderColor = color;
         repaint();
@@ -64,11 +66,24 @@ public class RoundedPanel extends JPanel {
 
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (backgroundColor != null) { graphics.setColor(backgroundColor); } else { graphics.setColor(getBackground()); }
+        if (backgroundColor != null) {
+            graphics.setColor(backgroundColor);
+        } else {
+            graphics.setColor(getBackground());
+        }
         graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
 
-        if (borderColor != null) { graphics.setColor(borderColor); } else { graphics.setColor(getForeground()); }
+        if (borderColor != null) {
+            graphics.setColor(borderColor);
+        } else {
+            graphics.setColor(getForeground());
+        }
         graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
+    }
+
+    @Override
+    public Insets getInsets() {
+        return new Insets(10, 10, 10, 10);
     }
 }
 
