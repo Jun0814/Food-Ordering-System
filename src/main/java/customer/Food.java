@@ -57,6 +57,8 @@ public class Food extends javax.swing.JFrame{
     }
     private void getVendorFoodDetails(){
         Map<String, Object> details = backend.getSpecificVendorDetail(vendorID);
+        System.out.println(vendorID);
+        System.out.println(details);
         List<Vendor> vendors = (List<Vendor>) details.get("vendors");
         List<managefile.Food> foods = (List<managefile.Food>) details.get("foods");
         for(Vendor vendor:vendors){
@@ -93,7 +95,7 @@ public class Food extends javax.swing.JFrame{
             }
         }
         JScrollPane scrollPane = new JScrollPane(foodPanel);
-        scrollPane.setPreferredSize(new Dimension(628,470));
+        scrollPane.setPreferredSize(new Dimension(628,460));
         jPanel4.setLayout(new BorderLayout());
         jPanel4.add(scrollPane, BorderLayout.CENTER);
     }
@@ -129,7 +131,7 @@ public class Food extends javax.swing.JFrame{
         foodPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
         foodPrice.setForeground(new Color(0, 153, 0));
         
-        JLabel quantity = new JLabel("x"+food.getquantity());
+        JLabel quantity = new JLabel("x"+food.getQuantity());
         quantity.setFont(new Font("Segoe UI", Font.BOLD, 16));
 
         JTextArea description = new JTextArea(food.getDescription());
@@ -247,7 +249,7 @@ public class Food extends javax.swing.JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(1025, 569));
 
         jPanel1.setBackground(new java.awt.Color(39, 40, 56));
 
@@ -379,7 +381,7 @@ public class Food extends javax.swing.JFrame{
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
+            .addGap(0, 492, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -399,7 +401,8 @@ public class Food extends javax.swing.JFrame{
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
         );
 
         pack();

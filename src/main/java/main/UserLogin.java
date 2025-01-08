@@ -136,7 +136,8 @@ public class UserLogin extends javax.swing.JFrame {
                     if(clickCount < 3){
                         Customer customer = new Customer();
                         String customerFilepath = customer.getFilepath();
-                        String customerid = data.retrieveData(username, password, 0, customerFilepath);
+                        customer_backend backend = new customer_backend();
+                        String customerid = backend.validateCredentials(username, password);
                         if(customerid != null){
                             JOptionPane.showMessageDialog(null,"Login Successfully!");
                             Home homepage = new Home(customerid);

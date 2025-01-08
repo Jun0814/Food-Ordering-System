@@ -350,8 +350,23 @@ public class customer_backend{
             }
         }
     }
-    public void removeCart(){
-        
+    public void removeCart(String customerID) throws IOException{
+        Map<Object, Object> carts = getCart(customerID);
+        List<managefile.Cart> cart = (List<managefile.Cart>) carts.get("carts");
+        List<String> cartItems = new ArrayList<>();
+        if (customerID != null){
+            for (managefile.Cart cartItem : cart) {
+                if (!cartItem.getCustomerID().equals(customerID)) {
+                    cartItems.add(cartItem.getCartID());
+                    cartItems.add(cartItem.getCustomerID());
+                    cartItems.add(cartItem.getFoodID());
+                    cartItems.add(cartItem.getQuantity());
+                    cartItems.add(cartItem.getRemarks());
+                    cartItems.add(cartItem.getDatetime());
+                }
+            }
+            write.updateCart(cartItems, cartFile);
+        }
     }
     
     public void sendNotifications(){

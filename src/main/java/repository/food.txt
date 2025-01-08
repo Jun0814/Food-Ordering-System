@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-F1,Fried Chicken,4,Delicious and Juicy Fresh Chicken elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke,10,null,V1
-F2,Fried Duck,4,Delicious and Juicy Fresh Chicken,10,null,V1
-F3,Fried Rice,4,Delicious and Juicy Fresh Chicken,15,null,V1
-F4,Fried Cake,4,Delicious and Juicy Fresh Chicken,20,null,V1
-F5,Fried Noodle,4,Delicious and Juicy Fresh Chicken,20,null,V2
-=======
 FoodID, Name, Quantity, Description, Price, Imagepath, Category, VendorID
 F1,Fried Chicken,4,Delicious and Juicy Fresh Chicken elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke,10,null, Rice,V1
 F2,Fried Duck,4,Delicious and Juicy Fresh Chicken,10,null, Rice, V1
@@ -13,4 +6,3 @@ F4,Fried Cake,4,Delicious and Juicy Fresh Chicken,20,null, Rice,V1
 F5,Fried Noodle,4,Delicious and Juicy Fresh Chicken,20,null, Rice,V2
 F6,Fried Noodle,4,Delicious and Juicy Fresh Chicken,20,null, Rice,V2
 F7,Fried Chicken,4,Ice & Lemon Tea,20,null, Beverage,V2
->>>>>>> 3c2563189002deaa32ee04804282276d8e6ed521

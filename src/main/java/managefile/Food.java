@@ -15,15 +15,17 @@ public class Food {
     private String description;
     private String price;
     private String imagepath;
+    private String category;
     private String vendorid;
 
-    public Food(String id, String name, String quantity, String description, String price, String imagepath, String vendorid) {
+    public Food(String id, String name, String quantity, String description, String price, String imagepath, String category, String vendorid) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
         this.price = price;
         this.imagepath = imagepath;
+        this.category = category;
         this.vendorid = vendorid;
     }
 
@@ -43,11 +45,11 @@ public class Food {
         this.name = name;
     }
 
-    public String getquantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setquantity(String quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
@@ -73,6 +75,14 @@ public class Food {
 
     public void setImagepath(String imagepath) {
         this.imagepath = imagepath;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getVendorid() {

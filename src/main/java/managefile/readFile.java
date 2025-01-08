@@ -95,8 +95,9 @@ public class readFile {
                     String description = fields[3];
                     String price = fields[4];
                     String imagepath = fields[5];
-                    String vendorid = fields[6];
-                    foods.add(new Food(id,name,quantity,description,price,imagepath,vendorid));
+                    String cate = fields[6];
+                    String vendorid = fields[7];
+                    foods.add(new Food(id,name,quantity,description,price,imagepath,cate,vendorid));
             }
         }catch(IOException e){
             e.printStackTrace();
