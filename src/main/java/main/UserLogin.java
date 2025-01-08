@@ -154,9 +154,23 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
         rightPanel.setMinimumSize(new java.awt.Dimension(500, 568));
         rightPanel.setPreferredSize(new java.awt.Dimension(500, 568));
 
+        usernameTextField.setText("xuanhanchin@gmail.com");
+        usernameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameTextFieldActionPerformed(evt);
+            }
+        });
+
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(243, 222, 138));
         usernameLabel.setText("Username");
+
+        passwordTextField.setText("abcd");
+        passwordTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordTextFieldActionPerformed(evt);
+            }
+        });
 
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         passwordLabel.setForeground(new java.awt.Color(243, 222, 138));
@@ -263,6 +277,14 @@ public class UserLogin extends javax.swing.JFrame implements ActionListener{
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         actionPerformed(evt);
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTextFieldActionPerformed
+
+    private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordTextFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.roundedButton backButton;
