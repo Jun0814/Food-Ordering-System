@@ -71,13 +71,10 @@ public class Data {
                         System.out.println("Invalid index. No updates were made for ID: " + targetId);
                     }
                 }
-
-                // Append the (possibly updated) line to the updated content
                 updatedContent.append(String.join(",", parts)).append(System.lineSeparator());
             }
 
             if (isUpdated) {
-                // Write the updated content back to the file
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }
@@ -136,12 +133,8 @@ public class Data {
                 if (credentials.length > 4) {
                     String fileUsername = credentials[2].trim(); 
                     String filePassword = credentials[4].trim();
-
-                    // Use .equals for String comparison
                     if (fileUsername.equals(username) && filePassword.equals(password)) {
                         ArrayList<String> list = new ArrayList<>(Arrays.asList(credentials));
-
-                        // Retrieve data at the given index
                         if (indexId >= 0 && indexId < list.size()) {
                             output = list.get(indexId);
                         }
@@ -165,8 +158,6 @@ public class Data {
         String output = null;
         
         try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
-            
-            // Skip the first line (header)
             String headerLine = br.readLine();
             String line;
 
@@ -198,7 +189,6 @@ public class Data {
             String line;
             boolean isRemoved = false;
 
-            // Read and store the header line
             String headerLine = br.readLine();
             if (headerLine != null) {
                 updatedContent.append(headerLine).append(System.lineSeparator());
@@ -212,13 +202,10 @@ public class Data {
                     isRemoved = true; 
                     continue;         
                 }
-
-                // Append all other lines
                 updatedContent.append(line).append(System.lineSeparator());
             }
 
             if (isRemoved) {
-                // Write updated content back to the file
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }

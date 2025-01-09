@@ -160,21 +160,6 @@ public class UserLogin extends javax.swing.JFrame {
                 default:
                     JOptionPane.showMessageDialog(null, "Role not recognized!");            
             }
-            /*
-            if(isFilled == true){
-                Vendor vendor = new Vendor();
-                String filepath = vendor.getFilepath();
-                String id = data.retrieveData(username, password, 0, filepath);
-                if(id != null){ 
-                    JOptionPane.showMessageDialog(null,"Login Successfully!");
-                    this.dispose();
-                    VendorMain vendorMain = new VendorMain(id);
-                    vendorMain.run();
-                }else{
-                    JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            */
             clickCount ++;
         }
     }
