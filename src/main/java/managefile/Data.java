@@ -78,7 +78,6 @@ public class Data {
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }
-                System.out.println("Updated index '" + targetIndex + "' to '" + newContent + "' for key: " + targetId); //Debug Line
             } else {
                 System.out.println("No updates were made. Key '" + targetId + "' not found.");
             }
@@ -86,6 +85,48 @@ public class Data {
             Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
         } catch (NumberFormatException ex) {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
+        }
+    }
+    
+    
+    //*** Update lines by the firstID ***
+    public void updateData(String targetId, String newContent, String filepath) {
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+            StringBuilder updatedContent = new StringBuilder();
+
+            // Read and store the header line
+            String headerLine = br.readLine();
+            if (headerLine != null) {
+                updatedContent.append(headerLine).append(System.lineSeparator());
+            }
+
+            String line;
+            boolean isUpdated = false;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                if (parts[0].trim().equals(targetId)) {
+                    updatedContent.append(newContent).append(System.lineSeparator());
+                    isUpdated = true;
+                } else {
+                    updatedContent.append(line).append(System.lineSeparator());
+                }
+            }
+
+            // Write back to the file if any update was made
+            if (isUpdated) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
+                    bw.write(updatedContent.toString());
+                }
+                System.out.println("Updated line with ID: " + targetId); // Debug Line
+            } else {
+                System.out.println("No updates were made. ID '" + targetId + "' not found.");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
         }
     }
 
@@ -112,8 +153,7 @@ public class Data {
         }
         return rows.toArray(new String[rows.size()][]);
     }
-
-
+    
     
     //*** Retrieve single data by username and password based on the index ***//
     public String retrieveData(String username, String password, int indexId, String filepath) {

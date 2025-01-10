@@ -6,9 +6,14 @@ package vendor;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import method.ImageHandler;
+import managefile.Data;
 import method.RoundedButton;
 
 /**
@@ -17,8 +22,8 @@ import method.RoundedButton;
  */
 public class VendorFoodPopUp extends javax.swing.JPanel {
 
-    ImageHandler imageHandler = new ImageHandler();
-    public String foodId, foodName, priceTag, quantity, imagePath, description,  buttonText;
+    Data data = new Data();
+    public String foodId, foodName, priceTag, quantity, imagePath, filepath, description, vendorId, foodType;
     public Color edgeColor, backgroundColor, themeColor;
     
     /**
@@ -105,15 +110,35 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         this.imagePath = imagePath;
     }
 
-    public String getButtonText() {
-        return buttonText;
+    public String getFilepath() {
+        return filepath;
     }
 
-    public void setButtonText(String buttonText) {
-        this.buttonText = buttonText;
-        if(uploadRoundedButton.getText() == "XXX"){
-            uploadRoundedButton.setText(buttonText != null ? buttonText : "Edit");
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+        if (foodType != null) { 
+            foodTypeLabel.setText(foodType != null ? "Food Type: " + foodType : "Food Type: NULL");
         }
+        
+        if(foodTypeTextField != null){
+            foodTypeTextField.setText(foodType);
+        }
+    }
+    
+    public String getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(String vendorId) {
+        this.vendorId = vendorId;
     }
 
     public Color getEdgeColor() {
@@ -155,11 +180,74 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         return backRoundedButton;
     }
     
+    public RoundedButton getUploadButton(){
+        return uploadRoundedButton;
+    }
+    
+    public RoundedButton getDeleteButton(){
+        return deleteRoundedButton;
+    }
+    
+    public RoundedButton getSaveButton(){
+        return saveRoundedButton;
+    }
+    
     public JLabel getLabel(){
         return imageLabel2;
     }
     
-    public void performedAction(int option, String dialog){
+    public String getNewContent(){
+        foodId = getFoodId();
+        foodName = nameTextField.getText();
+        quantity = quantityTextField.getText();
+        description = descriptionTextField.getText();
+        priceTag = priceTextField.getText();
+        foodType = foodTypeTextField.getText();
+        imagePath = getImagePath();
+        String newContent = foodId+ "," + foodName + "," + quantity + "," + description + "," + priceTag + "," + imagePath + "," + foodType + "," + vendorId;
+        return newContent;
+    }
+    
+    // Method to choose an image file and update the path in the text file
+    public void chooseAndUpdateImage(String filepath, String foodId) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select an Image");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String originalImagePath = selectedFile.getAbsolutePath();
+
+            String targetDir = "src/main/java/image_repository";
+            String targetFileName = foodId + ".png";
+            File targetFile = new File(targetDir, targetFileName);
+
+            try {
+                File directory = new File(targetDir);
+                if (!directory.exists()) {
+                    directory.mkdirs(); // Create the directory if it doesn't exist
+                }
+
+                // Copy the selected image to the target directory
+                Files.copy(selectedFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                String relativeImagePath = targetDir + "/" + targetFileName;
+                setImagePath(relativeImagePath);
+                
+                data.updateData(getFoodId(), 5, getImagePath(), getFilepath());
+                
+                JOptionPane.showMessageDialog(null, "Image successfully updated and stored!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error saving the image.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    public boolean popUpButtonAction(int option, String dialog){
+        boolean confirmation = false;
         int response = JOptionPane.showConfirmDialog(
             null, 
             "Are you sure you want to " + dialog +  "?", 
@@ -171,28 +259,20 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         if (response == JOptionPane.YES_OPTION) {
             
             if(option == 1){
-                
+                chooseAndUpdateImage(filepath, foodId);
             }else if(option ==2){
-                
+                data.removeRowById(foodId, filepath);
+                JOptionPane.showMessageDialog(null,  "The item has been successfully removed!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }else if(option ==3){
-                
+                data.updateData(foodId, getNewContent(), filepath);
+                JOptionPane.showMessageDialog(null, "The item has been successfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
-            
-            System.out.println(foodId + " " + foodName + " " + priceTag + " " + quantity + " " + imagePath + " " + description);
-            
+            confirmation = true;
         } else if (response == JOptionPane.NO_OPTION) {
-            
+            JOptionPane.showMessageDialog(null, "Exit To The Previous Page...", "Exit", JOptionPane.ERROR_MESSAGE);
+            confirmation =  false;
         }
-    }
-    
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == uploadRoundedButton){
-            performedAction(1,"upload new image to this food");
-        }else if(e.getSource() == deleteRoundedButton){
-            performedAction(2,"delete this food from the store");
-        }else if(e.getSource() == saveRoundedButton){
-            performedAction(3,"change this food details");
-        }
+        return confirmation;
     }
     
     /**
@@ -224,6 +304,9 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         priceLabel = new javax.swing.JLabel();
         quantityLabel = new javax.swing.JLabel();
         foodIdLabel = new javax.swing.JLabel();
+        descriptionLabel1 = new javax.swing.JLabel();
+        foodTypeTextField = new javax.swing.JTextField();
+        foodTypeLabel = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -257,12 +340,7 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         uploadRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
         uploadRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
         uploadRoundedButton.setRadius(15);
-        uploadRoundedButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uploadRoundedButtonActionPerformed(evt);
-            }
-        });
-        roundedPanel.add(uploadRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 190, 30));
+        roundedPanel.add(uploadRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 380, 190, 30));
 
         saveRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
         saveRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
@@ -276,11 +354,6 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         saveRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
         saveRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
         saveRoundedButton.setRadius(20);
-        saveRoundedButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveRoundedButtonActionPerformed(evt);
-            }
-        });
         roundedPanel.add(saveRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 440, 90, 50));
         roundedPanel.add(priceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 660, 30));
         roundedPanel.add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 660, 30));
@@ -297,7 +370,7 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         imageLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         imageLabel.setForeground(new java.awt.Color(40, 40, 56));
         imageLabel.setText("Image:");
-        roundedPanel.add(imageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 110, 30));
+        roundedPanel.add(imageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, 60, 30));
 
         foodNameLabel2.setBackground(new java.awt.Color(40, 40, 56));
         foodNameLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -309,7 +382,7 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         foodNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         foodNameLabel.setForeground(new java.awt.Color(40, 40, 56));
         foodNameLabel.setText("Food Name: Fried Rice");
-        roundedPanel.add(foodNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, 360, 30));
+        roundedPanel.add(foodNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 360, 30));
 
         backRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
         backRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
@@ -323,11 +396,6 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         backRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
         backRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
         backRoundedButton.setRadius(20);
-        backRoundedButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backRoundedButtonActionPerformed(evt);
-            }
-        });
         roundedPanel.add(backRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 90, 50));
 
         deleteRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
@@ -342,11 +410,6 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         deleteRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
         deleteRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
         deleteRoundedButton.setRadius(20);
-        deleteRoundedButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteRoundedButtonActionPerformed(evt);
-            }
-        });
         roundedPanel.add(deleteRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 90, 50));
 
         descriptionLabel.setBackground(new java.awt.Color(40, 40, 56));
@@ -359,25 +422,38 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(140, 75, 242));
         titleLabel.setText("Current Data");
-        roundedPanel.add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 360, 20));
+        roundedPanel.add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 360, 20));
 
         priceLabel.setBackground(new java.awt.Color(40, 40, 56));
         priceLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         priceLabel.setForeground(new java.awt.Color(40, 40, 56));
         priceLabel.setText("Price: RM20.00");
-        roundedPanel.add(priceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, 360, 30));
+        roundedPanel.add(priceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 360, 30));
 
         quantityLabel.setBackground(new java.awt.Color(40, 40, 56));
         quantityLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         quantityLabel.setForeground(new java.awt.Color(40, 40, 56));
         quantityLabel.setText("Quantity: 5");
-        roundedPanel.add(quantityLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 360, 30));
+        roundedPanel.add(quantityLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 360, 30));
 
         foodIdLabel.setBackground(new java.awt.Color(40, 40, 56));
         foodIdLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         foodIdLabel.setForeground(new java.awt.Color(40, 40, 56));
         foodIdLabel.setText("Food ID: F1");
-        roundedPanel.add(foodIdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 60, 360, 30));
+        roundedPanel.add(foodIdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 360, 30));
+
+        descriptionLabel1.setBackground(new java.awt.Color(40, 40, 56));
+        descriptionLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        descriptionLabel1.setForeground(new java.awt.Color(40, 40, 56));
+        descriptionLabel1.setText("Food Type:");
+        roundedPanel.add(descriptionLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 110, 30));
+        roundedPanel.add(foodTypeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 280, 30));
+
+        foodTypeLabel.setBackground(new java.awt.Color(40, 40, 56));
+        foodTypeLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        foodTypeLabel.setForeground(new java.awt.Color(40, 40, 56));
+        foodTypeLabel.setText("Food Type: Rice");
+        roundedPanel.add(foodTypeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 360, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -391,31 +467,18 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void uploadRoundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadRoundedButtonActionPerformed
-        actionPerformed(evt);
-    }//GEN-LAST:event_uploadRoundedButtonActionPerformed
-
-    private void saveRoundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveRoundedButtonActionPerformed
-        actionPerformed(evt);
-    }//GEN-LAST:event_saveRoundedButtonActionPerformed
-
-    private void backRoundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backRoundedButtonActionPerformed
-        
-    }//GEN-LAST:event_backRoundedButtonActionPerformed
-
-    private void deleteRoundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRoundedButtonActionPerformed
-        actionPerformed(evt);
-    }//GEN-LAST:event_deleteRoundedButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.RoundedButton backRoundedButton;
     private method.RoundedButton deleteRoundedButton;
     private javax.swing.JLabel descriptionLabel;
+    private javax.swing.JLabel descriptionLabel1;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JLabel foodIdLabel;
     private javax.swing.JLabel foodNameLabel;
     private javax.swing.JLabel foodNameLabel2;
+    private javax.swing.JLabel foodTypeLabel;
+    private javax.swing.JTextField foodTypeTextField;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel imageLabel2;
     private javax.swing.JTextField nameTextField;

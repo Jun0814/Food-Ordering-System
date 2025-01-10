@@ -18,33 +18,16 @@ import java.util.Base64;
 public class ImageHandler {
     
     public ImageHandler() {}
-    
-    // Save image as base64 to a text file - UNFIHSIED - DONT USED
-    public void saveImage(BufferedImage image, String filePath) {
-        try {
-            // Convert BufferedImage to byte array
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(image, "png", byteArrayOutputStream);
-            byte[] imageBytes = byteArrayOutputStream.toByteArray();
-
-            // Encode byte array to base64 string
-            String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
-
-            // Write base64 string to text file
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-                writer.write(encodedImage);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
+        
     // Load image out by path
     public static BufferedImage loadImage(String imagepath) {
         BufferedImage loadedImage = null;
         try {
+            if(imagepath == null){
+                imagepath = "src/main/java/image_repository/default-food.png";
+            }
             File imageFile = new File(imagepath);
-            loadedImage = ImageIO.read(imageFile);            
+            loadedImage = ImageIO.read(imageFile);
         } catch (IOException e) {
             System.err.println("Error loading image: " + imagepath);
             e.printStackTrace();
