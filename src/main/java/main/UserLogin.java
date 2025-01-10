@@ -179,33 +179,6 @@ public class UserLogin extends javax.swing.JFrame {
         }
     }
     
-    public void validationCustomer(){
-        if (clickCount < 3){
-            String email = usernameTextField.getText();
-            String password = passwordTextField.getText();
-            customer_backend backend = new customer_backend();
-            String customerID = backend.validateCredentials(email, password);
-            if (customerID != null) {
-                JOptionPane.showMessageDialog(null,"Login Successfully!");
-                Home homepage = new Home(customerID);
-                homepage.run();
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
-            }
-            clickCount ++;
-        }else{
-            try {
-                JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
-                Thread.sleep(40000);
-                clickCount = 0;
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-    
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton){
             MainMenu main = new MainMenu();

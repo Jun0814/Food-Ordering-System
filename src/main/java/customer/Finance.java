@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import managefile.Customer;
 import managefile.Transaction;
@@ -51,7 +53,8 @@ public class Finance extends javax.swing.JFrame {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        for (Transaction transaction : transactions) {
+        for (int i = transactions.size()-1; i >= 0; i--) {
+            Transaction transaction = transactions.get(i);
             JPanel panel = addTransactionPanel(transaction);
             transactionPanel.add(panel, gbc);
             gbc.gridx++;
@@ -64,29 +67,67 @@ public class Finance extends javax.swing.JFrame {
         containerPanel.add(transactionPanel, BorderLayout.NORTH);
         
         JScrollPane scrollPane = new JScrollPane(containerPanel);
-        scrollPane.setPreferredSize(new Dimension(996,250));
+        scrollPane.setPreferredSize(new Dimension(996,385));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+        scrollPane.setBorder(null);
         jPanel4.setLayout(new BorderLayout());
         jPanel4.add(scrollPane, BorderLayout.CENTER);
     }
     private JPanel addTransactionPanel(Transaction transaction){
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.fill = GridBagConstraints.NONE;
+        Home homepage = new Home(customerID);
+        // Create main rounded panel
+        method.RoundedPanel panel = new method.RoundedPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(975, 100));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15)); // Add some padding
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panel.setBackground(new Color(255, 255, 204));
-        panel.setPreferredSize(new Dimension(950, 140));
+        // Create header panel (Order ID and Date)
+        JPanel headerPanel = new JPanel(new BorderLayout(20, 0)); // Add gap between components
+        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15)); // Add bottom margin
+
+        String transactionType = transaction.getTransactionType().toUpperCase();
+        String transactionTypeDetails = null;
+        switch (transactionType) {
+            case "CREDIT" -> {
+                transactionTypeDetails = "Admin ID: "+ transaction.getGeneralID();
+            }
+            case "DEBIT" -> {
+                transactionTypeDetails = "Order ID: "+ transaction.getGeneralID();
+            }
+        }
+        String title = String.format("<html><div style='text-align: left;'>" +
+                           "<span style='font-size: 12px;'>%s</span><br>" +
+                           "<span style='color: #666666; font-size: 10px;'>%s</span></div></html>", 
+                           "Transaction #" + transaction.getTransactionID(), transactionTypeDetails);
         
-        JLabel transactionid = new JLabel(transaction.getTransactionID());
-        transactionid.setFont(new Font("Segoe UI", Font.BOLD, 18));  
+        JLabel orderIdLabel = homepage.createStyledLabel(title, 18, true);
+        JLabel dateLabel = homepage.createStyledLabel(homepage.formatDateTime(transaction.getDatetime()), 12, false);
+        headerPanel.add(orderIdLabel, BorderLayout.WEST);
+        headerPanel.add(dateLabel, BorderLayout.EAST);
+
+        // Create bottom panel (Status and Total)
+        JPanel bottomPanel = new JPanel(new BorderLayout(20, 0)); // Add gap between components
+        bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(30, 15, 5, 15)); // Add top margin
+
+        // Create total amount label
+        JLabel totalLabel = new JLabel("Total Amount: RM " + String.format("%.2f", Double.parseDouble(transaction.getAmount())));
+        totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        totalLabel.setForeground(new Color(51, 51, 51));
+
+        // Add components to bottom panel
+        bottomPanel.add(homepage.createStatusPanel(transactionType), BorderLayout.EAST);
+        bottomPanel.add(totalLabel, BorderLayout.WEST);
+
+        // Add all sections to main panel
+        panel.add(headerPanel, BorderLayout.NORTH);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
         
-        JLabel datetime = new JLabel(transaction.getDatetime());
-        datetime.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        
-        panel.add(transactionid);
-        panel.add(datetime);
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -96,7 +137,7 @@ public class Finance extends javax.swing.JFrame {
                 SwingUtilities.getWindowAncestor(panel).dispose();
             }
         });
-        
+
         return panel;
     }
 
@@ -116,11 +157,11 @@ public class Finance extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        topButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        dashButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,10 +209,10 @@ public class Finance extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("RM 100000.00");
 
-        jButton1.setText("Top Up");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        topButton.setText("Top Up");
+        topButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                topButtonActionPerformed(evt);
             }
         });
 
@@ -185,7 +226,7 @@ public class Finance extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(topButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
         jPanel2Layout.setVerticalGroup(
@@ -199,14 +240,12 @@ public class Finance extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(topButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19))))
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setText("Transaction History");
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -216,10 +255,15 @@ public class Finance extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 401, Short.MAX_VALUE)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
 
-        jButton2.setText("Dashboard");
+        dashButton.setText("Dashboard");
+        dashButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -229,7 +273,7 @@ public class Finance extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dashButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -242,7 +286,7 @@ public class Finance extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dashButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -263,7 +307,8 @@ public class Finance extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -276,9 +321,16 @@ public class Finance extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void topButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_topButtonActionPerformed
+
+    private void dashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButtonActionPerformed
+        // TODO add your handling code here:
+        FinanceDash finDash = new FinanceDash(customerID);
+        finDash.run();
+        this.dispose();
+    }//GEN-LAST:event_dashButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,8 +341,7 @@ public class Finance extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back_button;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton dashButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -300,5 +351,6 @@ public class Finance extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton topButton;
     // End of variables declaration//GEN-END:variables
 }

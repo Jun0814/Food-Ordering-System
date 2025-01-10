@@ -12,15 +12,13 @@ public class Notification {
     private String notificationID;
     private String description;
     private String datetime;
-    private String recipientID;
-    private String senderID;
+    private String userID;
 
-    public Notification(String notificationID, String description, String datetime, String recipientID, String senderID) {
+    public Notification(String notificationID, String description, String datetime, String userID) {
         this.notificationID = notificationID;
         this.description = description;
         this.datetime = datetime;
-        this.recipientID = recipientID;
-        this.senderID = senderID;
+        this.userID = userID;
     }
 
     public String getNotificationID() {
@@ -47,20 +45,13 @@ public class Notification {
         this.datetime = datetime;
     }
 
-    public String getRecipientID() {
-        return recipientID;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setRecipientID(String recipientID) {
-        this.recipientID = recipientID;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
-
-    public String getSenderID() {
-        return senderID;
-    }
-
-    public void setSenderID(String senderID) {
-        this.senderID = senderID;
-    }
+    
     
 }

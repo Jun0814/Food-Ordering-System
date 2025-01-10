@@ -8,13 +8,17 @@ package managefile;
  *
  * @author USER
  */
-public class Review {
+public class DeliveryReview {
     private String reviewID;
+    private String deliveryID;
+    private String runnerID;
     private String rating;
     private String comments;
 
-    public Review(String reviewID, String rating, String comments) {
+    public DeliveryReview(String reviewID, String deliveryID, String runnerID, String rating, String comments) {
         this.reviewID = reviewID;
+        this.deliveryID = deliveryID;
+        this.runnerID = runnerID;
         this.rating = rating;
         this.comments = comments;
     }
@@ -25,6 +29,22 @@ public class Review {
 
     public void setReviewID(String reviewID) {
         this.reviewID = reviewID;
+    }
+
+    public String getDeliveryID() {
+        return deliveryID;
+    }
+
+    public void setDeliveryID(String deliveryID) {
+        this.deliveryID = deliveryID;
+    }
+
+    public String getRunnerID() {
+        return runnerID;
+    }
+
+    public void setRunnerID(String runnerID) {
+        this.runnerID = runnerID;
     }
 
     public String getRating() {

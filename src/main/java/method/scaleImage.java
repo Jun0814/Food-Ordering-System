@@ -29,4 +29,14 @@ public class scaleImage {
             return false;
         }
     }
+    
+    public int maxMonth(int[] arrs){
+        int max = arrs[0];
+        for (int arr : arrs) {
+            if (arr > max) {
+                max = arr;
+            }
+        }
+        return max;
+    }
 }

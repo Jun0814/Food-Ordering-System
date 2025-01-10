@@ -10,14 +10,16 @@ package managefile;
  */
 public class Delivery {
     private String deliveryID;
+    private String deliveryReviewID;
     private String orderID;
     private String runnerID;
     private String description;
     private String datetime;
     private String status;
 
-    public Delivery(String deliveryID, String orderID, String runnerID, String description, String datetime, String status) {
+    public Delivery(String deliveryID, String deliveryReviewID, String orderID, String runnerID, String description, String datetime, String status) {
         this.deliveryID = deliveryID;
+        this.deliveryReviewID = deliveryReviewID;
         this.orderID = orderID;
         this.runnerID = runnerID;
         this.description = description;
@@ -31,6 +33,14 @@ public class Delivery {
 
     public void setDeliveryID(String deliveryID) {
         this.deliveryID = deliveryID;
+    }
+
+    public String getDeliveryReviewID() {
+        return deliveryReviewID;
+    }
+
+    public void setDeliveryReviewID(String deliveryReviewID) {
+        this.deliveryReviewID = deliveryReviewID;
     }
 
     public String getOrderID() {
@@ -72,5 +82,6 @@ public class Delivery {
     public void setStatus(String status) {
         this.status = status;
     }
+    
     
 }

@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import managefile.Vendor;
 
@@ -71,6 +72,10 @@ public class Menu extends javax.swing.JFrame {
         
         JScrollPane scrollPane = new JScrollPane(vendorPanel);
         scrollPane.setPreferredSize(new Dimension(1200,470));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
         jPanel2.setLayout(new BorderLayout());
         jPanel2.add(scrollPane, BorderLayout.CENTER);
     }

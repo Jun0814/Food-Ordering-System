@@ -11,15 +11,22 @@ package managefile;
 public class Order {
     private String orderID;
     private String customerID;
+    private String deliveryID;
+    private String vendorID;
+    private String orderReviewID;
     private String orderType;
     private String orderTypeDetails;
     private String datetime;
     private String totalAmount;
     private String status;
+    private String orderFile = "src\\main\\java\\repository\\order.txt";
 
-    public Order(String orderID, String customerID, String orderType, String orderTypeDetails, String datetime, String totalAmount, String status) {
+    public Order(String orderID, String customerID, String deliveryID, String vendorID, String orderReviewID, String orderType, String orderTypeDetails, String datetime, String totalAmount, String status) {
         this.orderID = orderID;
         this.customerID = customerID;
+        this.deliveryID = deliveryID;
+        this.vendorID = vendorID;
+        this.orderReviewID = orderReviewID;
         this.orderType = orderType;
         this.orderTypeDetails = orderTypeDetails;
         this.datetime = datetime;
@@ -41,6 +48,30 @@ public class Order {
 
     public void setCustomerID(String customerID) {
         this.customerID = customerID;
+    }
+
+    public String getDeliveryID() {
+        return deliveryID;
+    }
+
+    public void setDeliveryID(String deliveryID) {
+        this.deliveryID = deliveryID;
+    }
+
+    public String getVendorID() {
+        return vendorID;
+    }
+
+    public void setVendorID(String vendorID) {
+        this.vendorID = vendorID;
+    }
+
+    public String getOrderReviewID() {
+        return orderReviewID;
+    }
+
+    public void setOrderReviewID(String orderReviewID) {
+        this.orderReviewID = orderReviewID;
     }
 
     public String getOrderType() {
@@ -83,8 +114,13 @@ public class Order {
         this.status = status;
     }
 
-    
-    
+    public String getOrderFile() {
+        return orderFile;
+    }
+
+    public void setOrderFile(String orderFile) {
+        this.orderFile = orderFile;
+    }
     
     
 }

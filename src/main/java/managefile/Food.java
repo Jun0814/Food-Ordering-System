@@ -11,17 +11,17 @@ package managefile;
 public class Food {
     private String id;
     private String name;
-    private String quantity;
+    private String status;
     private String description;
     private String price;
     private String imagepath;
     private String category;
     private String vendorid;
 
-    public Food(String id, String name, String quantity, String description, String price, String imagepath, String category, String vendorid) {
+    public Food(String id, String name, String status, String description, String price, String imagepath, String category, String vendorid) {
         this.id = id;
         this.name = name;
-        this.quantity = quantity;
+        this.status = status;
         this.description = description;
         this.price = price;
         this.imagepath = imagepath;
@@ -45,12 +45,12 @@ public class Food {
         this.name = name;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getStatus() {
+        return status;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {
