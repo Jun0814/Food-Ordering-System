@@ -5,7 +5,9 @@
 package vendor;
 
 import java.awt.Color;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import method.RoundedButton;
 
 /**
  *
@@ -13,7 +15,7 @@ import javax.swing.JPanel;
  */
 public class FoodBlock extends JPanel {
 
-    public String foodId, foodName, priceTag, imagePath;
+    public String foodId, foodName, priceTag, buttonText;
     public Color edgeColor, backgroundColor, themeColor;
     
     /**
@@ -21,15 +23,8 @@ public class FoodBlock extends JPanel {
      */
     public FoodBlock() {
         initComponents();
-        foodNameLabel.setText(foodName != null ? foodName : "Default Food");
-        priceLabel.setText(priceTag != null ? priceTag : "RM0.00");
-        this.setBackground(edgeColor != null ? edgeColor : Color.BLACK);
-        roundedPanel.setBackground(backgroundColor != null ? backgroundColor : Color.WHITE);
-        foodNameLabel.setForeground(themeColor != null ? themeColor : Color.BLACK);
-        roundedButton.setColor(themeColor != null ? themeColor : Color.BLUE);
-        roundedButton.setBorderColor(backgroundColor != null ? backgroundColor : Color.WHITE);
     }
-
+    
     public String getFoodId() {
         return foodId;
     }
@@ -44,6 +39,9 @@ public class FoodBlock extends JPanel {
     
     public void setFoodName(String foodName) {
         this.foodName = foodName;
+        if (foodNameLabel != null) { 
+            foodNameLabel.setText(foodName != null ? foodName : "Unnamed");
+        }
     }
     
     public String getPriceTag() {
@@ -52,14 +50,20 @@ public class FoodBlock extends JPanel {
     
     public void setPriceTag(String priceTag) {
         this.priceTag = priceTag;
+        if (priceTag != null) { 
+            priceLabel.setText(priceTag != null ? priceTag : "RM 0.00");
+        }
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getButtonText() {
+        return buttonText;
     }
-    
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
+        if(roundedButton.getText() == "XXX"){
+            roundedButton.setText(buttonText != null ? buttonText : "Edit");
+        }
     }
 
     public Color getEdgeColor() {
@@ -68,6 +72,9 @@ public class FoodBlock extends JPanel {
 
     public void setEdgeColor(Color edgeColor) {
         this.edgeColor = edgeColor;
+        if (roundedPanel.getBackground() != null) {
+            roundedPanel.setBackground(edgeColor != null ? edgeColor : Color.WHITE);
+        }
     }
 
     public Color getBackgroundColor() {
@@ -76,6 +83,9 @@ public class FoodBlock extends JPanel {
 
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
+        if(roundedPanel.getBackgroundColor() != new Color(248,248,248)){
+            roundedPanel.setBackgroundColor(backgroundColor != null ? backgroundColor : Color.WHITE);
+        }
     }
 
     public Color getThemeColor() {
@@ -84,6 +94,19 @@ public class FoodBlock extends JPanel {
 
     public void setThemeColor(Color themeColor) {
         this.themeColor = themeColor;
+        if (priceLabel != null && roundedButton != null) {
+            priceLabel.setForeground(themeColor != null ? themeColor : Color.BLACK);
+            roundedButton.setColor(themeColor != null ? themeColor : Color.BLUE);
+            roundedButton.setBorderColor(backgroundColor != null ? backgroundColor : Color.WHITE);
+        }
+    }
+    
+    public RoundedButton getButton(){
+        return roundedButton;
+    }
+    
+    public JLabel getLabel(){
+        return ImageLabel;
     }
     
     /**
@@ -104,32 +127,36 @@ public class FoodBlock extends JPanel {
         setMinimumSize(new java.awt.Dimension(240, 200));
         setPreferredSize(new java.awt.Dimension(240, 200));
 
+        roundedPanel.setMinimumSize(new java.awt.Dimension(231, 182));
         roundedPanel.setPreferredSize(new java.awt.Dimension(240, 200));
+        roundedPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ImageLabel.setForeground(new java.awt.Color(40, 40, 56));
         ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ImageLabel.setText("Image");
         ImageLabel.setMaximumSize(new java.awt.Dimension(1438, 1125));
         ImageLabel.setPreferredSize(new java.awt.Dimension(240, 200));
+        roundedPanel.add(ImageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 108));
 
         foodNameLabel.setBackground(new java.awt.Color(40, 40, 56));
         foodNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         foodNameLabel.setForeground(new java.awt.Color(40, 40, 56));
         foodNameLabel.setText("Food Name");
+        roundedPanel.add(foodNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 151, -1));
 
         priceLabel.setBackground(new java.awt.Color(40, 40, 56));
         priceLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         priceLabel.setForeground(new java.awt.Color(140, 75, 242));
         priceLabel.setText("RM17.00");
+        roundedPanel.add(priceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 151, -1));
 
         roundedButton.setBackground(new java.awt.Color(140, 75, 242));
         roundedButton.setForeground(new java.awt.Color(248, 248, 248));
-        roundedButton.setText("+");
+        roundedButton.setText("XXX");
         roundedButton.setBorderColor(new java.awt.Color(248, 248, 248));
         roundedButton.setColor(new java.awt.Color(140, 75, 242));
-        roundedButton.setColorClick(new java.awt.Color(0, 0, 200));
-        roundedButton.setColorOver(new java.awt.Color(40, 0, 200));
-        roundedButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        roundedButton.setColorClick(new java.awt.Color(50, 255, 130));
+        roundedButton.setColorOver(new java.awt.Color(50, 255, 100));
+        roundedButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         roundedButton.setFontColor(new java.awt.Color(248, 248, 248));
         roundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
         roundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
@@ -139,36 +166,7 @@ public class FoodBlock extends JPanel {
                 roundedButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout roundedPanelLayout = new javax.swing.GroupLayout(roundedPanel);
-        roundedPanel.setLayout(roundedPanelLayout);
-        roundedPanelLayout.setHorizontalGroup(
-            roundedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(roundedPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(roundedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(foodNameLabel)
-                    .addComponent(priceLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(roundedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
-        );
-        roundedPanelLayout.setVerticalGroup(
-            roundedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanelLayout.createSequentialGroup()
-                .addComponent(ImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(roundedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roundedPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(foodNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(priceLabel))
-                    .addGroup(roundedPanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(roundedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        roundedPanel.add(roundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 131, 70, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -178,12 +176,12 @@ public class FoodBlock extends JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+            .addComponent(roundedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void roundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButtonActionPerformed
-        // TODO add your handling code here:
+        // actionPerformed(evt);
     }//GEN-LAST:event_roundedButtonActionPerformed
 
 

@@ -5,10 +5,13 @@
 package vendor;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 import managefile.Data;
 import managefile.Vendor;
+import method.ImageHandler;
 import method.scaleImage;
 
 /**
@@ -21,6 +24,7 @@ public class VendorHome extends javax.swing.JPanel {
     Data data = new Data();
     Vendor vendor = new Vendor();
     scaleImage scaleImage = new scaleImage();
+    ImageHandler imageHandler = new ImageHandler();
     
     /**
      * Creates new form VendorStore
@@ -49,14 +53,20 @@ public class VendorHome extends javax.swing.JPanel {
         String email = "Email: " + data.retrieveData(userId, 2, vendor.getFilepath());
         emailLabel.setText(email);
         
-        String phone = "Phone: " +data.retrieveData(userId, 3, vendor.getFilepath());
+        String phone = "Phone: " + data.retrieveData(userId, 3, vendor.getFilepath());
         phoneLabel.setText(phone);
+        
+        vendorImageLabel.setBounds(0, 0, 300, 300);
+        String imagePath = data.retrieveData(userId, 7, vendor.getFilepath());
+        BufferedImage loadedImage = imageHandler.loadImage(imagePath);
+        imageHandler.displayImageOnLabel(loadedImage, vendorImageLabel);
                        
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 int newWidth = getWidth();
                 int newHeight = getHeight();
+                
                 bgLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\sushi-background-1.png", newWidth, newHeight));
                 bgLabel.setBounds(0, 0, newWidth, newHeight);
                 jLayeredPane1.setBounds(0, 0, newWidth, newHeight);
@@ -80,7 +90,6 @@ public class VendorHome extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         bgLabel = new javax.swing.JLabel();
@@ -105,92 +114,46 @@ public class VendorHome extends javax.swing.JPanel {
         contentPanel.setLayout(new java.awt.BorderLayout());
 
         leftPanel.setMinimumSize(new java.awt.Dimension(300, 445));
-        leftPanel.setPreferredSize(new java.awt.Dimension(500, 800));
-        leftPanel.setLayout(new java.awt.GridBagLayout());
+        leftPanel.setPreferredSize(new java.awt.Dimension(600, 800));
+        leftPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         stallLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         stallLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stallLabel.setText("Stall Name");
         stallLabel.setAlignmentX(0.5F);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 163;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(202, 95, 0, 0);
-        leftPanel.add(stallLabel, gridBagConstraints);
+        leftPanel.add(stallLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 284, -1));
 
         vendorImageLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         vendorImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        vendorImageLabel.setText("Image");
         vendorImageLabel.setToolTipText("");
         vendorImageLabel.setAlignmentX(0.5F);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 215;
-        gridBagConstraints.ipady = 177;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 95, 0, 0);
-        leftPanel.add(vendorImageLabel, gridBagConstraints);
+        leftPanel.add(vendorImageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 169, 360, 300));
 
-        phoneLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        phoneLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         phoneLabel.setText("Phone");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.ipadx = 248;
-        gridBagConstraints.ipady = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 95, 209, 0);
-        leftPanel.add(phoneLabel, gridBagConstraints);
+        leftPanel.add(phoneLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 590, 360, 40));
 
-        ownerLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ownerLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         ownerLabel.setText("Owner");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.ipadx = 247;
-        gridBagConstraints.ipady = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 95, 0, 0);
-        leftPanel.add(ownerLabel, gridBagConstraints);
+        leftPanel.add(ownerLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 510, 360, 40));
 
-        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         emailLabel.setText("Email");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 253;
-        gridBagConstraints.ipady = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 95, 0, 0);
-        leftPanel.add(emailLabel, gridBagConstraints);
+        leftPanel.add(emailLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 550, 360, 40));
 
-        IdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        IdLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         IdLabel.setText("Vendor ID");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.ipadx = 227;
-        gridBagConstraints.ipady = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 95, 0, 111);
-        leftPanel.add(IdLabel, gridBagConstraints);
+        leftPanel.add(IdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 470, 360, 40));
 
-        contentPanel.add(leftPanel, java.awt.BorderLayout.LINE_START);
+        contentPanel.add(leftPanel, java.awt.BorderLayout.CENTER);
 
-        rightPanel.setPreferredSize(new java.awt.Dimension(500, 800));
+        rightPanel.setPreferredSize(new java.awt.Dimension(400, 800));
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

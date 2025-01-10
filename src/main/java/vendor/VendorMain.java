@@ -63,11 +63,9 @@ public class VendorMain extends javax.swing.JFrame {
             switchToPanel(new VendorReview());
         }else if(e.getSource() == revenueButton){
             switchToPanel(new VendorRevenue());
-        }else{
-            System.out.println("Invalid Button");
         }
     }
-   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
