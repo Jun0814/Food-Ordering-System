@@ -5,6 +5,7 @@
 package vendor;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,16 +30,16 @@ public class VendorMain extends javax.swing.JFrame {
         this.userId = userId;
         switchToPanel(new VendorHome(userId));
         this.setTitle("Vendor");
-        this.setSize(1280, 800);
+        this.setSize(new Dimension(1280, 800));
         this.setResizable(false);
         this.setLocationRelativeTo(null); 
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
     }
         
     protected void switchToPanel(javax.swing.JPanel targetPanel) {        
-        if (contentPanel != null) { this.getContentPane().remove(contentPanel); }
+        if (contentPanel != null) { this.remove(contentPanel); }
         contentPanel = targetPanel;
-        this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+        this.add(contentPanel, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
         
