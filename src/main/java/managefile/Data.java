@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -238,6 +239,24 @@ public class Data {
         } catch (NumberFormatException ex) {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }
+    }
+    
+    public static List<String[]> readRolesFromFile(String filePath){
+        List<String[]> roles = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.startsWith("ID") && !line.isEmpty()) { // Skip the header
+                    roles.add(line.split(","));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return roles;
     }
     
     

@@ -12,7 +12,7 @@ public class Vendor extends GeneralRole {
     private String stallName;
     private String stallType;
     private String imagePath;
-    private String filepath = "\\src\\main\\java\\repository\\vendor.txt";
+    private String filepath = "src\\main\\java\\repository\\vendor.txt";
     
     public Vendor(){}
     

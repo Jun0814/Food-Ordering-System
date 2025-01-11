@@ -1,1 +1,5 @@
-
+OrderId,CustomerId,ReviewId,OrderType,OrderTypeDetails,DateTime,TotalAmount,Status
+OR1,C1,R1,Delivery,I dunno what to put bruh,2024-12-12 05:00,53,Done
+OR2,C2,R2,Delivery,I dunno what to put bruh,2024-12-30 05:00,250,Done
+OR3,C3,R3,Delivery,I dunno what to put bruh,2025-01-05 10:00,100,Done
+OR4,C4,R4,Delivery,I dunno what to put bruh,2025-06-15 14:00,300,Done
