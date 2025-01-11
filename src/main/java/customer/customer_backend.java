@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import managefile.Customer;
 import managefile.Vendor;
 import managefile.readFile;
@@ -51,6 +52,25 @@ public class customer_backend{
         }
         return null;
     }
+    public void updateCredit(String customerid,double totalPrice) throws IOException{
+        List<Customer> customers = read.readCustomerAccount(customerFile);
+        for (Customer customer : customers) {
+            if (customer.getId().equals(customerid)){
+                customer.setCredit(customer.getCredit()-totalPrice);
+            }
+        }
+        List<String> newCustomers = new ArrayList<>();
+        for (managefile.Customer customer : customers) {
+            newCustomers.add(customer.getId());
+            newCustomers.add(customer.getName());
+            newCustomers.add(customer.getEmail());
+            newCustomers.add(customer.getPhone());
+            newCustomers.add(customer.getPassword());
+            newCustomers.add(String.valueOf(customer.getCredit()));
+        }
+        write.updateCustomer(newCustomers, customerFile);
+    }
+    
     public String validateCredentials(String email, String password) {
         List<Customer> customers = read.readCustomerAccount(customerFile);
         for (Customer customer : customers) {
@@ -85,7 +105,7 @@ public class customer_backend{
         return result;
     }
     
-    public Map<Object, Object> getCart(String customerID){
+    public Map<Object, Object> getCart(String customerID) throws IOException{
         List<managefile.Cart> carts = read.readCart(cartFile);
         List<managefile.Food> foods = read.readFood(foodFile);
         List<managefile.Cart> validCarts = new ArrayList<>();
@@ -107,7 +127,7 @@ public class customer_backend{
         return result;
     }
     
-    public void addCartItems(String customerID,String foodID,String quantitySelection,String remark) throws IOException{
+    public void addCartItems(String customerID,String foodID,String quantitySelection,String vendorid, String remark) throws IOException{
         Map<Object, Object> carts = getCart(customerID);
         List<managefile.Cart> cart = (List<managefile.Cart>) carts.get("carts");
         List cartIDList = new ArrayList();
@@ -136,6 +156,7 @@ public class customer_backend{
             cartItems.add(latestCartID);
             cartItems.add(customerID);
             cartItems.add(foodID);
+            cartItems.add(vendorid);
             cartItems.add(quantitySelection);
             cartItems.add(remark);
             cartItems.add(datetime);
@@ -146,6 +167,7 @@ public class customer_backend{
                 cartItems.add(cart1.getCartID());
                 cartItems.add(cart1.getCustomerID());
                 cartItems.add(cart1.getFoodID());
+                cartItems.add(vendorid);
                 cartItems.add(cart1.getQuantity());
                 cartItems.add(cart1.getRemarks());
                 cartItems.add(cart1.getDatetime());
@@ -168,6 +190,7 @@ public class customer_backend{
             cartItems.add(cart1.getCartID());
             cartItems.add(cart1.getCustomerID());
             cartItems.add(cart1.getFoodID());
+            cartItems.add(cart1.getVendorID());
             cartItems.add(cart1.getQuantity());
             cartItems.add(cart1.getRemarks());
             cartItems.add(cart1.getDatetime());
@@ -185,6 +208,7 @@ public class customer_backend{
                     cartItems.add(cartItem.getCartID());
                     cartItems.add(cartItem.getCustomerID());
                     cartItems.add(cartItem.getFoodID());
+                    cartItems.add(cartItem.getVendorID());
                     cartItems.add(cartItem.getQuantity());
                     cartItems.add(cartItem.getRemarks());
                     cartItems.add(cartItem.getDatetime());
@@ -354,19 +378,17 @@ public class customer_backend{
         Map<Object, Object> carts = getCart(customerID);
         List<managefile.Cart> cart = (List<managefile.Cart>) carts.get("carts");
         List<String> cartItems = new ArrayList<>();
-        if (customerID != null){
-            for (managefile.Cart cartItem : cart) {
-                if (!cartItem.getCustomerID().equals(customerID)) {
-                    cartItems.add(cartItem.getCartID());
-                    cartItems.add(cartItem.getCustomerID());
-                    cartItems.add(cartItem.getFoodID());
-                    cartItems.add(cartItem.getQuantity());
-                    cartItems.add(cartItem.getRemarks());
-                    cartItems.add(cartItem.getDatetime());
-                }
+        for (managefile.Cart cartItem : cart) {
+            if (!cartItem.getCustomerID().equals(customerID)) {
+                cartItems.add(cartItem.getCartID());
+                cartItems.add(cartItem.getCustomerID());
+                cartItems.add(cartItem.getFoodID());
+                cartItems.add(cartItem.getQuantity());
+                cartItems.add(cartItem.getRemarks());
+                cartItems.add(cartItem.getDatetime());
             }
-            write.updateCart(cartItems, cartFile);
         }
+        write.updateCart(cartItems, cartFile);
     }
     
     public void sendNotifications(){

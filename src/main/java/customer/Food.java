@@ -12,7 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -25,7 +25,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import managefile.Vendor;
 
 /**
@@ -38,6 +41,8 @@ public class Food extends javax.swing.JFrame{
     private JButton button;
     private String selectedQuantity = "1";
     customer_backend backend = new customer_backend();
+    private String searchQuery="";
+    private JPanel foodPanel;
 
     /**
      * Creates new form Food
@@ -54,11 +59,31 @@ public class Food extends javax.swing.JFrame{
             cart.run();
             this.dispose();
         });
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jLabel7.setText(jTextField1.getText());
+                searchQuery = jTextField1.getText();
+                getVendorFoodDetails();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                jLabel7.setText(jTextField1.getText());
+                searchQuery = jTextField1.getText();
+                getVendorFoodDetails();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                jLabel7.setText(jTextField1.getText());
+                searchQuery = jTextField1.getText();
+                getVendorFoodDetails();
+            }
+        });
     }
     private void getVendorFoodDetails(){
         Map<String, Object> details = backend.getSpecificVendorDetail(vendorID);
-        System.out.println(vendorID);
-        System.out.println(details);
         List<Vendor> vendors = (List<Vendor>) details.get("vendors");
         List<managefile.Food> foods = (List<managefile.Food>) details.get("foods");
         for(Vendor vendor:vendors){
@@ -70,155 +95,191 @@ public class Food extends javax.swing.JFrame{
                 jLabel1.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 50, 50));
                 imageStall.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 257, 230));
             }
-            jLabel1.setText(vendor.getStallName()+"'s Stall - "+vendor.getStallType()); 
+            jLabel1.setText(vendor.getStallName()+"'s Stall - "+vendor.getStallType());
             jLabel1.setHorizontalTextPosition(SwingConstants.LEFT);
             stallName.setText(vendor.getStallName());
             stallType.setText(vendor.getStallType());
             vendorName.setText(vendor.getName());
             phoneNum.setText(vendor.getPhone());
         }
-        JPanel foodPanel = new JPanel(new GridBagLayout());
+        foodPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        
+        String query = searchQuery.trim().toLowerCase();
         for(managefile.Food food:foods){
-            JPanel panel = addFoodPanel(food);
-            foodPanel.setBackground(Color.LIGHT_GRAY);
-            foodPanel.add(panel, gbc);
-            gbc.gridx++;
-            if (gbc.gridx == 1) {
-                gbc.gridx = 0;
-                gbc.gridy++;
+            if (query.isEmpty() || food.getCategory().toLowerCase().contains(query) || food.getName().toLowerCase().contains(query)) {
+                JPanel panel = addFoodPanel(food);
+                foodPanel.setBackground(Color.LIGHT_GRAY);
+                foodPanel.add(panel, gbc);
+                gbc.gridx++;
+                if (gbc.gridx == 1) {
+                    gbc.gridx = 0;
+                    gbc.gridy++;
+                }
             }
         }
         JScrollPane scrollPane = new JScrollPane(foodPanel);
-        scrollPane.setPreferredSize(new Dimension(628,460));
+        scrollPane.setPreferredSize(new Dimension(628,400));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
         jPanel4.setLayout(new BorderLayout());
+        jPanel4.removeAll();
         jPanel4.add(scrollPane, BorderLayout.CENTER);
+        jPanel4.revalidate();
+        jPanel4.repaint();
     }
     
     private JPanel addFoodPanel(managefile.Food food) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
-
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panel.setBackground(new Color(255, 255, 204));
-        panel.setPreferredSize(new Dimension(500, 400));
-
-        JLabel image = new JLabel();
-        File imageFile = new File(food.getImagepath());
-        if (imageFile.exists()) {
-            image.setIcon(backend.scale.processImage(food.getImagepath(), 120, 120));
-        } else {
-            image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 120, 120));
-        }
-        image.setPreferredSize(new Dimension(120, 120));
-        image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        JLabel foodID = new JLabel(food.getId());
-        foodID.setFont(new Font("Segoe UI", Font.BOLD, 18));
-
-        JLabel foodName = new JLabel(food.getName());
-        foodName.setFont(new Font("Segoe UI", Font.BOLD, 20));
-
-        JLabel foodPrice = new JLabel("RM " + food.getPrice());
-        foodPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        foodPrice.setForeground(new Color(0, 153, 0));
-        
-        JLabel quantity = new JLabel("x"+food.getQuantity());
-        quantity.setFont(new Font("Segoe UI", Font.BOLD, 16));
-
-        JTextArea description = new JTextArea(food.getDescription());
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        description.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        description.setEditable(false);
-        description.setOpaque(false);
-        description.setBorder(BorderFactory.createEmptyBorder());
-        JScrollPane descriptionScroll = new JScrollPane(description);
-        descriptionScroll.setPreferredSize(new Dimension(350, 100));
-        descriptionScroll.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-        JComboBox quantitySelection = new JComboBox<>();
-        for (int i = 1; i < 11; i++) {
-            quantitySelection.addItem(String.valueOf(i));
-        }
-        
-        quantitySelection.addActionListener(e->{
-            selectedQuantity = (String) quantitySelection.getSelectedItem();
-        });
-        
-        button = new JButton("Add to Cart");
-        button.setBackground(new Color(0, 102, 204));
-        button.setForeground(Color.WHITE);
-        button.setFont(new Font("SansSerif", Font.BOLD, 16));
-        button.setPreferredSize(new Dimension(200, 40));
-        button.addActionListener(e->{
-            String remarks = JOptionPane.showInputDialog(null,"Remarks","Tell me something");
-            try {
-                if (remarks != null) {
-                    addToCart(foodID,remarks);
-                    JOptionPane.showMessageDialog(null, "x"+selectedQuantity+" "+foodName.getText()+" is added into cart!");
-                    quantitySelection.setSelectedItem("1");
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Food.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            Map<Object, Object> carts = backend.getCart(customerID);
+            List<managefile.Cart> cartList = (List<managefile.Cart>) carts.get("carts");
+            List<managefile.Food> foodList = (List<managefile.Food>) carts.get("foods");
+            
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(10, 10, 10, 10);
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.fill = GridBagConstraints.NONE;
+            
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            panel.setBackground(new Color(255, 255, 204));
+            panel.setPreferredSize(new Dimension(500, 420));
+            
+            JLabel image = new JLabel();
+            File imageFile = new File(food.getImagepath());
+            if (imageFile.exists()) {
+                image.setIcon(backend.scale.processImage(food.getImagepath(), 120, 120));
+            } else {
+                image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 120, 120));
             }
-        });
-        
-        //xuanhanchin@gmail.com
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 4;
-        panel.add(foodID, gbc);
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        panel.add(image, gbc);
-
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridy = 2;
-        panel.add(foodName, gbc);
-        
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        panel.add(quantity, gbc);
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.gridx = 3;
-        panel.add(foodPrice, gbc);
-        gbc.gridx = 1;
-
-        gbc.gridy = 3;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(descriptionScroll, gbc);
-
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = 1;
-        gbc.gridy = 4;
-        gbc.gridx = 1;
-        panel.add(quantitySelection, gbc);
-
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.gridy = 4;
-        gbc.gridx = 3;
-        panel.add(button, gbc);
-
-        return panel;
+            image.setPreferredSize(new Dimension(120, 120));
+            image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            
+            JLabel foodID = new JLabel(food.getId());
+            foodID.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            
+            JLabel foodName = new JLabel(food.getName());
+            foodName.setFont(new Font("Segoe UI", Font.BOLD, 20));
+            
+            JLabel foodPrice = new JLabel("RM " + String.format("%.2f", Double.parseDouble(food.getPrice())));
+            foodPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            foodPrice.setForeground(new Color(0, 153, 0));
+            
+            JLabel cate = new JLabel("("+food.getCategory()+")");
+            cate.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            
+            JTextArea description = new JTextArea(food.getDescription());
+            description.setLineWrap(true);
+            description.setWrapStyleWord(true);
+            description.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            description.setEditable(false);
+            description.setOpaque(false);
+            description.setBorder(BorderFactory.createEmptyBorder());
+            JScrollPane descriptionScroll = new JScrollPane(description);
+            descriptionScroll.setPreferredSize(new Dimension(350, 85));
+            descriptionScroll.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            
+            JComboBox quantitySelection = new JComboBox<>();
+            for (int i = 1; i < 11; i++) {
+                quantitySelection.addItem(String.valueOf(i));
+            }
+            
+            quantitySelection.addActionListener(e->{
+                selectedQuantity = (String) quantitySelection.getSelectedItem();
+            });
+            Cart cartpage = new Cart(customerID);
+            button = new JButton("Add to Cart");
+            button.setBackground(new Color(0, 102, 204));
+            button.setForeground(Color.WHITE);
+            button.setFont(new Font("SansSerif", Font.BOLD, 16));
+            button.setPreferredSize(new Dimension(200, 40));
+            button.addActionListener(e->{
+                String remarks = JOptionPane.showInputDialog(null,"Remarks","Tell me something");
+                try {
+                    if (remarks != null) {
+                        boolean sameVendor = true;
+                        for (managefile.Cart cart : cartList) {
+                            if (!cart.getVendorID().equals(food.getVendorid())) {
+                                sameVendor = false;
+                                break;
+                            }
+                        }
+                        if (sameVendor) {
+                            addToCart(food.getId(),food.getVendorid(),remarks);
+                            JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + foodName.getText() + " is added into cart!");
+                        } else {
+                            int selection = JOptionPane.showConfirmDialog(null, "You can't order different vendors in an order!\nDo you want to remove the existing cart?");
+                            if (selection == JOptionPane.YES_OPTION) {
+                                backend.removeCart(customerID);
+                                addToCart(food.getId(),food.getVendorid(),remarks);
+                                JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + foodName.getText() + " is added into cart!");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Failed to add item into cart.", "Error", JOptionPane.WARNING_MESSAGE);
+                                cartpage.run();
+                                this.dispose();
+                            }
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Food.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
+            //xuanhanchin@gmail.com
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 1;
+            gbc.gridheight = 4;
+            panel.add(foodID, gbc);
+            
+            gbc.gridwidth = 1;
+            gbc.gridheight = 1;
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            panel.add(image, gbc);
+            
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.gridy = 2;
+            panel.add(foodName, gbc);
+            
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.gridx = 2;
+            gbc.gridy = 2;
+            panel.add(cate, gbc);
+            gbc.anchor = GridBagConstraints.EAST;
+            gbc.gridx = 3;
+            panel.add(foodPrice, gbc);
+            gbc.gridx = 1;
+            
+            gbc.gridy = 3;
+            gbc.gridwidth = 3;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            panel.add(descriptionScroll, gbc);
+            
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.gridwidth = 1;
+            gbc.gridy = 4;
+            gbc.gridx = 1;
+            panel.add(quantitySelection, gbc);
+            
+            gbc.anchor = GridBagConstraints.EAST;
+            gbc.gridy = 4;
+            gbc.gridx = 3;
+            panel.add(button, gbc);
+            
+            return panel;
+        } catch (IOException ex) {
+            Logger.getLogger(Food.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
-    private void addToCart(JLabel food, String remark) throws IOException {
-        backend.addCartItems(customerID, food.getText(), selectedQuantity, remark);
+    private void addToCart(String foodid,String vendorid,String remark) throws IOException {
+        backend.addCartItems(customerID, foodid, selectedQuantity,vendorid, remark);
     }
 
 
@@ -246,10 +307,13 @@ public class Food extends javax.swing.JFrame{
         vendorName = new javax.swing.JLabel();
         phoneNum = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(1025, 569));
 
         jPanel1.setBackground(new java.awt.Color(39, 40, 56));
 
@@ -368,7 +432,7 @@ public class Food extends javax.swing.JFrame{
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(phoneNum))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -381,7 +445,44 @@ public class Food extends javax.swing.JFrame{
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Query:");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -391,8 +492,9 @@ public class Food extends javax.swing.JFrame{
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,8 +502,11 @@ public class Food extends javax.swing.JFrame{
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, 0))
         );
 
@@ -419,6 +524,10 @@ public class Food extends javax.swing.JFrame{
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     public void run() {
         new Food(customerID,vendorID).setVisible(true);
     }
@@ -429,12 +538,16 @@ public class Food extends javax.swing.JFrame{
     private javax.swing.JLabel imageStall;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel phoneNum;
     private javax.swing.JLabel stallName;
     private javax.swing.JLabel stallType;

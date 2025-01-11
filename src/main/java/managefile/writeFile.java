@@ -33,13 +33,29 @@ public class writeFile {
     public void updateCart(List<String> cartList,String filepath) throws IOException{
         FileWriter fw = new FileWriter(filepath);
         try (BufferedWriter bw = new BufferedWriter(fw)) {
-            for (int i=0;i< cartList.size();i+=6){
+            for (int i=0;i< cartList.size();i+=7){
                 bw.write(cartList.get(i)+",");
                 bw.write(cartList.get(i+1)+",");
                 bw.write(cartList.get(i+2)+",");
-                bw.write(cartList.get(i+3)+",");
-                bw.write(cartList.get(i+4)+",");
-                bw.write(cartList.get(i+5)+"\n");
+                bw.write(cartList.get(i+3)+",");    
+                bw.write(cartList.get(i+4)+","); 
+                bw.write(cartList.get(i+5)+",");
+                bw.write(cartList.get(i+6)+"\n");
+            }
+            bw.flush();
+            bw.close();
+        }
+    }
+    public void updateCustomer(List<String> customerList,String filepath) throws IOException{
+        FileWriter fw = new FileWriter(filepath);
+        try (BufferedWriter bw = new BufferedWriter(fw)) {
+            for (int i=0;i< customerList.size();i+=6){
+                bw.write(customerList.get(i)+",");
+                bw.write(customerList.get(i+1)+",");
+                bw.write(customerList.get(i+2)+",");
+                bw.write(customerList.get(i+3)+",");
+                bw.write(customerList.get(i+4)+",");
+                bw.write(customerList.get(i+5)+"\n");
             }
             bw.flush();
             bw.close();

@@ -25,11 +25,11 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                String id = fields[0];
-                String name = fields[1];
-                String email = fields[2];
-                String phone = fields[3];
-                String password = fields[4];
+                String id = fields[0].trim();
+                String name = fields[1].trim();
+                String email = fields[2].trim();
+                String phone = fields[3].trim();
+                String password = fields[4].trim();
                 users.add(new GeneralRole(id, name, email, phone, password));
             }
         }catch(IOException e){
@@ -45,13 +45,14 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                String id = fields[0];
-                String name = fields[1];
-                String email = fields[2];
-                String phone = fields[3];
-                String password = fields[4];
-                double credit = Double.parseDouble(fields[5]);
-                users.add(new Customer(id,name,email,phone,password,credit));
+                String id = fields[0].trim();
+                String name = fields[1].trim();
+                String email = fields[2].trim();
+                String phone = fields[3].trim();
+                String password = fields[4].trim();
+                double credit = Double.parseDouble(fields[5].trim());
+                String feedbackid = fields[6].trim();
+                users.add(new Customer(id,name,email,phone,password,credit,feedbackid));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -66,15 +67,16 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String id = fields[0];
-                    String name = fields[1];
-                    String email = fields[2];
-                    String phone = fields[3];
-                    String password = fields[4];
-                    String stallname = fields[5];
-                    String stalltype = fields[6];
-                    String imagepath = fields[7];
-                    users.add(new Vendor(id,name,email,phone,password,stallname,stalltype,imagepath));
+                String id = fields[0].trim();
+                String name = fields[1].trim();
+                String email = fields[2].trim();
+                String phone = fields[3].trim();
+                String password = fields[4].trim();
+                String stallname = fields[5].trim();
+                String stalltype = fields[6].trim();
+                String imagepath = fields[7].trim();
+                String status = fields[8].trim();
+                users.add(new Vendor(id,name,email,phone,password,stallname,stalltype,imagepath,status));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -89,14 +91,14 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String id = fields[0];
-                    String name = fields[1];
-                    String quantity = fields[2];
-                    String description = fields[3];
-                    String price = fields[4];
-                    String imagepath = fields[5];
-                    String cate = fields[6];
-                    String vendorid = fields[7];
+                    String id = fields[0].trim();
+                    String name = fields[1].trim();
+                    String quantity = fields[2].trim();
+                    String description = fields[3].trim();
+                    String price = fields[4].trim();
+                    String imagepath = fields[5].trim();
+                    String cate = fields[6].trim();
+                    String vendorid = fields[7].trim();
                     foods.add(new Food(id,name,quantity,description,price,imagepath,cate,vendorid));
             }
         }catch(IOException e){
@@ -113,13 +115,14 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String cartid = fields[0];
-                    String customerid = fields[1];
-                    String foodid = fields[2];
-                    String quantity = fields[3];
-                    String remarks = fields[4];
-                    String datetime = fields[5];
-                    carts.add(new managefile.Cart(cartid,customerid,foodid,quantity,remarks,datetime));
+                String cartid = fields[0].trim();
+                String customerid = fields[1].trim();
+                String foodid = fields[2].trim();
+                String vendorid = fields[3].trim();
+                String quantity = fields[4].trim();
+                String remarks = fields[5].trim();
+                String datetime = fields[6].trim();
+                carts.add(new managefile.Cart(cartid,customerid,foodid,vendorid,quantity,remarks,datetime));
             }
         }
         catch(IOException e){
@@ -133,14 +136,15 @@ public class readFile {
         try {
             FileReader fr = new FileReader(filepath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while((line = br.readLine()) != null) {
                 String [] fields = line.split(",");
-                String id = fields[0];
-                String name = fields[1];
-                String email = fields[2];
-                String phone = fields[3];
-                String password = fields[4];
+                String id = fields[0].trim();
+                String name = fields[1].trim();
+                String email = fields[2].trim();
+                String phone = fields[3].trim();
+                String password = fields[4].trim();
                 managers.add(new Manager(id, name, email, phone, password));
             }
         }catch(IOException e){
@@ -157,14 +161,17 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String cartid = fields[0];
-                    String customerid = fields[1];
-                    String ordertype = fields[2];
-                    String ordertypedetail = fields[3];
-                    String datetime = fields[4];
-                    String amount = fields[5];
-                    String status = fields[6];
-                    orders.add(new Order(cartid,customerid,ordertype,ordertypedetail,datetime,amount,status));
+                String orderID= fields[0].trim();
+                String customerID= fields[1].trim();
+                String deliveryID= fields[2].trim();
+                String vendorID= fields[3].trim();
+                String orderReviewID= fields[4].trim();
+                String orderType= fields[5].trim();
+                String orderTypeDetails= fields[6].trim();
+                String datetime= fields[7].trim();
+                String totalAmount= fields[8].trim();
+                String status= fields[9].trim();
+                orders.add(new Order(orderID,customerID,deliveryID,vendorID,orderReviewID,orderType,orderTypeDetails,datetime,totalAmount,status));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -179,13 +186,14 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String orderitemid = fields[0];
-                    String orderid = fields[1];
-                    String foodid = fields[2];
-                    String quantity = fields[3];
-                    String status = fields[4];
-                    String remarks = fields[5];
-                    orders.add(new OrderItems(orderitemid,orderid,foodid,quantity,status,remarks));
+                String orderitemid = fields[0].trim();
+                String orderid = fields[1].trim();
+                String foodid = fields[2].trim();
+                String totalAmount = fields[3].trim();
+                String quantity = fields[4].trim();
+                String status = fields[5].trim();
+                String remarks = fields[6].trim();
+                orders.add(new OrderItems(orderitemid,orderid,foodid,totalAmount,quantity,status,remarks));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -200,14 +208,14 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String transactionID = fields[0];
-                    String customerID = fields[1];
-                    String orderID = fields[2];
-                    String adminID = fields[3];
-                    String datetime = fields[4];
-                    String amount = fields[5];
-                    String transactionType = fields[6];
-                    transactions.add(new Transaction(transactionID, customerID, orderID,adminID, datetime, amount, transactionType));
+                String transactionID = fields[0].trim();
+                String customerID = fields[1].trim();
+                String generalID = fields[2].trim();
+                String datetime = fields[3].trim();
+                String amount = fields[4].trim();
+                String transactionType = fields[5].trim();
+                String topupType = fields[6].trim();
+                transactions.add(new Transaction(transactionID, customerID, generalID, datetime, amount, transactionType,topupType));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -222,13 +230,14 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String deliveryid = fields[0];
-                    String orderid = fields[1];
-                    String runnerid = fields[2];
-                    String description = fields[3];
-                    String datetime = fields[4];
-                    String status = fields[5];
-                    deliverys.add(new Delivery(deliveryid, orderid, runnerid, description, datetime, status));
+                String deliveryid = fields[0].trim();
+                String deliveryreviewid = fields[1].trim();
+                String orderid = fields[2].trim();
+                String runnerid = fields[3].trim();
+                String description = fields[4].trim();
+                String datetime = fields[5].trim();
+                String status = fields[6].trim();
+                deliverys.add(new Delivery(deliveryid,deliveryreviewid, orderid, runnerid, description, datetime, status));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -243,31 +252,52 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String runnerid = fields[0];
-                    String name = fields[1];
-                    String emailaddress = fields[2];
-                    String phonenum = fields[3];
-                    String passwor = fields[4];
-                    String status = fields[5];
-                    runners.add(new Runner(runnerid, name, emailaddress, phonenum, passwor, status));
+                String runnerid = fields[0].trim();
+                String name = fields[1].trim();
+                String emailaddress = fields[2].trim();
+                String phonenum = fields[3].trim();
+                String passwor = fields[4].trim();
+                String status = fields[5].trim();
+                runners.add(new Runner(runnerid, name, emailaddress, phonenum, passwor, status));
             }
         }catch(IOException e){
             e.printStackTrace();
         }
         return runners;
     }
-    public List readReview(String filePath){
-        List<Review> reviews = new ArrayList<>();
+    public List readVendorReview(String filePath){
+        List<VendorReview> reviews = new ArrayList<>();
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String reviewID = fields[0];
-                    String rating = fields[1];
-                    String comments = fields[2];
-                    reviews.add(new Review(reviewID, rating, comments));
+                String reviewID = fields[0].trim();
+                String vendorID = fields[1].trim();
+                String rating = fields[2].trim();
+                String comments = fields[3].trim();
+                reviews.add(new VendorReview(reviewID,vendorID, rating, comments));
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return reviews;
+    }
+    public List readDeliveryReview(String filePath){
+        List<DeliveryReview> reviews = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+                String reviewID = fields[0].trim();
+                String deliveryID = fields[1].trim();
+                String runnerID = fields[2].trim();
+                String rating = fields[3].trim();
+                String comments = fields[4].trim();
+                reviews.add(new DeliveryReview(reviewID,deliveryID,runnerID, rating, comments));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -282,12 +312,11 @@ public class readFile {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                    String notificationID = fields[0];
-                    String description = fields[1];
-                    String datetime = fields[2];
-                    String recipientID = fields[3];
-                    String senderID = fields[4];
-                    notifications.add(new Notification(notificationID, description, datetime,recipientID,senderID));
+                    String notificationID = fields[0].trim();
+                    String description = fields[1].trim();
+                    String datetime = fields[2].trim();
+                    String userID = fields[3].trim();
+                    notifications.add(new Notification(notificationID, description, datetime,userID));
             }
         }catch(IOException e){
             e.printStackTrace();

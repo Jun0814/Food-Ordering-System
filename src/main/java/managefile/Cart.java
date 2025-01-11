@@ -12,14 +12,16 @@ public class Cart {
     private String cartID;
     private String customerID;
     private String foodID;
+    private String vendorID;
     private String quantity;
     private String remarks;
     private String datetime;
 
-    public Cart(String cartID, String customerID, String foodID, String quantity, String remarks, String datetime) {
+    public Cart(String cartID, String customerID, String foodID, String vendorID, String quantity, String remarks, String datetime) {
         this.cartID = cartID;
         this.customerID = customerID;
         this.foodID = foodID;
+        this.vendorID = vendorID;
         this.quantity = quantity;
         this.remarks = remarks;
         this.datetime = datetime;
@@ -49,6 +51,14 @@ public class Cart {
         this.foodID = foodID;
     }
 
+    public String getVendorID() {
+        return vendorID;
+    }
+
+    public void setVendorID(String vendorID) {
+        this.vendorID = vendorID;
+    }
+
     public String getQuantity() {
         return quantity;
     }
@@ -72,7 +82,5 @@ public class Cart {
     public void setDatetime(String datetime) {
         this.datetime = datetime;
     }
-
-    
     
 }

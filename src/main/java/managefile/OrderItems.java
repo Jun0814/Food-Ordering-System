@@ -13,14 +13,16 @@ public class OrderItems {
     private String orderID;
     private String foodID;
     private String quantity;
+    private String totalAmount;
     private String status;
     private String remarks;
 
-    public OrderItems(String orderItemID, String orderID, String foodID, String quantity, String status, String remarks) {
+    public OrderItems(String orderItemID, String orderID, String foodID, String quantity, String totalAmount, String status, String remarks) {
         this.orderItemID = orderItemID;
         this.orderID = orderID;
         this.foodID = foodID;
         this.quantity = quantity;
+        this.totalAmount = totalAmount;
         this.status = status;
         this.remarks = remarks;
     }
@@ -57,6 +59,14 @@ public class OrderItems {
         this.quantity = quantity;
     }
 
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -72,6 +82,5 @@ public class OrderItems {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-    
     
 }

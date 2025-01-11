@@ -1,5 +1,5 @@
-C1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,abcd,150.00
-C2,Chin Xuan Han,xuanhanchin23@gmail.com,010-3891107,abcd534,100.00
-C3,Chin Xuan Han,xuanhanchin25@gmail.com,010-3891107,abcd1,100000000000000.00
-C4,Chin Xuan Han,xuanhanchin523@gmail.com,010-3891107,abcd4,100000000000000.00
-C5,Chin Xuan Han,xuanhanchin423@gmail.com,010-3891107,abcd24,100000000000000.00
+C1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,abcd,20438.5,F1
+C2,Chin Xuan Han,xuanhanchin23@gmail.com,010-3891107,abcd534,100.0,F2
+C3,Chin Xuan Han,xuanhanchin25@gmail.com,010-3891107,abcd1,1.0E14,F3
+C4,Chin Xuan Han,xuanhanchin523@gmail.com,010-3891107,abcd4,1.0E14,F4
+C5,Chin Xuan Han,xuanhanchin423@gmail.com,010-3891107,abcd24,1.0E14,F5

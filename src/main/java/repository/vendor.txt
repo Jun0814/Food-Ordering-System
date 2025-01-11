@@ -1,3 +1,9 @@
-ID,Name,Email,Phone,Password,Stall Name, Stall Type, Image path
-V1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,null
-V2,PoYeh,a,010-3891107,1234,YoYo,Chinese Food,src/main/java/image_repository/esquites.png
+ID,Name,Email,Phone,Password,Stall Name, Stall Type, Image path, Status
+V1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,src/main/java/image_repository/esquites.png,Available
+V2,PoYeh,a,010-3891107,1234,YoYo,Chinese Food,src/main/java/image_repository/esquites.png,Available
+V3,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,src/main/java/image_repository/esquites.png,Available
+V4,PoYeh,a,010-3891107,1234,YoYo,Chinese Food,src/main/java/image_repository/esquites.png,Available
+V5,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,src/main/java/image_repository/esquites.png,Available
+V6,PoYeh,a,010-3891107,1234,YoYo,Chinese Food,src/main/java/image_repository/esquites.png,Available
+V7,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,src/main/java/image_repository/esquites.png,Available
+V8,PoYeh,a,010-3891107,1234,YoYo,Chinese Food,src/main/java/image_repository/esquites.png,Available

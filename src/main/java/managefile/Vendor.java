@@ -12,17 +12,27 @@ public class Vendor extends GeneralRole {
     private String stallName;
     private String stallType;
     private String imagePath;
+    private String status;
     private String filepath = "\\src\\main\\java\\repository\\vendor.txt";
     
     public Vendor(){}
     
-    public Vendor(String id, String name, String email, String phone, String password, String stallName,String stallType,String imagePath) {
+    public Vendor(String id, String name, String email, String phone, String password, String stallName,String stallType,String imagePath,String status) {
         super(id, name, email, phone, password);
         this.stallName = stallName;
         this.stallType = stallType;
         this.imagePath = imagePath;
+        this.status = status;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public String getImagePath() {
         return imagePath;
     }

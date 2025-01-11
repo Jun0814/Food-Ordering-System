@@ -11,50 +11,120 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import managefile.Customer;
 import managefile.Transaction;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
  * @author USER
  */
-public class TransactionDetail extends javax.swing.JFrame {
+public class FinanceDash extends javax.swing.JFrame {
     private final String customerID;
-    private final String transactionID;
-    customer_backend backend = new customer_backend();
-
+    customer_backend backend = new customer_backend();        
+    String[] month_text = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    private JComboBox yearComboBox;
+    private ChartPanel chartPanel;
+    private double totalExpense, averageExpense;
     /**
      * Creates new form menu
      */
-    public TransactionDetail(String customerID,String transactionID) {
+    public FinanceDash(String customerID) {
         this.customerID = customerID;
-        this.transactionID = transactionID;
         initComponents();
         jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
-        jLabel1.setText("Transaction Detail ("+transactionID+")");
         List<managefile.Transaction> transactions = backend.getTransaction(customerID);
-        Transaction currentTransaction = null;
-        for (Transaction transaction : transactions) {
-            if (transaction.getTransactionID().equals(transactionID)){
-                currentTransaction = transaction;
-            }
-        }
-        Map<Object, Object> orders = backend.getOrderByOrderID(currentTransaction.getGeneralID());
-        List<managefile.Order> orderList = (List<managefile.Order>) orders.get("orders");
-        List<managefile.OrderItems> orderItemList = (List<managefile.OrderItems>) orders.get("ordersItems");
+        JPanel dashboardPanel = new JPanel();
         
+        JPanel innerPanel = new method.RoundedPanel();
+        
+        yearComboBox = new JComboBox();
+        for (Transaction transaction : transactions) {
+            String yearIndex = transaction.getDatetime().split("T")[0].split("-")[0];
+            yearComboBox.addItem(yearIndex);
+        }
+        
+        chartPanel = new ChartPanel(createExpense(transactions));
+        chartPanel.setPreferredSize(new Dimension(800, 400));
+        chartPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+        
+        JLabel totalLabel = new JLabel(String.format("Total Expenses: RM %.2f", totalExpense));
+        JLabel averageLabel = new JLabel(String.format("Average Expenses: RM %.2f", averageExpense));
+        
+        yearComboBox.addActionListener(e->{
+            chartPanel = new ChartPanel(createExpense(transactions));
+            chartPanel.setPreferredSize(new Dimension(800, 400));
+            chartPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+            totalLabel.setText(String.format("Total Expenses: RM %.2f", totalExpense));
+            averageLabel.setText(String.format("Average Expenses: RM %.2f", averageExpense));
+            innerPanel.removeAll();
+            innerPanel.add(totalLabel);
+            innerPanel.add(averageLabel);
+            innerPanel.add(yearComboBox);
+            innerPanel.add(chartPanel);
+            innerPanel.revalidate();
+            innerPanel.repaint();
+        });
+        
+        innerPanel.add(totalLabel);
+        innerPanel.add(averageLabel);
+        innerPanel.add(yearComboBox);
+        innerPanel.add(chartPanel);
+        dashboardPanel.add(innerPanel);
+        
+        jPanel3.setLayout(new BorderLayout());
+        jPanel3.add(dashboardPanel,BorderLayout.CENTER);
     }
     
     
+    private JFreeChart createExpense(List<managefile.Transaction> transactions){
+        String selectedYear = (String) yearComboBox.getSelectedItem();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        int[] monthList = new int[transactions.size()];
+        totalExpense = 0.0;
+        for (int j=0;j<month_text.length;j++) {
+            Double total =0.0;
+            for (int i = 0; i < transactions.size(); i++) {
+                Transaction transaction = transactions.get(i);
+                String yearIndex = transaction.getDatetime().split("T")[0].split("-")[0];
+                int monthIndex = Integer.parseInt(transaction.getDatetime().split("T")[0].split("-")[1]);
+                if (yearIndex.equals(selectedYear)){
+                    if (monthIndex == j + 1) {
+                        double amount = Double.parseDouble(transaction.getAmount());
+                        total += amount;
+                    }
+                }
+                monthList[i] = monthIndex;
+            }
+            dataset.addValue(total, "Expenses (RM)", month_text[j].substring(0,3));
+            totalExpense += total;
+        }
+        method.scaleImage sc = new method.scaleImage();
+        int maximumMonth = sc.maxMonth(monthList);
+        averageExpense = totalExpense/maximumMonth;
+        JFreeChart barChart = ChartFactory.createBarChart("Expense for Year "+selectedYear,"Months","Expenses (RM)",dataset, PlotOrientation.VERTICAL,false,true, false);
+
+        CategoryPlot plot = barChart.getCategoryPlot();
+        plot.setRangeGridlinePaint(Color.BLACK);
+        return barChart;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,7 +139,7 @@ public class TransactionDetail extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         back_button = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +147,7 @@ public class TransactionDetail extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Transaction Detail");
+        jLabel1.setText("Finance Dashboard");
 
         back_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         back_button.setText("Back");
@@ -96,7 +166,7 @@ public class TransactionDetail extends javax.swing.JFrame {
                 .addComponent(back_button, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 484, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 475, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -111,15 +181,15 @@ public class TransactionDetail extends javax.swing.JFrame {
                 .addGap(32, 32, 32))
         );
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1025, Short.MAX_VALUE)
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 534, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -127,15 +197,14 @@ public class TransactionDetail extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -143,8 +212,8 @@ public class TransactionDetail extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Finance financepage = new Finance(customerID);
-        financepage.run();
+        Finance financePage = new Finance(customerID);
+        financePage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
 
@@ -152,7 +221,7 @@ public class TransactionDetail extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public void run() {
-        new TransactionDetail(customerID,transactionID).setVisible(true);
+        new FinanceDash(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -160,6 +229,6 @@ public class TransactionDetail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

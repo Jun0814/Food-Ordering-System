@@ -11,20 +11,20 @@ package managefile;
 public class Transaction {
     private String transactionID;
     private String customerID;
-    private String orderID;
-    private String adminID;
+    private String generalID;
     private String datetime;
     private String amount;
     private String transactionType;
+    private String topupType;
 
-    public Transaction(String transactionID, String customerID, String orderID, String adminID,  String datetime,String amount, String transactionType) {
+    public Transaction(String transactionID, String customerID, String generalID, String datetime, String amount, String transactionType, String topupType) {
         this.transactionID = transactionID;
         this.customerID = customerID;
-        this.orderID = orderID;
-        this.adminID = adminID;
+        this.generalID = generalID;
         this.datetime = datetime;
         this.amount = amount;
         this.transactionType = transactionType;
+        this.topupType = topupType;
     }
 
     public String getTransactionID() {
@@ -43,12 +43,12 @@ public class Transaction {
         this.customerID = customerID;
     }
 
-    public String getOrderID() {
-        return orderID;
+    public String getGeneralID() {
+        return generalID;
     }
 
-    public void setOrderID(String orderID) {
-        this.orderID = orderID;
+    public void setGeneralID(String generalID) {
+        this.generalID = generalID;
     }
 
     public String getDatetime() {
@@ -57,14 +57,6 @@ public class Transaction {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
-    }
-
-    public String getAdminID() {
-        return adminID;
-    }
-
-    public void setAdminID(String adminID) {
-        this.adminID = adminID;
     }
 
     public String getAmount() {
@@ -83,6 +75,13 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
+    public String getTopupType() {
+        return topupType;
+    }
+
+    public void setTopupType(String topupType) {
+        this.topupType = topupType;
+    }
     
     
 }
