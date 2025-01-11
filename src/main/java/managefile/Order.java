@@ -6,8 +6,7 @@ package managefile;
 
 /**
  *
- * @author USER
- */
+
 public class Order {
     private String orderID;
     private String customerID;
@@ -122,5 +121,5 @@ public class Order {
         this.orderFile = orderFile;
     }
     
-    
+   
 }

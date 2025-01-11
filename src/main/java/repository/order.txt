@@ -1,12 +1,7 @@
-<<<<<<< HEAD
+OrderID,CustomerID,DeliveryID,VendorID,OrderReviewID,OrderType,DateTime,TotalAmount,Status
 O1,C1,null,V1,OR1,dine in,195,2025-01-07T22:04:46,71.5,Completed
 O2,C2,null,V1,OR1,dine in,1,2025-01-07T23:29:01,137.5,Pending
 O3,C3,null,V1,OR1,dine in,1,2025-01-08T13:55:16,115.50000000000001,Pending
 O4,C4,null,V1,OR1,dine in,4,2025-01-08T13:59:21,115.50000000000001,Pending
 O5,C1,null,V1,OR1,dine in,200,2025-01-09T21:31:48,104.50000000000001,Pending
 O6,C1,null,V1,OR1,pickup,200,2025-01-09T21:31:48,104.50000000000001,Pending
-=======
-OrderID,CustomerID,Order Type,Datetime,Total Amount,Status
-O1,C1,dine in,195,2025-01-07T22:04:46,71.5,Pending
-O2,C1,dine in,1,2025-01-07T23:29:01,137.5,Pending
->>>>>>> f63d958d057069dd4b67982094bc715937e83377

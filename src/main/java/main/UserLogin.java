@@ -14,8 +14,7 @@ import managefile.Customer;
 import managefile.Data;
 import managefile.Manager;
 import managefile.Vendor;
-import manager.managerAccountManager;
-import manager.managerHome;
+import manager.managerMain;
 import method.scaleImage;
 import vendor.VendorMain;
 
@@ -115,8 +114,8 @@ public class UserLogin extends javax.swing.JFrame {
                         if(managerid != null){
                             JOptionPane.showMessageDialog(null, "Login Successfully!");
                             this.dispose();
-                            managerHome homepage = new managerHome(managerid);
-                            homepage.run();
+                            managerMain mainpage = new managerMain(managerid);
+                            mainpage.run();
                             this.dispose();
                         }else{
                             JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);

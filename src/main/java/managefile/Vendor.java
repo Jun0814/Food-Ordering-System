@@ -11,7 +11,7 @@ package managefile;
 public class Vendor extends GeneralRole {
     private String stallName;
     private String stallType;
-    private String imagePath;
+
     private String status;
     private String filepath = "\\src\\main\\java\\repository\\vendor.txt";
     
