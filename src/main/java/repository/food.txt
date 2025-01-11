@@ -3,7 +3,7 @@ F1,Fried Chicken,4,Delicious and Juicy Fresh Chicken elicious and Juicy Fresh Ch
 F2,Fried Duck,4,Delicious and Juicy Fresh Chicken,10,null,Rice, V1
 F3,Fried Rice,4,Delicious and Juicy Fresh Chicken,15,null,Rice,V1
 F4,Fried Cake,4,Delicious and Juicy Fresh Chicken,20,null,Rice,V1
-F5,Fried Noodle,1,Fried to XXXX,15.00,src/main/java/image_repository/F5.png,Rice,V2
+F5,Fried Noodle,1,Fried to XXXX,15.00,src/main/java/image_repository/F5.png,Noodle,V2
 F6,Fried Chicken,2,Ice & Lemon Tea,21,src/main/java/image_repository/default-food.png,Rice,V2
 F7,Fried Chicken,3,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F8,Fried Chicken,1,Ice & Lemon Tea,15,src/main/java/image_repository/default-food.png,Beverage,V2
@@ -13,3 +13,11 @@ F11,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-fo
 F12,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F13,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F14,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F15,Fried Chicken,3,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F16,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F17,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F18,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F19,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F20,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F21,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
+F22,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
