@@ -117,11 +117,20 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
             <Component class="javax.swing.JTextField" name="usernameTextField">
+<<<<<<< HEAD
+              <Properties>
+                <Property name="text" type="java.lang.String" value="xuanhanchin@gmail.com"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usernameTextFieldActionPerformed"/>
+              </Events>
+=======
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="0" gridY="2" gridWidth="4" gridHeight="1" fill="2" ipadX="329" ipadY="13" insetsTop="6" insetsLeft="60" insetsBottom="0" insetsRight="60" anchor="18" weightX="0.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
+>>>>>>> 3c2563189002deaa32ee04804282276d8e6ed521
             </Component>
             <Component class="javax.swing.JLabel" name="usernameLabel">
               <Properties>
@@ -140,11 +149,20 @@
               </Constraints>
             </Component>
             <Component class="javax.swing.JTextField" name="passwordTextField">
+<<<<<<< HEAD
+              <Properties>
+                <Property name="text" type="java.lang.String" value="abcd"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordTextFieldActionPerformed"/>
+              </Events>
+=======
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="0" gridY="4" gridWidth="4" gridHeight="1" fill="2" ipadX="329" ipadY="13" insetsTop="6" insetsLeft="60" insetsBottom="0" insetsRight="60" anchor="18" weightX="0.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
+>>>>>>> 3c2563189002deaa32ee04804282276d8e6ed521
             </Component>
             <Component class="javax.swing.JLabel" name="passwordLabel">
               <Properties>

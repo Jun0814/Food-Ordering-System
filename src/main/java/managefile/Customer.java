@@ -9,15 +9,17 @@ package managefile;
  * @author USER
  */
 public class Customer extends GeneralRole {
+    private String feedbackID;
     private double credit;
     
     private String filepath = "\\src\\main\\java\\repository\\customer.txt";
     
     public Customer(){}
     
-    public Customer(String id, String name, String email, String phone, String password, double credit) {
+    public Customer(String id, String name, String email, String phone, String password, double credit,String feedbackID) {
         super(id, name, email, phone, password);
         this.credit = credit;
+        this.feedbackID = feedbackID;
     }
 
     public double getCredit() {
@@ -31,6 +33,13 @@ public class Customer extends GeneralRole {
     public String getFilepath(){
         return filepath;
     }
-    
+
+    public String getFeedbackID() {
+        return feedbackID;
+    }
+
+    public void setFeedbackID(String feedbackID) {
+        this.feedbackID = feedbackID;
+    }
     
 }

@@ -1,5 +1,7 @@
-OrderId,CustomerId,ReviewId,OrderType,OrderTypeDetails,DateTime,TotalAmount,Status
-OR1,C1,R1,Delivery,I dunno what to put bruh,2024-12-12 05:00,53,Done
-OR2,C2,R2,Delivery,I dunno what to put bruh,2024-12-30 05:00,250,Done
-OR3,C3,R3,Delivery,I dunno what to put bruh,2025-01-05 10:00,100,Done
-OR4,C4,R4,Delivery,I dunno what to put bruh,2025-06-15 14:00,300,Done
+OrderID,CustomerID,DeliveryID,VendorID,OrderReviewID,OrderType,DateTime,TotalAmount,Status
+O1,C1,null,V1,OR1,dine in,195,2025-01-07T22:04:46,71.5,Completed
+O2,C2,null,V1,OR1,dine in,1,2025-01-07T23:29:01,137.5,Pending
+O3,C3,null,V1,OR1,dine in,1,2025-01-08T13:55:16,115.50000000000001,Pending
+O4,C4,null,V1,OR1,dine in,4,2025-01-08T13:59:21,115.50000000000001,Pending
+O5,C1,null,V1,OR1,dine in,200,2025-01-09T21:31:48,104.50000000000001,Pending
+O6,C1,null,V1,OR1,pickup,200,2025-01-09T21:31:48,104.50000000000001,Pending

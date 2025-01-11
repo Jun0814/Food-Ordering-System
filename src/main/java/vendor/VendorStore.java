@@ -4,16 +4,25 @@
  */
 package vendor;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import managefile.Data;
-import method.RoundedPanel;
+import method.ImageHandler;
+import method.RoundedButton;
+import vendor.FoodBlock;
 
 /**
  *
@@ -22,49 +31,295 @@ import method.RoundedPanel;
 public class VendorStore extends javax.swing.JPanel {
 
     Data data = new Data();
-    String userId;
+    String[][] foodData;
+    ImageHandler imageHandler = new ImageHandler();
+    String userId, currentFoodId, currentFoodCategory;
     
     /**
      * Creates new form VendorStore
      */
     
     public VendorStore(String userId) {
+        initComponents();        
         this.userId = userId;
-        String[][] foodData = data.retrieveDataAsArray(6, userId, "src\\main\\java\\repository\\food.txt");
-        categoryPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
+        intiCategoryButton();
+        intiDefaultFoodCategory();
+    }
 
-        Map<String, RoundedPanel> foodTypePanels = new HashMap<>();
+    public String getCurrentFoodId() {
+        return currentFoodId;
+    }
+
+    public void setCurrentFoodId(String currentFoodId) {
+        this.currentFoodId = currentFoodId;
+    }
+
+    public String getCurrentFoodCategory() {
+        return currentFoodCategory;
+    }
+
+    public void setCurrentFoodCategory(String currentFoodCategory) {
+        this.currentFoodCategory = currentFoodCategory;
+    }
+    
+    public void intiDefaultFoodCategory(){
+        for (String[] data : foodData) {
+            try{
+                String foodType = data.length > 6 ? data[6].trim() : "";
+                if(foodType != null){
+                    intiMenuPanel(foodType);
+                    break;
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void intiCategoryButton() {        
+        Map<String, RoundedButton> foodTypeButtons = new HashMap<>();
 
         for (String[] data : foodData) {
             try {
-                String foodId = data[0].trim();
-                String foodName = data.length > 1 ? data[1].trim() : "Unassigned";
-                String price = data.length > 4 ? data[4].trim() : "";
                 String foodType = data.length > 6 ? data[6].trim() : "General";
-
-                RoundedPanel foodTypePanel = foodTypePanels.get(foodType);
-                if (foodTypePanel == null) {
-                    foodTypePanel = new RoundedPanel();
-                    foodTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-                    foodTypePanel.setBorder(BorderFactory.createTitledBorder(foodType));
-                    foodTypePanel.setPreferredSize(new Dimension(200, 150)); 
-                    foodTypePanels.put(foodType, foodTypePanel);
-                    categoryPanel.add(foodTypePanel);
+                
+                // Create a button for each food type
+                RoundedButton foodTypeButton = foodTypeButtons.get(foodType);
+                if (foodTypeButton == null) {
+                    
+                    foodTypeButton = new RoundedButton();
+                    foodTypeButton.setPreferredSize(new Dimension(150, 50)); 
+                    foodTypeButton.setText(foodType);
+                    foodTypeButton.setRadius(20);
+                    foodTypeButton.setBorderColor(new Color(200,200,255));
+                    
+                    foodTypeButton.setColor(new Color(255,255,255));
+                    foodTypeButton.setColorClick(new Color(243,222,138));
+                    foodTypeButton.setColorOver(new Color(140,75,242));
+                    
+                    foodTypeButton.setFontColor(Color.black);
+                    foodTypeButton.setFontColorClick(Color.black);
+                    foodTypeButton.setFontColorOver(Color.white);
+                    
+                    foodTypeButton.addActionListener(e -> {
+                        intiMenuPanel(foodType);
+                    });
+                    
+                    foodTypeButtons.put(foodType, foodTypeButton);
+                    categoryPanel.add(foodTypeButton);
                 }
-
-                JButton foodButton = new JButton(foodName + " - $" + price);
-                foodButton.setPreferredSize(new Dimension(150, 50));
-                foodTypePanel.add(foodButton);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        categoryPanel.revalidate();
-        categoryPanel.repaint();
-        initComponents();
     }
+    
+    public void intiMenuPanel(String foodCategory){
+        
+        closeMenuPanel();
+        
+        for (String[] data : foodData) {
+            try {
+                String foodType = data.length > 6 ? data[6].trim() : "";
+                if (foodCategory.equalsIgnoreCase(foodType)) {
+                    String foodId = data.length > 0 ? data[0].trim() : "";
+                    String foodName = data.length > 1 ? data[1].trim() : "";
+                    double price = data.length > 4 ? Math.round(Double.parseDouble(data[4].trim()) * 100.0) / 100.0 : 0.0;
+                    String imagePath = data.length > 5 ? data[5].trim() : "";
+                    price = Double.parseDouble(String.format("%.2f", price));
+                    String formattedPrice = String.format("%.2f", price);
+                    
+                    FoodBlock foodPanel = new FoodBlock();
+                    foodPanel.setFoodId(foodId);
+                    foodPanel.setFoodName(foodName);
+                    foodPanel.setPriceTag("RM" + formattedPrice);
+                    foodPanel.setButtonText("Edit");
+                    foodPanel.setThemeColor(new Color(140,75,242));
+                    foodPanel.setEdgeColor(new Color(200,200,255));
+                    foodPanel.setBackgroundColor(new Color(255,255,255));       
+                    foodPanel.setPreferredSize(new Dimension(240,200));
+                    
+                    BufferedImage loadedImage = imageHandler.loadImage(imagePath);
+                    JLabel label = foodPanel.getLabel();
+                    label.setBounds(0, 0, 220, 110);
+                    imageHandler.displayImageOnLabel(loadedImage, label);
+                    
+                    RoundedButton editButton = foodPanel.getButton();
+                    editButton.addActionListener(e -> {
+                        closeAllJDialog();
+                        intiPopUp(foodId);
+                    });
+                    
+                    foodPanel.repaint();
+                    foodPanel.revalidate();
+                    menuPanel.add(foodPanel);
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        menuPanel.repaint();
+        menuPanel.revalidate();
+    }
+    
+    public void intiPopUp(String foodID){
+        for (String[] data : foodData) {
+            try {
+                String firstId = data.length > 0 ? data[0].trim() : "";
+                if (foodID.equalsIgnoreCase(firstId)) {
+                    String foodId = data.length > 0 ? data[0].trim() : "";
+                    String foodName = data.length > 1 ? data[1].trim() : "";
+                    String quantity = data.length > 2 ? data[2].trim() : "";
+                    String foodDescription = data.length > 3 ? data[3].trim() : "";
+                    double price = data.length > 4 ? Math.round(Double.parseDouble(data[4].trim()) * 100.0) / 100.0 : 0.0;
+                    String imagePath = data.length > 5 ? data[5].trim() : "";
+                    String foodType = data.length > 6 ? data[6].trim() : "";
+                    price = Double.parseDouble(String.format("%.2f", price));
+                    String formattedPrice = String.format("%.2f", price);
+                    
+                    VendorFoodPopUp popUp = new VendorFoodPopUp();
+                    popUp.setFoodId(foodId);
+                    popUp.setFoodName(foodName);
+                    popUp.setPriceTag(formattedPrice);
+                    popUp.setQuantity(quantity);
+                    popUp.setFoodType(foodType);
+                    popUp.setImagePath(imagePath);
+                    popUp.setDescription(foodDescription);
+                    popUp.setVendorId(userId);
+                    popUp.setFilepath("src\\main\\java\\repository\\food.txt");
+                    
+                    BufferedImage loadedImage = imageHandler.loadImage(imagePath);
+                    JLabel label2 = popUp.getLabel();
+                    label2.setBounds(0, 0, 400, 200);
+                    imageHandler.displayImageOnLabel(loadedImage, label2);
+                    
+                    RoundedButton backButton  = popUp.getBackButton();
+                    RoundedButton deleteButton  = popUp.getDeleteButton();
+                    RoundedButton saveButton  = popUp.getSaveButton();
+                    RoundedButton uploadButton = popUp.getUploadButton();
+                    deleteButton.addActionListener(e -> {
+                        boolean confimation = popUp.popUpButtonAction(2,"delete this food from the store");
+                        if(confimation == true){
+                            closeAllJDialog();
+                            reinitializeToMenuPanel();
+                        }
+                    });
+                    saveButton.addActionListener(e -> {
+                        boolean confimation = popUp.popUpButtonAction(3,"change this food details");
+                        if(confimation == true){
+                            closeAllJDialog();
+                            reinitializeToPopUp();
+                        }
+                    });
+                    backButton.addActionListener(e -> {
+                        closeAllJDialog();
+                    });
+                    uploadButton.addActionListener(e -> {
+                        boolean confimation = popUp.popUpButtonAction(1,"upload new image to this food");
+                        if(confimation == true){
+                            closeAllJDialog();
+                            reinitializeToPopUp();
+                        }
+                    });
+                    showPopUp(popUp);
+                    setCurrentFoodCategory(foodType);
+                    setCurrentFoodId(foodId);
+                    popUp.repaint();
+                    popUp.revalidate();
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        menuPanel.repaint();
+        menuPanel.revalidate();
+    }
+    
+    public void closeMenuPanel(){
+        Component[] componentList = menuPanel.getComponents();
+        for(Component c : componentList){
+            if(c instanceof FoodBlock){
+                menuPanel.remove(c);
+            }
+        }
+    }
+    
+    public void closeAllJDialog(){
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                JDialog dialog = (JDialog) window;
+                dialog.dispose();
+            }
+        }
+    }
+    
+    public void reinitializeToPopUp() {
+        foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
+        removeAll();
+        revalidate();
+        repaint();
+        initComponents();
+        intiCategoryButton();
+        intiDefaultFoodCategory();
+        intiMenuPanel(getCurrentFoodCategory());
+        intiPopUp(getCurrentFoodId());
+    }
+    
+    public void reinitializeToMenuPanel(){
+        foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
+        removeAll();
+        revalidate();
+        repaint();
+        initComponents();
+        intiCategoryButton();
+        intiDefaultFoodCategory();
+        intiMenuPanel(getCurrentFoodCategory());
+    }
+    
+    public static void showPopUp(JPanel panel) {        
+        JDialog dialog = new JDialog();
+        dialog.setUndecorated(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(panel, BorderLayout.CENTER);
+        
+        addDragFunctionality(dialog);
+
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+        dialog.setVisible(true);
+    }
+    
+    private static void addDragFunctionality(JDialog dialog) {
+        final int[] mouseX = {0};
+        final int[] mouseY = {0};
+
+        // Mouse Pressed: Record the mouse starting point
+        dialog.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX[0] = e.getX();
+                mouseY[0] = e.getY();
+            }
+        });
+
+        // Mouse Dragged: Update the dialog's location
+        dialog.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = dialog.getLocation().x + e.getX() - mouseX[0];
+                int y = dialog.getLocation().y + e.getY() - mouseY[0];
+                dialog.setLocation(x, y);
+            }
+        });
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,90 +330,41 @@ public class VendorStore extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        categoryPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        foodPanel = new javax.swing.JPanel();
+        categoryPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        menuPanel = new javax.swing.JPanel();
 
-        setBackground(new java.awt.Color(240, 240, 255));
+        setBackground(new java.awt.Color(200, 200, 255));
         setMinimumSize(new java.awt.Dimension(1000, 800));
         setPreferredSize(new java.awt.Dimension(1000, 800));
-
-        jLabel1.setBackground(new java.awt.Color(39, 40, 56));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(140, 75, 242));
-        jLabel1.setText("Food & Beverage");
-
-        categoryPanel.setBackground(new java.awt.Color(240, 240, 255));
-
-        javax.swing.GroupLayout categoryPanelLayout = new javax.swing.GroupLayout(categoryPanel);
-        categoryPanel.setLayout(categoryPanelLayout);
-        categoryPanelLayout.setHorizontalGroup(
-            categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        categoryPanelLayout.setVerticalGroup(
-            categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
-        );
 
         jLabel2.setBackground(new java.awt.Color(39, 40, 56));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(140, 75, 242));
         jLabel2.setText("Category");
+        add(jLabel2);
 
-        foodPanel.setBackground(new java.awt.Color(240, 240, 255));
+        categoryPanel.setBackground(new java.awt.Color(200, 200, 255));
+        categoryPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
+        add(categoryPanel);
 
-        javax.swing.GroupLayout foodPanelLayout = new javax.swing.GroupLayout(foodPanel);
-        foodPanel.setLayout(foodPanelLayout);
-        foodPanelLayout.setHorizontalGroup(
-            foodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        foodPanelLayout.setVerticalGroup(
-            foodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
-        );
+        jLabel1.setBackground(new java.awt.Color(39, 40, 56));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(140, 75, 242));
+        jLabel1.setText("Food & Beverage");
+        add(jLabel1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(0, 794, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(categoryPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(foodPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(6, 6, 6)
-                .addComponent(categoryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(foodPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        menuPanel.setBackground(new java.awt.Color(200, 200, 255));
+        menuPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+        add(menuPanel);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel categoryPanel;
-    private javax.swing.JPanel foodPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel menuPanel;
     // End of variables declaration//GEN-END:variables
 }

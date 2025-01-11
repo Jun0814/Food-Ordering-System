@@ -17,4 +17,26 @@ public class scaleImage {
         Image resizedImage = imageIcon.getImage().getScaledInstance(wid,hei,Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
+    
+    public boolean isNumeric(String str) {
+        if (str == null || str.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public int maxMonth(int[] arrs){
+        int max = arrs[0];
+        for (int arr : arrs) {
+            if (arr > max) {
+                max = arr;
+            }
+        }
+        return max;
+    }
 }

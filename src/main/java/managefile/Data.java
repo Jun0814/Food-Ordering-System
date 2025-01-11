@@ -72,17 +72,13 @@ public class Data {
                         System.out.println("Invalid index. No updates were made for ID: " + targetId);
                     }
                 }
-
-                // Append the (possibly updated) line to the updated content
                 updatedContent.append(String.join(",", parts)).append(System.lineSeparator());
             }
 
             if (isUpdated) {
-                // Write the updated content back to the file
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }
-                System.out.println("Updated index '" + targetIndex + "' to '" + newContent + "' for key: " + targetId); //Debug Line
             } else {
                 System.out.println("No updates were made. Key '" + targetId + "' not found.");
             }
@@ -92,34 +88,73 @@ public class Data {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }
     }
+    
+    
+    //*** Update lines by the firstID ***
+    public void updateData(String targetId, String newContent, String filepath) {
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+            StringBuilder updatedContent = new StringBuilder();
+
+            // Read and store the header line
+            String headerLine = br.readLine();
+            if (headerLine != null) {
+                updatedContent.append(headerLine).append(System.lineSeparator());
+            }
+
+            String line;
+            boolean isUpdated = false;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                if (parts[0].trim().equals(targetId)) {
+                    updatedContent.append(newContent).append(System.lineSeparator());
+                    isUpdated = true;
+                } else {
+                    updatedContent.append(line).append(System.lineSeparator());
+                }
+            }
+
+            // Write back to the file if any update was made
+            if (isUpdated) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
+                    bw.write(updatedContent.toString());
+                }
+                System.out.println("Updated line with ID: " + targetId); // Debug Line
+            } else {
+                System.out.println("No updates were made. ID '" + targetId + "' not found.");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
+        }
+    }
 
         
     //*** Retrieve lines containing vendor data by first id in 2d array ***//
     public String[][] retrieveDataAsArray(int indexId, String referenceId, String filepath) {
 
         String resolvedPath = Data.this.getResolvedPath(filepath);
-
         List<String[]> rows = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
 
-            // Skip the first line (header)
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+            // Skip the header line
             String headerLine = br.readLine();
             String line;
 
             while ((line = br.readLine()) != null) {
-                String[] credentials = line.split(",");
-
-                if (line.trim().length() > 0 && credentials[indexId].equals(referenceId)) {
-                    rows.add(credentials); 
+                String[] data = line.split(",");
+                if (data.length > indexId && data[indexId].equals(referenceId)) {
+                    rows.add(data);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "Error reading file: " + filepath, e);
         }
-
-        return rows.toArray(new String[0][0]);
+        return rows.toArray(new String[rows.size()][]);
     }
-
+    
     
     //*** Retrieve single data by username and password based on the index ***//
     public String retrieveData(String username, String password, int indexId, String filepath) {
@@ -139,14 +174,8 @@ public class Data {
                 if (credentials.length > 4) {
                     String fileUsername = credentials[2].trim(); 
                     String filePassword = credentials[4].trim();
-
-                    // Use .equals for String comparison
                     if (fileUsername.equals(username) && filePassword.equals(password)) {
                         ArrayList<String> list = new ArrayList<>(Arrays.asList(credentials));
-
-                        System.out.println(list); // Debugging purpose
-
-                        // Retrieve data at the given index
                         if (indexId >= 0 && indexId < list.size()) {
                             output = list.get(indexId);
                         }
@@ -170,12 +199,9 @@ public class Data {
         String output = null;
         
         try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
-            
-            // Skip the first line (header)
             String headerLine = br.readLine();
             String line;
 
-            // Read file line by line
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length > indexId) {
@@ -204,29 +230,23 @@ public class Data {
             String line;
             boolean isRemoved = false;
 
-            // Read and store the header line
             String headerLine = br.readLine();
             if (headerLine != null) {
                 updatedContent.append(headerLine).append(System.lineSeparator());
             }
 
-            // Read the rest of the file line by line
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 String id = parts[0].trim();
 
-                // Compare the ID with the target ID
                 if (id.equals(targetId)) {
-                    isRemoved = true; // Mark the line for removal
-                    continue;         // Skip adding this line to the new content
+                    isRemoved = true; 
+                    continue;         
                 }
-
-                // Append all other lines
                 updatedContent.append(line).append(System.lineSeparator());
             }
 
             if (isRemoved) {
-                // Write updated content back to the file
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
                     bw.write(updatedContent.toString());
                 }

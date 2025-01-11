@@ -135,7 +135,8 @@ public class UserLogin extends javax.swing.JFrame {
                     if(clickCount < 3){
                         Customer customer = new Customer();
                         String customerFilepath = customer.getFilepath();
-                        String customerid = data.retrieveData(username, password, 0, customerFilepath);
+                        customer_backend backend = new customer_backend();
+                        String customerid = backend.validateCredentials(username, password);
                         if(customerid != null){
                             JOptionPane.showMessageDialog(null,"Login Successfully!");
                             Home homepage = new Home(customerid);
@@ -158,36 +159,10 @@ public class UserLogin extends javax.swing.JFrame {
                 default:
                     JOptionPane.showMessageDialog(null, "Role not recognized!");            
             }
-        }
-    }
-    
-    public void validationCustomer(){
-        if (clickCount < 3){
-            String email = usernameTextField.getText();
-            String password = passwordTextField.getText();
-            customer_backend backend = new customer_backend();
-            String customerID = backend.validateCredentials(email, password);
-            if (customerID != null) {
-                JOptionPane.showMessageDialog(null,"Login Successfully!");
-                Home homepage = new Home(customerID);
-                homepage.run();
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
-            }
             clickCount ++;
-        }else{
-            try {
-                JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
-                Thread.sleep(40000);
-                clickCount = 0;
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
         }
     }
     
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton){
             MainMenu main = new MainMenu();
@@ -260,6 +235,13 @@ public class UserLogin extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(6, 60, 0, 60);
         rightPanel.add(usernameTextField, gridBagConstraints);
 
+        usernameTextField.setText("xuanhanchin@gmail.com");
+        usernameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameTextFieldActionPerformed(evt);
+            }
+        });
+
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(243, 222, 138));
         usernameLabel.setText("Email");
@@ -281,6 +263,13 @@ public class UserLogin extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 60, 0, 60);
         rightPanel.add(passwordTextField, gridBagConstraints);
+
+        passwordTextField.setText("abcd");
+        passwordTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordTextFieldActionPerformed(evt);
+            }
+        });
 
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         passwordLabel.setForeground(new java.awt.Color(243, 222, 138));
@@ -381,6 +370,14 @@ public class UserLogin extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         actionPerformed(evt);
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTextFieldActionPerformed
+
+    private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordTextFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.RoundedButton backButton;
