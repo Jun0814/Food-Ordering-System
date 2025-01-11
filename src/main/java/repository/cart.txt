@@ -1,1 +1,2 @@
+CartID,CustomerID,FoodID,VendorID,Quantity,Remark,Datetime
 CR1,C1,F3,V1,6,Tell me something,2025-01-10T21:03:27

@@ -4,9 +4,14 @@
  */
 package manager;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import managefile.Vendor;
 import managefile.Data;
 
@@ -24,16 +29,28 @@ public class managerRevenue extends javax.swing.JPanel {
     public managerRevenue() {
         initComponents();
         this.setSize(1000,300);
-        this.setLayout(new GridLayout(0, 3, 10, 10));
+        this.setLayout(new BorderLayout());
+        JPanel containerPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        
         List<String[]> vendors = data.readRolesFromFile(vendorFilepath);
+        System.out.println(vendors);
         for (String[] vendor : vendors){
+            System.out.println(Arrays.toString(vendor));
             String vendorId = vendor[0];
             String vendorName = vendor[1];
             String vendorStallName = vendor[5];
             String vendorStallType = vendor[6];
             vendorPanel panel = new vendorPanel(vendorId, vendorName, vendorStallName, vendorStallType);
-            this.add(panel);
+            containerPanel.add(panel);
         }
+        JScrollPane scrollPane = new JScrollPane(containerPanel);
+        scrollPane.setPreferredSize(new Dimension(628,460));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+        scrollPane.setBorder(null);
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 
     /**

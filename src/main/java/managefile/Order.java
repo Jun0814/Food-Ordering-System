@@ -4,9 +4,6 @@
  */
 package managefile;
 
-/**
- *
-
 public class Order {
     private String orderID;
     private String customerID;
@@ -19,6 +16,8 @@ public class Order {
     private String totalAmount;
     private String status;
     private String orderFile = "src\\main\\java\\repository\\order.txt";
+    
+    public Order(){};
 
     public Order(String orderID, String customerID, String deliveryID, String vendorID, String orderReviewID, String orderType, String orderTypeDetails, String datetime, String totalAmount, String status) {
         this.orderID = orderID;
@@ -113,7 +112,7 @@ public class Order {
         this.status = status;
     }
 
-    public String getOrderFile() {
+    public String getFilepath() {
         return orderFile;
     }
 
@@ -121,5 +120,5 @@ public class Order {
         this.orderFile = orderFile;
     }
     
-   
+    
 }

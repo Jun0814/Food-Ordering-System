@@ -1,3 +1,4 @@
+TransactionID,CustomerID,GeneralID,Datetime,TotalAmount,Type,PaymentMethod
 TR1,C1,O1,2025-01-09T21:31:48,104.50000000000001,Debit,null
 TR2,C3,O1,2025-01-09T21:31:48,10,Debit,null
 TR3,C1,O1,2024-01-09T21:31:48,126160,Debit,null
