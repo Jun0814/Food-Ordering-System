@@ -4,14 +4,16 @@
  */
 package Admin;
 
+import vendor.*;
+
 /**
  *
- * @author june0
+ * @author TPY
  */
 public class CreditTopUp extends javax.swing.JPanel {
 
     /**
-     * Creates new form CreditTopUp
+     * Creates new form VendorStore
      */
     public CreditTopUp() {
         initComponents();
@@ -26,19 +28,36 @@ public class CreditTopUp extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        CreditLabel = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(126, 127, 154));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
+
+        CreditLabel.setBackground(new java.awt.Color(255, 255, 51));
+        CreditLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        CreditLabel.setForeground(new java.awt.Color(255, 255, 51));
+        CreditLabel.setText("Credit Top-up");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(CreditLabel)
+                .addContainerGap(645, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(CreditLabel)
+                .addContainerGap(706, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CreditLabel;
     // End of variables declaration//GEN-END:variables
 }

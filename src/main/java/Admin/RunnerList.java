@@ -4,14 +4,16 @@
  */
 package Admin;
 
+import vendor.*;
+
 /**
  *
- * @author june0
+ * @author TPY
  */
 public class RunnerList extends javax.swing.JPanel {
 
     /**
-     * Creates new form RunnerList
+     * Creates new form VendorStore
      */
     public RunnerList() {
         initComponents();
@@ -26,19 +28,36 @@ public class RunnerList extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        RunnerLabel = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(126, 127, 154));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
+
+        RunnerLabel.setBackground(new java.awt.Color(255, 255, 51));
+        RunnerLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        RunnerLabel.setForeground(new java.awt.Color(255, 255, 51));
+        RunnerLabel.setText("Runner");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(RunnerLabel)
+                .addContainerGap(797, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(RunnerLabel)
+                .addContainerGap(706, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel RunnerLabel;
     // End of variables declaration//GEN-END:variables
 }
