@@ -12,14 +12,14 @@ public class DeliveryReview {
     private String reviewID;
     private String customerID;
     private String runnerID;
-    private double rating;
+    private String rating;
     private String comments;
     private String datetime;
     private String filepath = "src\\main\\java\\repository\\deliveryReview.txt";
     
     public DeliveryReview(){}
 
-    public DeliveryReview(String reviewID, String customerID, String runnerID, Double rating, String comments) {
+    public DeliveryReview(String reviewID, String customerID, String runnerID, String rating, String comments) {
         this.reviewID = reviewID;
         this.customerID = customerID;
         this.runnerID = runnerID;
@@ -51,11 +51,11 @@ public class DeliveryReview {
         this.runnerID = runnerID;
     }
 
-    public Double getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 

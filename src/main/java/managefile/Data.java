@@ -314,4 +314,21 @@ public class Data {
 
         return roles;
     }
+    
+    public void addGeneralFile(List<String> generalList,String filepath) throws IOException{
+        FileWriter fw = new FileWriter(filepath,true);
+        try (BufferedWriter bw = new BufferedWriter(fw)) {
+            String cartRow = "";
+            for (int i = 0; i < generalList.size(); i++) {
+                if (generalList.size()-1 == i){
+                    cartRow += generalList.get(i)+"\n";
+                }else{
+                    cartRow += generalList.get(i)+",";
+                }
+            }
+            bw.write(cartRow);
+            bw.flush();
+            bw.close();
+        }
+    }
 }

@@ -13,9 +13,16 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import managefile.Customer;
+import managefile.Data;
+import managefile.Delivery;
+import managefile.DeliveryReview;
+import managefile.Food;
+import managefile.Notification;
+import managefile.OrderItems;
+import managefile.Runner;
 import managefile.Vendor;
+import managefile.VendorReview;
 import managefile.readFile;
-import managefile.writeFile;
 import method.primaryKey;
 import method.scaleImage;
 
@@ -35,13 +42,15 @@ public class customer_backend{
     private final String deliveryFile = "src\\main\\java\\repository\\delivery.txt";
     private final String reviewFile = "src\\main\\java\\repository\\review.txt";
     private final String notificationFile = "src\\main\\java\\repository\\notifications.txt";
+    private final String deliveryReviewFile = "src\\main\\java\\repository\\deliveryreview.txt";
+    private final String orderReviewFile = "src\\main\\java\\repository\\orderreview.txt";
     private readFile read = new readFile();
-    private writeFile write = new writeFile();
     scaleImage scale = new scaleImage();
     method.primaryKey pri = new primaryKey();
     LocalDate currentDate = LocalDate.now();
     LocalTime currentTime = LocalTime.now();
     String datetime = currentDate.toString()+"T" + currentTime.toString().split("\\.")[0];
+    Data data = new Data();
     
     public Customer getSpecificCustomerDetail(String customerid){
         List<Customer> customers = read.readCustomerAccount(customerFile);
@@ -52,23 +61,38 @@ public class customer_backend{
         }
         return null;
     }
-    public void updateCredit(String customerid,double totalPrice) throws IOException{
+    
+    public String returnOrderItemDescription(String status){
+        String des = "";
+        switch (status) {
+            case "cancel":
+                des = "The order item is been cancel!";
+                break;
+            case "done":
+                des = "The order item is prepared!";
+                break;
+            case "pending":
+                des = "The order item is waiting for vendor!";
+                break;
+            default:
+                break;
+        }
+        return des;
+    }
+    
+    public void updateCredit(String customerid,double totalPrice,String option) throws IOException{
         List<Customer> customers = read.readCustomerAccount(customerFile);
         for (Customer customer : customers) {
             if (customer.getId().equals(customerid)){
-                customer.setCredit(customer.getCredit()-totalPrice);
+                if (option.equalsIgnoreCase("debit")){
+                    data.updateData(customerid,5, String.valueOf(customer.getCredit()-totalPrice), customerFile);
+                    break;
+                }else if (option.equalsIgnoreCase("credit")){
+                    data.updateData(customerid,5, String.valueOf(customer.getCredit()+totalPrice), customerFile);
+                    break;
+                }
             }
         }
-        List<String> newCustomers = new ArrayList<>();
-        for (managefile.Customer customer : customers) {
-            newCustomers.add(customer.getId());
-            newCustomers.add(customer.getName());
-            newCustomers.add(customer.getEmail());
-            newCustomers.add(customer.getPhone());
-            newCustomers.add(customer.getPassword());
-            newCustomers.add(String.valueOf(customer.getCredit()));
-        }
-        write.updateCustomer(newCustomers, customerFile);
     }
     
     public String validateCredentials(String email, String password) {
@@ -83,7 +107,38 @@ public class customer_backend{
     public List<Vendor> getVendors(){
         return read.readVendorAccount(vendorFile);
     }
-    public Map<String, Object> getSpecificVendorDetail(String vendorid){
+    
+    public Map<Object, Object> getVendorsReviews(){
+        List<Vendor> vendors = read.readVendorAccount(vendorFile);
+        List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
+        
+        Map<Object, Object> result = new HashMap<>();
+        result.put("vendors", vendors);
+        result.put("reviews", vendorReviews);
+        return result;
+    }
+    public Map<Object, Object> getVendorsReviews(String vendorID){
+        List<Vendor> vendors = read.readVendorAccount(vendorFile);
+        List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
+        
+        List<Vendor> matchedVendors = new ArrayList<>();
+        List<managefile.Food> matchedReviews = new ArrayList<>();
+        for (Vendor vendor : vendors) {
+            for (Food matchedReview : matchedReviews) {
+                if (vendor.getId().equals(vendorID) && vendor.getId().equals(matchedReview.getVendorid())){
+                    matchedVendors.add(vendor);
+                    matchedReviews.add(matchedReview);
+                }
+            }
+        }
+        
+        Map<Object, Object> result = new HashMap<>();
+        result.put("vendors", matchedVendors);
+        result.put("reviews", matchedReviews);
+        return result;
+    }
+    
+    public Map<Object, Object> getSpecificVendorDetail(String vendorid){
         List<Vendor> vendors = read.readVendorAccount(vendorFile);
         List<managefile.Food> foods = read.readFood(foodFile);
         List<Vendor> matchedVendors = new ArrayList<>();
@@ -99,11 +154,12 @@ public class customer_backend{
                 matchedFoods.add(food);
             }
         }
-        Map<String, Object> result = new HashMap<>();
+        Map<Object, Object> result = new HashMap<>();
         result.put("vendors", matchedVendors);
         result.put("foods", matchedFoods);
         return result;
     }
+    
     
     public Map<Object, Object> getCart(String customerID) throws IOException{
         List<managefile.Cart> carts = read.readCart(cartFile);
@@ -146,12 +202,13 @@ public class customer_backend{
         for (managefile.Cart cart1 : cart) {
             if (customerID.equals(cart1.getCustomerID()) && foodID.equals(cart1.getFoodID())){
                 int newQuantity = Integer.parseInt(cart1.getQuantity())+Integer.parseInt(quantitySelection);
-                cart1.setQuantity(String.valueOf(newQuantity));
+                data.updateData(cart1.getCartID(),4, String.valueOf(newQuantity), cartFile);
                 itemUpdated = true;
                 break;
             }
         }
         if (!itemUpdated) {
+            data.updateData(latestCartID, vendorid, remark);
             List<String> cartItems = new ArrayList<>();
             cartItems.add(latestCartID);
             cartItems.add(customerID);
@@ -160,19 +217,8 @@ public class customer_backend{
             cartItems.add(quantitySelection);
             cartItems.add(remark);
             cartItems.add(datetime);
-            write.addGeneralFile(cartItems, cartFile);
-        }else{
-            List<String> cartItems = new ArrayList<>();
-            for (managefile.Cart cart1 : cart) {
-                cartItems.add(cart1.getCartID());
-                cartItems.add(cart1.getCustomerID());
-                cartItems.add(cart1.getFoodID());
-                cartItems.add(vendorid);
-                cartItems.add(cart1.getQuantity());
-                cartItems.add(cart1.getRemarks());
-                cartItems.add(cart1.getDatetime());
-            }
-            write.updateCart(cartItems, cartFile);
+            
+            data.addGeneralFile(cartItems, cartFile);
         }
     }
     
@@ -181,42 +227,19 @@ public class customer_backend{
         List<managefile.Cart> cart = (List<managefile.Cart>) carts.get("carts");
         for (managefile.Cart cart1 : cart) {
             if (cartID.equals(cart1.getCartID())){
-                cart1.setQuantity(quantity);
+                data.updateData(cart1.getCartID(),4, quantity, cartFile);
                 break;
             }
         }
-        List<String> cartItems = new ArrayList<>();
-        for (managefile.Cart cart1 : cart) {
-            cartItems.add(cart1.getCartID());
-            cartItems.add(cart1.getCustomerID());
-            cartItems.add(cart1.getFoodID());
-            cartItems.add(cart1.getVendorID());
-            cartItems.add(cart1.getQuantity());
-            cartItems.add(cart1.getRemarks());
-            cartItems.add(cart1.getDatetime());
-        }
-        write.updateCart(cartItems, cartFile);
     }
     
     public void removeCartItems(String cartID, String customerID,String foodID) throws IOException{
         Map<Object, Object> carts = getCart(customerID);
         List<managefile.Cart> cart = (List<managefile.Cart>) carts.get("carts");
         List<String> cartItems = new ArrayList<>();
-        if (cartID != null && customerID != null  && foodID != null ){
-            for (managefile.Cart cartItem : cart) {
-                if (!(cartItem.getFoodID().equals(foodID) && cartItem.getCustomerID().equals(customerID))) {
-                    cartItems.add(cartItem.getCartID());
-                    cartItems.add(cartItem.getCustomerID());
-                    cartItems.add(cartItem.getFoodID());
-                    cartItems.add(cartItem.getVendorID());
-                    cartItems.add(cartItem.getQuantity());
-                    cartItems.add(cartItem.getRemarks());
-                    cartItems.add(cartItem.getDatetime());
-                }
-            }
-            write.updateCart(cartItems, cartFile);
-        }
+        data.removeRowById(cartID, cartFile);
     }
+    
     public Map<Object, Object> getOrder(String customerID){
         List<managefile.Order> orders = read.readOrder(orderFile);
         List<managefile.OrderItems> orderItems = read.readOrderItems(orderItemFile);
@@ -241,15 +264,22 @@ public class customer_backend{
     public Map<Object, Object> getOrderByOrderID(String orderID){
         List<managefile.Order> orders = read.readOrder(orderFile);
         List<managefile.OrderItems> orderItems = read.readOrderItems(orderItemFile);
+        List<managefile.Food> foodItems = read.readFood(foodFile);
         
         List<managefile.Order> allOrders = new ArrayList<>();
         List<managefile.OrderItems> allOrderItems = new ArrayList<>();
+        List<managefile.Food> matchingFoodItems = new ArrayList<>();
         for (managefile.Order order :orders){
             for (managefile.OrderItems orderitem:orderItems){
-                if(orderID.equals(order.getOrderID())){
-                    if (order.getOrderID().equals(orderitem.getOrderID())){
-                        allOrders.add(order);
-                        allOrderItems.add(orderitem);
+                for (managefile.Food foodItem : foodItems) {
+                    if(orderID.equals(order.getOrderID())){
+                        if (order.getOrderID().equals(orderitem.getOrderID())){
+                            if (orderitem.getFoodID().equals(foodItem.getId())){
+                                allOrders.add(order);
+                                allOrderItems.add(orderitem);
+                                matchingFoodItems.add(foodItem);
+                            }
+                        }
                     }
                 }
             }
@@ -257,7 +287,7 @@ public class customer_backend{
         Map<Object, Object> result = new HashMap<>();
         result.put("orders", allOrders);
         result.put("ordersItems", allOrderItems);
-        result.put("ordersItems", allOrderItems);
+        result.put("foodItems", matchingFoodItems);
         return result;
     }
     
@@ -284,34 +314,13 @@ public class customer_backend{
         }
         return matchedDelivery;
     }
-    
     public List<managefile.Runner> getRunner(){
         List<managefile.Runner> runners = read.readRunner(runnerFile);
         return runners;
     }
     
-    public void addOrder(String customerID,List<managefile.Cart> cartList,String orderType,String orderTypeDetails,double totalPrice) throws IOException{
-        Map<Object, Object> allOrders = getOrder(customerID);
-        List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
+    public String addTransaction(String customerID,String generalID,String totalPrice,String type,String paymentMethod) throws IOException{
         List<managefile.Transaction> transactions = getTransaction(customerID);
-        List<managefile.Notification> notifications =  read.readNotification(notificationFile);
-        
-        List orderIDList = new ArrayList();
-        for (managefile.Order order : orders) {
-            orderIDList.add(order.getOrderID());
-        }
-        String latestOrderID = orderIDList.isEmpty() ? "O1": pri.incrementPrimaryKey(orderIDList);
-        
-        List<String> orderStore = new ArrayList<>();
-        orderStore.add(latestOrderID);
-        orderStore.add(customerID);
-        orderStore.add(orderType);
-        orderStore.add(orderTypeDetails);
-        orderStore.add(datetime);
-        orderStore.add(String.valueOf(totalPrice));
-        orderStore.add("Pending");
-        write.addGeneralFile(orderStore, orderFile);
-        
         List transactionIDList = new ArrayList();
         for (managefile.Transaction transaction : transactions) {
             transactionIDList.add(transaction.getTransactionID());
@@ -320,22 +329,107 @@ public class customer_backend{
         List<String> transactionStore = new ArrayList<>();
         transactionStore.add(latestTransactionID);
         transactionStore.add(customerID);
-        transactionStore.add(latestOrderID);
-        transactionStore.add(null);
+        transactionStore.add(generalID);
         transactionStore.add(datetime);
         transactionStore.add(String.valueOf(totalPrice));
-        transactionStore.add("Debit");
-        write.addGeneralFile(transactionStore, transactionFile);
+        transactionStore.add(type);
+        transactionStore.add(paymentMethod);
+        data.addGeneralFile(transactionStore, transactionFile);
         
+        return latestTransactionID;
+    }
+    public List<managefile.VendorReview> getAllVendorReview(){
+        List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
+        return vendorReviews;
+    }
+    
+    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice) throws IOException{
+        Map<Object, Object> allOrders = getOrder(customerID);
+        List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.Runner> runners = read.readRunner(runnerFile);
+        List<managefile.Delivery> deliverys = read.readDelivery(deliveryFile);
+        List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
+        
+        List orderIDList = new ArrayList();
+        for (managefile.Order order : orders) {
+            orderIDList.add(order.getOrderID());
+        }
+        String latestOrderID = orderIDList.isEmpty() ? "O1": pri.incrementPrimaryKey(orderIDList);
+        
+        List deliveryIDList = new ArrayList();
+        for (managefile.Delivery delivery : deliverys) {
+            deliveryIDList.add(delivery.getDeliveryID());
+        }
+        String latestDeliveryID = deliveryIDList.isEmpty() ? "D1" : pri.incrementPrimaryKey(deliveryIDList);
+        
+        List vendorReviewIDList = new ArrayList();
+        for (managefile.VendorReview vendorReview : vendorReviews) {
+            vendorReviewIDList.add(vendorReview.getReviewID());
+        }
+        String latestVendorReviewID = vendorReviewIDList.isEmpty() ? "VR1" : pri.incrementPrimaryKey(vendorReviewIDList);
+        
+        //main order store
+        List<String> orderStore = new ArrayList<>();
+        orderStore.add(latestOrderID);
+        orderStore.add(customerID);
+        if (orderType.equals("delivery")){
+            orderStore.add(latestDeliveryID);
+        }else{
+            orderStore.add(null);
+        }
+        orderStore.add(cartList.getFirst().getVendorID());
+        orderStore.add(latestVendorReviewID);
+        orderStore.add(orderType);
+        orderStore.add(orderTypeDetails);
+        orderStore.add(datetime);
+        orderStore.add(String.valueOf(totalPrice));
+        orderStore.add("Pending");
+        data.addGeneralFile(orderStore, orderFile);
+        
+        //transaction store
+        addTransaction(customerID,latestOrderID,String.valueOf(totalPrice),"Debit","E-Wallet");
+        
+        //delivery and delivery review store
+        List<managefile.DeliveryReview> deliReviews = read.readDeliveryReview(deliveryReviewFile);
+        List deliReviewIDList = new ArrayList();
+        for (managefile.DeliveryReview deliReview : deliReviews) {
+            deliReviewIDList.add(deliReview.getReviewID());
+        }
+        String latestDeliveryReviewID = deliReviewIDList.isEmpty() ? "DR1" : pri.incrementPrimaryKey(deliReviewIDList);
+        if (orderType.equals("delivery")){
+            List<String> deliveryStore = new ArrayList<>();
+            deliveryStore.add(latestDeliveryID);
+            deliveryStore.add(latestDeliveryReviewID);
+            deliveryStore.add(latestOrderID);
+            deliveryStore.add(runners.getFirst().getId());
+            deliveryStore.add(null);
+            deliveryStore.add(datetime);
+            deliveryStore.add("Pending");
+            data.addGeneralFile(deliveryStore, deliveryFile);
+            
+            List<String> deliveryReviewStore = new ArrayList<>();
+            deliveryReviewStore.add(latestDeliveryReviewID);
+            deliveryReviewStore.add(latestDeliveryID);
+            deliveryReviewStore.add(runners.getFirst().getId());
+            deliveryReviewStore.add(null);
+            deliveryReviewStore.add(null);
+            data.addGeneralFile(deliveryReviewStore, deliveryReviewFile);
+        }
+        
+        List<String> vendorReviewStore = new ArrayList<>();
+        vendorReviewStore.add(latestVendorReviewID);
+        vendorReviewStore.add(cartList.getFirst().getVendorID());
+        vendorReviewStore.add(null);
+        vendorReviewStore.add(null);
+        data.addGeneralFile(vendorReviewStore, orderReviewFile);
+        
+        String orderItems = "";
         for (managefile.Cart cart : cartList) {
             Map<Object, Object> allOrders2 = getOrder(customerID);
             List<managefile.OrderItems> orderItems1 = (List<managefile.OrderItems>) allOrders2.get("ordersItems");
             String foodid = cart.getFoodID();
             String quantity = cart.getQuantity();
             String remarks = cart.getRemarks();
-            List<managefile.Delivery> deliverys = read.readDelivery(deliveryFile);
-            
             
             List orderItemIDList = new ArrayList();
             for (managefile.OrderItems item : orderItems1) {
@@ -348,50 +442,107 @@ public class customer_backend{
             orderItemStore.add(latestOrderID);
             orderItemStore.add(foodid);
             orderItemStore.add(quantity);
-            orderItemStore.add("Accept");
+            for (managefile.Food food : foodList) {
+                if (food.getId().equals(foodid)){
+                    orderItems += "x"+quantity +" "+food.getName()+" is placed order!|";
+                    double totalAmount = Double.parseDouble(food.getPrice())*Integer.parseInt(quantity);
+                    orderItemStore.add(String.valueOf(totalAmount));
+                    break;
+                }
+            }
+            orderItemStore.add("Pending");
             if (!remarks.equals("")){
                 orderItemStore.add(remarks);
             }else{
                 orderItemStore.add(null);
             }
-            write.addGeneralFile(orderItemStore, orderItemFile);
-            
-            
-            List deliveryIDList = new ArrayList();
-            for (managefile.Delivery delivery : deliverys) {
-                deliveryIDList.add(delivery.getDeliveryID());
-            }
-            String latestDeliveryID = deliveryIDList.isEmpty() ? "D1" : pri.incrementPrimaryKey(deliveryIDList);
-            if (orderType.equals("delivery")){
-                List<String> deliveryStore = new ArrayList<>();
-                deliveryStore.add(latestDeliveryID);
-                deliveryStore.add(latestOrderID);
-                deliveryStore.add(runners.getFirst().getId());
-                deliveryStore.add(null);
-                deliveryStore.add(datetime);
-                deliveryStore.add("Pending");
-                write.addGeneralFile(deliveryStore, deliveryFile);
-            }
+            data.addGeneralFile(orderItemStore, orderItemFile);
         }
+        String description1 = "Your Order #"+latestOrderID+" is placed order!";
+        String description2 = "You received Order #"+latestOrderID+"|"+orderItems;
+        sendNotifications(customerID,description1);
+        sendNotifications(customerID,description2);
+        
     }
+    
+    public String sendNotifications(String userID,String message) throws IOException{
+        List<managefile.Notification> notifications =  read.readNotification(notificationFile);
+        List notificationIDList = new ArrayList();
+        for (managefile.Notification notification : notifications) {
+            notificationIDList.add(notification.getNotificationID());
+        }
+        String latestNotificationID = notificationIDList.isEmpty() ? "NT1": pri.incrementPrimaryKey(notificationIDList);
+        
+        List<String> notificationStore = new ArrayList<>();
+        notificationStore.add(latestNotificationID);
+        notificationStore.add(message);
+        notificationStore.add(datetime);
+        notificationStore.add(userID);
+        data.addGeneralFile(notificationStore, notificationFile);
+        return latestNotificationID;
+    }
+    
     public void removeCart(String customerID) throws IOException{
         Map<Object, Object> carts = getCart(customerID);
         List<managefile.Cart> cart = (List<managefile.Cart>) carts.get("carts");
         List<String> cartItems = new ArrayList<>();
         for (managefile.Cart cartItem : cart) {
-            if (!cartItem.getCustomerID().equals(customerID)) {
-                cartItems.add(cartItem.getCartID());
-                cartItems.add(cartItem.getCustomerID());
-                cartItems.add(cartItem.getFoodID());
-                cartItems.add(cartItem.getQuantity());
-                cartItems.add(cartItem.getRemarks());
-                cartItems.add(cartItem.getDatetime());
+            if (cartItem.getCustomerID().equals(customerID)) {
+                data.removeRowById(cartItem.getCartID(),cartFile);
             }
         }
-        write.updateCart(cartItems, cartFile);
     }
     
-    public void sendNotifications(){
-        
+    public Map<Object, Object> getDeliveryDetails(String orderID){
+        List<managefile.Delivery> deliverys = read.readDelivery(deliveryFile);
+        List<managefile.Runner> runners = read.readRunner(runnerFile);
+        List<managefile.Delivery> matchedDelivery = new ArrayList<>();
+        List<managefile.Runner> matchedRunner = new ArrayList<>();
+        for (Delivery delivery : deliverys) {
+            for (Runner runner : runners) {
+                if (delivery.getOrderID().equals(orderID) && delivery.getRunnerID().equals(runner.getId())){
+                    matchedDelivery.add(delivery);
+                    matchedRunner.add(runner);
+                }
+            }
+        }
+        Map<Object, Object> result = new HashMap<>();
+        result.put("deliverys", matchedDelivery);
+        result.put("runners", matchedRunner);
+        return result;
     }
+    
+    public void updateOrderDetails(String customerID,String orderID) throws IOException{
+        Map<Object, Object> allOrders = getOrderByOrderID(orderID);
+        List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
+        List<managefile.OrderItems> orderItems = (List<managefile.OrderItems>) allOrders.get("ordersItems");
+        List<managefile.Food> foodItems = (List<managefile.Food>) allOrders.get("foodItems");
+        
+        for (OrderItems orderItem : orderItems) {
+            data.updateData(orderItem.getOrderItemID(), 5, "Cancel", orderItemFile);
+        }
+        double totalAmount = Double.parseDouble(orders.getFirst().getTotalAmount());
+        double totalRefund = totalAmount * 0.8;
+        addTransaction(customerID, orderID, String.valueOf(totalRefund), "Refund", "E-Wallet");
+        if (orders.getFirst().getOrderType().equalsIgnoreCase("delivery")){
+            data.updateData(orders.getFirst().getDeliveryID(), 6, "Cancel", deliveryFile);
+            sendNotifications(customerID, "Your delivery order is cancel.|The total of RM "+String.format("%.2f",totalRefund)+" is refunded.");
+        }else{
+            sendNotifications(customerID, "Your order is cancel.|The total of RM "+String.format("%.2f",totalRefund)+" is refunded.");
+        }
+        data.updateData(orderID, 9, "Cancel", orderFile);
+        updateCredit(customerID, totalRefund, "Credit");
+    }
+    
+    public List<managefile.Notification> getUserNotifications(String userid){
+        List<managefile.Notification> notifications = read.readNotification(notificationFile);
+        List<managefile.Notification> matchedNotifications = new ArrayList<>();
+        for (Notification notification : notifications) {
+            if (notification.getUserID().equals(userid)){
+                matchedNotifications.add(notification);
+            }
+        }
+        return matchedNotifications;
+    }
+    
 }

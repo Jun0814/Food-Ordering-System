@@ -1,9 +1,10 @@
-OrderID,CustomerID,DeliveryID,VendorID,OrderReviewID,OrderType,DateTime,TotalAmount,Status
-O1,C1,null,V1,OR1,dine in,195,2025-01-07T22:04:46,71.5,Completed
-O2,C2,null,V1,OR1,dine in,1,2025-01-07T23:29:01,137.5,Pending
-O3,C3,null,V1,OR1,dine in,1,2025-01-08T13:55:16,115.50000000000001,Pending
-O4,C4,null,V1,OR1,dine in,4,2025-01-08T13:59:21,115.50000000000001,Pending
-O5,C1,null,V1,OR1,dine in,200,2025-01-09T21:31:48,104.50000000000001,Pending
-O6,C1,null,V1,OR1,pickup,200,2025-01-09T21:31:48,104.50000000000001,Pending
-O7,C1,null,V1,OR1,pickup,200,2024-01-09T21:31:48,104.50000000000001,Pending
-O8,C1,null,V1,OR1,pickup,200,2024-01-20T21:31:48,104.50000000000001,Pending
+OrderID,CustomerID,DeliveryID,VendorID,VendorReviewID,Type,TypeDetails,Datetime,TotalAmount,Status
+O1,C1,null,V1,VR1,dine in,198,2025-01-11T22:36:23,143.0,Completed
+O2,C1,null,V2,VR2,dine in,83,2025-01-11T22:38:07,118.80000000000001,Completed
+O3,C1,null,V1,VR3,pickup,16:20,2025-01-12T16:18:28,12.0,Completed
+O4,C1,null,V2,VR4,pickup,09:00,2025-01-12T16:22:55,17.0,Completed
+O5,C1,null,V2,VR5,dine in,200,2025-01-13T08:40:49,66.0,Cancel
+O6,C1,D1,V1,VR6,delivery,Bukit Jalil,2025-01-13T09:27:18,28.0,Cancel
+O7,C1,null,V1,VR7,dine in,115,2025-01-14T10:00:39,110.00000000000001,Pending
+O8,C1,null,V1,VR8,dine in,100,2025-01-14T10:04:40,121,Pending
+O9,C1,D2,V1,VR9,delivery,bukit jalil,2025-01-14T10:32:40,48.0,Pending

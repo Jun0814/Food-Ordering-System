@@ -5,7 +5,7 @@
 package main;
 
 import Admin.HomePage;
-import customer.Home;
+import customer.CustomerHome;
 import customer.customer_backend;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -165,7 +165,7 @@ public class UserLogin extends javax.swing.JFrame {
                         String customerid = backend.validateCredentials(username, password);
                         if(customerid != null){
                             JOptionPane.showMessageDialog(null,"Login Successfully!");
-                            Home homepage = new Home(customerid);
+                            CustomerHome homepage = new CustomerHome(customerid);
                             homepage.run();
                             this.dispose();
                         }else{

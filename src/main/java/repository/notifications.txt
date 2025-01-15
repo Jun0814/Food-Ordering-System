@@ -1,0 +1,26 @@
+NotificationID,Description,Datetime,CustomerID
+NT1,Your Order #O1 is placed order!,2025-01-11T22:36:23,C1
+NT2,You received Order #O1|x1 Fried Chicken is placed order!|x6 Fried Cake is placed order!|,2025-01-11T22:36:23,V1
+NT3,Your Order #O2 is placed order!,2025-01-11T22:38:07,C1
+NT4,You received Order #O2|x3 Fried Noodle is placed order!|x3 Fried Chicken is placed order!|,2025-01-11T22:38:07,V2
+NT5,Your Order #O3 is placed order!,2025-01-12T16:18:28,C1
+NT6,You received Order #O3|x1 Fried Duck is placed order!|,2025-01-12T16:18:28,V1
+NT7,Your Order #O4 is placed order!,2025-01-12T16:22:55,C1
+NT8,You received Order #O4|x1 Fried Noodle is placed order!|,2025-01-12T16:22:55,V2
+NT9,Your Order #O5 is placed order!,2025-01-13T08:40:49,C1
+NT10,You received Order #O5|x4 Fried Noodle is placed order!|,2025-01-13T08:40:49,V2
+NT11,Your Order #O6 is placed order!,2025-01-13T09:27:18,C1
+NT12,You received Order #O6|x2 Fried Chicken is placed order!|,2025-01-13T09:27:18,C1
+NT13,RM 22.40 is refunded.,2025-01-13T09:29:07,C1
+NT14,Your delivery order is cancel.|The total of RM 22.40 is refunded.,2025-01-13T22:55:32,C1
+NT15,Your Order #O7 is placed order!,2025-01-14T10:00:39,C1
+NT16,You received Order #O7|x5 Fried Cake is placed order!|,2025-01-14T10:00:39,C1
+NT17,Your Order #O8 is placed order!,2025-01-14T10:04:40,C1
+NT18,You received Order #O8|x1 Fried Chicken is placed order!|x5 Fried Cake is placed order!|,2025-01-14T10:04:40,C1
+NT19,Your order is cancel.|The total of RM 96.80 is refunded.,2025-01-14T10:05:08,C1
+NT20,Your order is cancel.|The total of RM 88.00 is refunded.,2025-01-14T10:14:24,C1
+NT21,Your delivery order is cancel.|The total of RM 22.40 is refunded.,2025-01-14T10:21:44,C1
+NT22,Your order is cancel.|The total of RM 52.80 is refunded.,2025-01-14T10:26:45,C1
+NT23,Your Order #O9 is placed order!,2025-01-14T10:32:40,C1
+NT24,You received Order #O9|x4 Fried Chicken is placed order!|,2025-01-14T10:32:40,C1
+NT25,Your delivery order is cancel.|The total of RM 38.40 is refunded.,2025-01-14T10:42:42,C1
