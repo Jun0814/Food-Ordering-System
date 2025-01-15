@@ -41,7 +41,7 @@ public class ManagerHome extends javax.swing.JPanel {
         contentPanel.setOpaque(false);
         
         //Create dataset
-        Map<String, Double> yearlyTotalRevenue = backend.getYearlyRevenue();
+        Map<String, Double> yearlyTotalRevenue = backend.getYearlyRevenue(null);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for(Map.Entry<String, Double> entry : yearlyTotalRevenue.entrySet()){
             dataset.addValue(entry.getValue(), "Revenue", entry.getKey());
@@ -80,7 +80,7 @@ public class ManagerHome extends javax.swing.JPanel {
     
     private void showDailySalesChart(String year){
         System.out.println(year);
-        Map<LocalDate, Double> dailySales = backend.getDailySalesForYear(year);
+        Map<LocalDate, Double> dailySales = backend.getDailySalesForYear(year, null);
         System.out.println(dailySales);
         DefaultCategoryDataset dailyDataset = new DefaultCategoryDataset();
         for (Map.Entry<LocalDate, Double> entry : dailySales.entrySet()) {
@@ -92,11 +92,7 @@ public class ManagerHome extends javax.swing.JPanel {
                 "Daily Sales for " + year,   // Chart title
                 "Date",                      // X-axis Label
                 "Amount ($)",                // Y-axis Label
-                dailyDataset,                // Dataset
-                PlotOrientation.VERTICAL,
-                true,                        // Include legend
-                true,                        // Tooltips
-                false                        // URLs
+                dailyDataset
         );
         
         SwingUtilities.invokeLater(() -> {
@@ -104,7 +100,9 @@ public class ManagerHome extends javax.swing.JPanel {
             dailySalesFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             dailySalesFrame.add(new ChartPanel(dailyChart));
             dailySalesFrame.pack();
+            dailySalesFrame.setLocationRelativeTo(null);
             dailySalesFrame.setVisible(true);
+            dailySalesFrame.setSize(1000,600);
         });
     }
 

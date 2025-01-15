@@ -54,9 +54,11 @@ public class managerMain extends javax.swing.JFrame {
     
     public void actionPerformed(ActionEvent e){
         if( e.getSource() == revenueBtn){
-            System.out.println("hihi");
             managerRevenue managerRevenue = new managerRevenue();
             switchToPanel(managerRevenue);
+        }else if( e.getSource() == deliveryBtn){
+            managerDelivery managerDelivery = new managerDelivery();
+            switchToPanel(managerDelivery);
         }
     }
 
@@ -191,14 +193,17 @@ public class managerMain extends javax.swing.JFrame {
 
     private void deliveryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryBtnActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_deliveryBtnActionPerformed
 
     private void complaintsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complaintsBtnActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_complaintsBtnActionPerformed
 
     private void vendorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorBtnActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_vendorBtnActionPerformed
 
     private void revenueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revenueBtnActionPerformed

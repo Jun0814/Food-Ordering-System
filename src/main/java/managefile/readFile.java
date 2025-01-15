@@ -293,11 +293,11 @@ public class readFile {
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
                 String reviewID = fields[0].trim();
-                String deliveryID = fields[1].trim();
+                String customerID = fields[1].trim();
                 String runnerID = fields[2].trim();
-                String rating = fields[3].trim();
+                Double rating = Double.parseDouble(fields[3].trim());
                 String comments = fields[4].trim();
-                reviews.add(new DeliveryReview(reviewID,deliveryID,runnerID, rating, comments));
+                reviews.add(new DeliveryReview(reviewID,customerID,runnerID, rating, comments));
             }
         }catch(IOException e){
             e.printStackTrace();

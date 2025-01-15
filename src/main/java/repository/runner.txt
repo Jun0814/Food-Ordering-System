@@ -1,0 +1,3 @@
+ID,Name,EmailAddress,PhoneNumber,Password,Status
+R1,Chong Jia Jun,jiajunsb@gmail.com,012-5545545,abcd,Free
+R2,Chin Xuan Han,xuanhanchin@gmail.com,012-5484854,qbcd,Free

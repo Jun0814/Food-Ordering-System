@@ -10,6 +10,9 @@ package managefile;
  */
 public class Runner extends GeneralRole{
     private String status;
+    private String filepath = "src\\main\\java\\repository\\runner.txt";
+    
+    public Runner(){}
 
     public Runner(String id, String name, String email, String phone, String password,String status) {
         super(id, name, email, phone, password);
@@ -23,5 +26,7 @@ public class Runner extends GeneralRole{
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    public String getFilepath(){ return this.filepath; } 
     
 }

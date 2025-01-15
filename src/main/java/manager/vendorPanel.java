@@ -75,6 +75,11 @@ public class vendorPanel extends javax.swing.JPanel {
         ratingsLabel.setText("Ratings");
 
         viewBtn.setText("View");
+        viewBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout vendorDetailsPanelLayout = new javax.swing.GroupLayout(vendorDetailsPanel);
         vendorDetailsPanel.setLayout(vendorDetailsPanelLayout);
@@ -131,11 +136,17 @@ public class vendorPanel extends javax.swing.JPanel {
                 .addComponent(vendorImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void viewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewBtnActionPerformed
+        // TODO add your handling code here:
+        vendorRevenue vendorPage = new vendorRevenue(vendorId);
+        vendorPage.run();
+    }//GEN-LAST:event_viewBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
