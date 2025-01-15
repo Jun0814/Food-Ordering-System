@@ -7,39 +7,39 @@ package manager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import managefile.Vendor;
 import managefile.Data;
+import managefile.Runner;
 
 /**
  *
  * @author Asus
  */
-public class managerRevenue extends javax.swing.JPanel { 
-    Vendor vendor = new Vendor();
+public class managerDelivery extends javax.swing.JPanel {
+    Runner runner = new Runner();
     Data data = new Data();
-    String vendorFilepath = vendor.getFilepath();
+    String runnerFilepath = runner.getFilepath();
+    
     /**
-     * Creates new form managerRevenue
+     * Creates new form managerDelivery
      */
-    public managerRevenue() {
+    public managerDelivery() {
         initComponents();
         this.setSize(1000,300);
         this.setLayout(new BorderLayout());
-        JPanel containerPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        JPanel containerPanel = new JPanel(new GridLayout(0, 3, 5, 5));
         
-        List<String[]> vendors = data.readRolesFromFile(vendorFilepath);
-        System.out.println(vendors);
-        for (String[] vendor : vendors){
-            String vendorId = vendor[0];
-            String vendorName = vendor[1];
-            String vendorStallName = vendor[5];
-            String vendorStallType = vendor[6];
-            vendorPanel panel = new vendorPanel(vendorId, vendorName, vendorStallName, vendorStallType);
+        List <String[]> runners = data.readRolesFromFile(runnerFilepath);
+        System.out.println(runners);
+        for (String[] runner : runners ){
+            String runnerId = runner[0];
+            String runnerName = runner[1];
+            String runnerEmail = runner[2];
+            String runnerPhone = runner[3];
+            runnerPanel panel = new runnerPanel(runnerId, runnerName, runnerEmail, runnerPhone);
             containerPanel.add(panel);
         }
         JScrollPane scrollPane = new JScrollPane(containerPanel);
@@ -61,13 +61,11 @@ public class managerRevenue extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(1000, 500));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

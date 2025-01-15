@@ -261,15 +261,15 @@ public class Data {
         }
     }
     
+//  Read all data from txt fill and store as lst
     public static List<String[]> readRolesFromFile(String filePath){
         List<String[]> roles = new ArrayList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String headerLine = br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
-                if (!line.startsWith("ID") && !line.isEmpty()) { // Skip the header
-                    roles.add(line.split(","));
-                }
+                roles.add(line.split(","));
             }
         } catch (IOException e) {
             e.printStackTrace();

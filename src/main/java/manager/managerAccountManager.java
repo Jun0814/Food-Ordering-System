@@ -34,34 +34,66 @@ public class managerAccountManager {
         return null;
     }
     
-    public Map<String, Double> getYearlyRevenue(){
+//    public Map<String, Double> getYearlyRevenue(){
+//        String filepath = order.getFilepath();
+//        double totalAmount = 0;
+//        
+//        Map<String, Double> yearlyTotalRevenue = new HashMap<>();
+//        
+//        try(BufferedReader br = new BufferedReader(new FileReader(filepath))){
+//            String headerLine = br.readLine();
+//            String line;
+//            
+//            while((line = br.readLine()) != null){
+//                String [] columns = line.split(",");
+//                
+//                String dateTime = columns[7].trim();
+//                String yearlyRevenueStr = columns[8].trim();
+//                
+//                String year = dateTime.split("-")[0];
+//                
+//                double yearlyRevenue = Double.parseDouble(yearlyRevenueStr);
+//                yearlyTotalRevenue.put(year, yearlyTotalRevenue.getOrDefault(year, 0.0) + yearlyRevenue);
+//            }
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+//        return yearlyTotalRevenue;
+//    }    
+    
+    public Map<String, Double> getYearlyRevenue(String vendorId) {
         String filepath = order.getFilepath();
-        double totalAmount = 0;
-        
         Map<String, Double> yearlyTotalRevenue = new HashMap<>();
-        
-        try(BufferedReader br = new BufferedReader(new FileReader(filepath))){
-            String headerLine = br.readLine();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            String headerLine = br.readLine(); // Skip the header
             String line;
-            
-            while((line = br.readLine()) != null){
-                String [] columns = line.split(",");
-                
-                String dateTime = columns[5].trim();
-                String yearlyRevenueStr = columns[6].trim();
-                
+
+            while ((line = br.readLine()) != null) {
+                String[] columns = line.split(",");
+
+                String fileVendorId = columns[3].trim(); // Assuming the vendorId is in the first column
+                String dateTime = columns[7].trim();
+                String yearlyRevenueStr = columns[8].trim();
+
+                // Parse the year from the date
                 String year = dateTime.split("-")[0];
-                
+
+                // Parse revenue amount
                 double yearlyRevenue = Double.parseDouble(yearlyRevenueStr);
-                yearlyTotalRevenue.put(year, yearlyTotalRevenue.getOrDefault(year, 0.0) + yearlyRevenue);
+
+                // Check if vendorId matches or vendorId is not provided
+                if (vendorId == null || vendorId.isEmpty() || vendorId.equals(fileVendorId)) {
+                    yearlyTotalRevenue.put(year, yearlyTotalRevenue.getOrDefault(year, 0.0) + yearlyRevenue);
+                }
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return yearlyTotalRevenue;
-    }    
+    }
     
-    public Map<LocalDate, Double> getDailySalesForYear(String year){
+    public Map<LocalDate, Double> getDailySalesForYear(String year, String vendorId){
         String filepath = order.getFilepath();
         
         Map<LocalDate, Double> dailySalesForYear = new HashMap<>();
@@ -73,15 +105,18 @@ public class managerAccountManager {
             while((line = br.readLine()) != null){
                 String [] columns = line.split(",");
                 
-                String dateTimeStr = columns[5].trim();
-                String amountStr = columns[6].trim();
+                String dateTimeStr = columns[7].trim();
+                String amountStr = columns[8].trim();
+                String fileVendorId = columns[3].trim();
                 
-                LocalDate date = LocalDate.parse(dateTimeStr.split(" ")[0]);
+                LocalDate date = LocalDate.parse(dateTimeStr.split("T")[0]);
                 
-                if(String.valueOf(date.getYear()).equals(year)){
-                    double amount = Double.parseDouble(amountStr);
-                    dailySalesForYear.put(date,dailySalesForYear.getOrDefault(date, 0.0)+ amount);
-                }       
+                if(vendorId == null || vendorId.isEmpty() || vendorId.equals(fileVendorId)){
+                    if(String.valueOf(date.getYear()).equals(year)){
+                        double amount = Double.parseDouble(amountStr);
+                        dailySalesForYear.put(date,dailySalesForYear.getOrDefault(date, 0.0)+ amount);
+                    }   
+                }  
                
             }
             

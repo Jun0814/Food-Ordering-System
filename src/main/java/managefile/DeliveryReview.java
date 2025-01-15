@@ -10,14 +10,18 @@ package managefile;
  */
 public class DeliveryReview {
     private String reviewID;
-    private String deliveryID;
+    private String customerID;
     private String runnerID;
-    private String rating;
+    private double rating;
     private String comments;
+    private String datetime;
+    private String filepath = "src\\main\\java\\repository\\deliveryReview.txt";
+    
+    public DeliveryReview(){}
 
-    public DeliveryReview(String reviewID, String deliveryID, String runnerID, String rating, String comments) {
+    public DeliveryReview(String reviewID, String customerID, String runnerID, Double rating, String comments) {
         this.reviewID = reviewID;
-        this.deliveryID = deliveryID;
+        this.customerID = customerID;
         this.runnerID = runnerID;
         this.rating = rating;
         this.comments = comments;
@@ -31,12 +35,12 @@ public class DeliveryReview {
         this.reviewID = reviewID;
     }
 
-    public String getDeliveryID() {
-        return deliveryID;
+    public String getCustomerID() {
+        return customerID;
     }
 
-    public void setDeliveryID(String deliveryID) {
-        this.deliveryID = deliveryID;
+    public void setCustomerID(String deliveryID) {
+        this.customerID = deliveryID;
     }
 
     public String getRunnerID() {
@@ -47,11 +51,11 @@ public class DeliveryReview {
         this.runnerID = runnerID;
     }
 
-    public String getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -63,4 +67,15 @@ public class DeliveryReview {
         this.comments = comments;
     }
     
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = comments;
+    }
+    
+    public String getFilepath(){
+        return filepath;
+    }
 }
