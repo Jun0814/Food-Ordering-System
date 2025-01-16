@@ -3,12 +3,14 @@ package Admin;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
+import main.UserLogin;
 import method.scaleImage;
 
-public class HomePage extends javax.swing.JFrame {
+public class HomePage extends javax.swing.JFrame implements ActionListener {
 
     private String userId;
     scaleImage scaleImage = new scaleImage();
@@ -24,6 +26,9 @@ public class HomePage extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null); 
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
+        logout.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\log-out.png", 30, 30));
+        logout.setFocusable(false);
+        logout.addActionListener(this);
     }
 
     protected void switchToPanel(JPanel targetPanel) {        
@@ -55,6 +60,10 @@ public class HomePage extends javax.swing.JFrame {
             switchToPanel(new Transaction());
         }else if(e.getSource() == creditButton){
             switchToPanel(new CreditTopUp());
+        }else if (e.getSource()==logout){
+            UserLogin loginpage = new UserLogin("admin");
+            loginpage.run();
+            this.dispose();
         }
     }
 
@@ -69,6 +78,7 @@ public class HomePage extends javax.swing.JFrame {
         transactionButton = new method.RoundedButton();
         runnerButton = new method.RoundedButton();
         creditButton = new method.RoundedButton();
+        logout = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -175,6 +185,15 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
+        logout.setBackground(new java.awt.Color(39, 40, 56));
+        logout.setBorder(null);
+        logout.setBorderPainted(false);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -189,6 +208,10 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(transactionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,7 +226,10 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(creditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(transactionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(transactionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         contentPanel.setBackground(new java.awt.Color(220, 220, 255));
@@ -268,11 +294,17 @@ public class HomePage extends javax.swing.JFrame {
         actionPerformed(evt);
     }//GEN-LAST:event_creditButtonActionPerformed
 
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+        actionPerformed(evt);
+    }//GEN-LAST:event_logoutActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private method.RoundedButton creditButton;
     private method.RoundedButton customerButton;
     protected javax.swing.JLabel logoLabel;
+    private javax.swing.JButton logout;
     private javax.swing.JPanel menuPanel;
     private method.RoundedButton runnerButton;
     private method.RoundedButton transactionButton;
