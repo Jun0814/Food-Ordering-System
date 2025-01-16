@@ -4,7 +4,6 @@ public class VendorList extends javax.swing.JPanel {
 
     public VendorList() {
         initComponents();
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -67,6 +66,16 @@ public class VendorList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addVendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVendorButtonActionPerformed
+        // Create and configure the "Add Vendor" dialog
+        javax.swing.JDialog dialog = new javax.swing.JDialog();
+        dialog.setTitle("Add Vendor");
+        dialog.setSize(450, 600); 
+        dialog.setLocationRelativeTo(this); 
+
+        dialog.setContentPane(new AddVendor()); 
+
+        dialog.setModal(true); 
+        dialog.setVisible(true); 
     }//GEN-LAST:event_addVendorButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel VendorLabel;
