@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
+import main.UserLogin;
 import method.scaleImage;
 
 public class HomePage extends javax.swing.JFrame implements ActionListener {
@@ -36,15 +38,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         contentPanel.add(targetPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
-
-    protected void switchToPanel(javax.swing.JPanel targetPanel) {        
-        if (contentPanel != null) { this.remove(contentPanel); }
-        contentPanel = targetPanel;
-        this.add(contentPanel, BorderLayout.CENTER);
-        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
-        getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
-        this.revalidate();
-        this.repaint();
         
         logoLabel.addMouseListener(new MouseAdapter() {
             @Override

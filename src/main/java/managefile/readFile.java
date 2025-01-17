@@ -180,27 +180,6 @@ public class readFile {
         }
         return managers;
     }
-    
-    public List readFeedback(String filepath){
-        List<Feedback> feedbacks = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader(filepath);
-            BufferedReader br = new BufferedReader(fr);
-            br.readLine();
-            String line;
-            while((line = br.readLine()) != null) {
-                String [] fields = line.split(",");
-                String feedbackId = fields[0].trim();
-                String managerId = fields[1].trim();
-                String description = fields[2].trim();
-                String datetime = fields[3].trim();
-                feedbacks.add(new Feedback(feedbackId, managerId, description, datetime));
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return feedbacks;
-    }
         
     public List readOrder(String filePath){
         List<Order> orders = new ArrayList<>();
