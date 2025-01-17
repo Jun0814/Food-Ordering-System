@@ -238,46 +238,40 @@ public class AddVendor extends javax.swing.JPanel {
         String Avatar = "null";
         String Status = (String) stallStatus.getSelectedItem();
         
-        // Check if any field is empty
         if (VendorName.isEmpty() || VendorEmail.isEmpty() || VendorPassword.isEmpty() || StallName.isEmpty() || 
             StallType.isEmpty() || Status.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.");
             return;
         }
         
-        // File path for the vendor data
         String filePath = "src\\main\\java\\repository\\vendor.txt";
 
         try {
-            // Step 1: Read existing IDs from the file
+            // Read existing IDs from the file
             List<String> existingIDs = new ArrayList<>();
             try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    String[] parts = line.split(","); // Assuming data is comma-separated
+                    String[] parts = line.split(","); 
                     if (parts.length > 0) {
                         existingIDs.add(parts[0]); // Add the first column (userID) to the list
                     }
                 }
             }
 
-            // Step 2: Generate the next unique user ID
+            // Generate the next unique user ID
             primaryKey pk = new primaryKey();
             String newUserID = pk.incrementPrimaryKey(existingIDs);
 
-            // Step 3: Format the new data
             String newLineContent = String.join(",",
                 newUserID, VendorName, VendorEmail, VendorPhone, VendorPassword, StallName, StallType, Avatar, Status
             );
 
-            // Step 4: Insert the new data into the file
             Data dataManager = new Data();
             dataManager.insertData(newLineContent, filePath);
 
-            // Show success message
             JOptionPane.showMessageDialog(null, "Vendor added successfully!");
 
-            // Clear input fields
             vendorName.setText("");
             vendorEmail.setText("");
             vendorPhone.setText("");

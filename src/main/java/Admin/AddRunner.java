@@ -201,46 +201,40 @@ public class AddRunner extends javax.swing.JPanel {
         String Avatar = "null";
         String Status = (String) runnerStatus.getSelectedItem();
         
-        // Check if any field is empty
         if (RunnerName.isEmpty() || RunnnerEmail.isEmpty() || RunnerPhone.isEmpty() ||  RunnerPassword.isEmpty() ||
             Status.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.");
             return;
         }
         
-        // File path for the vendor data
         String filePath = "src\\main\\java\\repository\\runner.txt";
 
         try {
-            // Step 1: Read existing IDs from the file
+            // Read existing IDs from the file
             List<String> existingIDs = new ArrayList<>();
             try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    String[] parts = line.split(","); // Assuming data is comma-separated
+                    String[] parts = line.split(","); 
                     if (parts.length > 0) {
                         existingIDs.add(parts[0]); // Add the first column (userID) to the list
                     }
                 }
             }
 
-            // Step 2: Generate the next unique user ID
+            // Generate the next unique user ID
             primaryKey pk = new primaryKey();
             String newUserID = pk.incrementPrimaryKey(existingIDs);
 
-            // Step 3: Format the new data
             String newLineContent = String.join(",",
                 newUserID, RunnerName, RunnnerEmail, RunnerPhone, RunnerPassword,  Avatar, Status
             );
 
-            // Step 4: Insert the new data into the file
             Data dataManager = new Data();
             dataManager.insertData(newLineContent, filePath);
 
-            // Show success message
             JOptionPane.showMessageDialog(null, "Runner added successfully!");
 
-            // Clear input fields
             runnerName.setText("");
             runnerEmail.setText("");
             runnerPhone.setText("");
