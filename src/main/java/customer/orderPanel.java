@@ -29,7 +29,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import managefile.OrderItems;
+import managefile.Vendor;
 
 /**
  *
@@ -42,6 +44,7 @@ public class orderPanel extends javax.swing.JPanel {
     private JFrame frame;
     customer_backend backend = new customer_backend();
     CustomerHome homepage = new CustomerHome();
+    private String orderType;
 
     public JDialog getDialog() {
         return dialog;
@@ -75,10 +78,26 @@ public class orderPanel extends javax.swing.JPanel {
         List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.OrderItems> orderItems = (List<managefile.OrderItems>) allOrders.get("ordersItems");
         List<managefile.Food> foodItems = (List<managefile.Food>) allOrders.get("foodItems");
+        List<managefile.Vendor> vendors = backend.getVendors();
+        Vendor vendorDetail = new Vendor();
+        for (Vendor vendor : vendors) {
+            if (vendor.getId().equals(orders.getFirst().getVendorID())){
+                vendorDetail = vendor;
+            }
+        }
+        List<managefile.VendorReview> vendorReviews = backend.getOrderReviewByID(orders.getFirst().getOrderReviewID());
         
+        boolean reviewGiven = false;
+        if ((vendorReviews.getFirst().getRating().equals("") || vendorReviews.getFirst().getRating().equals("null")) && 
+            (vendorReviews.getFirst().getComments().equals("") || vendorReviews.getFirst().getComments().equals("null"))){
+            reviewGiven = true;
+        }
+        
+        naviButton.setText("View Vendor ("+vendorDetail.getStallName()+")");
         naviButton.addActionListener(e->{
             navigateFood(orders.getFirst());
         });
+        
         JPanel orderPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
        
@@ -100,19 +119,28 @@ public class orderPanel extends javax.swing.JPanel {
         JPanel containerPanel = new JPanel(new BorderLayout());
         containerPanel.add(orderPanel, BorderLayout.NORTH);
         
-        JPanel detailsPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+        JPanel detailsPanel = new JPanel(new GridLayout(3, 1, 5, 5));
         detailsPanel.setBackground(null);
         detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 18));
-        String orderType = orders.getFirst().getOrderType().toUpperCase();
+        
+        String description = "";
+        
+        orderType = orders.getFirst().getOrderType().toUpperCase();
         String orderTypeD = orders.getFirst().getOrderTypeDetails().toUpperCase();
         detailsPanel.add(homepage.createDetailLabel("Datetime:", orders.getFirst().getDatetime()));
         jLabel1.setText("Order #"+orderID+"     ("+orderType+")");
         switch (orderType) {
             case "DINE IN" -> {
                 detailsPanel.add(homepage.createDetailLabel("Table Number:", "Table "+orderTypeD));
+                description = String.format("<html><div style='text-align: right;'>" +
+                           "<span style='font-size: 12px;'>%s</span></html>", 
+                           backend.returnOrderDescription(orders.getFirst().getStatus()));
             }
             case "PICKUP" -> {
                 detailsPanel.add(homepage.createDetailLabel("Pick up Time:", orderTypeD));
+                description = String.format("<html><div style='text-align: right;'>" +
+                           "<span style='font-size: 12px;'>%s</span></html>", 
+                           backend.returnOrderDescription(orders.getFirst().getStatus()));
             }
             case "DELIVERY" -> {
                 Map<Object, Object> deliveryDetails = backend.getDeliveryDetails(orderID);
@@ -120,23 +148,35 @@ public class orderPanel extends javax.swing.JPanel {
                 List<managefile.Runner> runners = (List<managefile.Runner>) deliveryDetails.get("runners");
 
                 managefile.Delivery delivery = deliverys.getFirst();
+                description = String.format("<html><div style='text-align: right;'>" +
+                           "<span style='font-size: 12px;'>%s</span></html>", 
+                           backend.returnDeliveryDescription(delivery.getStatus(),orders.getFirst().getStatus()));
                 managefile.Runner runner = runners.getFirst();
                 detailsPanel.add(homepage.createDetailLabel("Delivery Address:", orderTypeD));
                 detailsPanel.add(homepage.createDetailLabel("Delivery Description:", delivery.getDescription()));
-                detailsPanel.add(homepage.createDetailLabel("Delivery Status:", delivery.getStatus()));
             }
             default -> {
             }
         }
         detailsPanel.add(homepage.createDetailLabel("Total Amount: ", "RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount()))));
         String status = orders.getFirst().getStatus();
-        if (!status.equalsIgnoreCase("pending")){
-            cancelButton.setVisible(false);
-        }else{
+        if (status.equalsIgnoreCase("pending")){
             cancelButton.setVisible(true);
+            cancelButton.setText("Cancel Order");
+        }else if (status.equalsIgnoreCase("done")){
+            cancelButton.setVisible(true);
+            cancelButton.setText("Order Received");
+        }else if(status.equalsIgnoreCase("completed") || status.equalsIgnoreCase("cancel")){
+            if (reviewGiven){
+                cancelButton.setVisible(true);
+                cancelButton.setText("Rate Order");
+            }else{
+                cancelButton.setVisible(false);
+            }
         }
         JPanel statusPanel = homepage.createStatusPanel(status);
         
+        jLabel2.setText(description);
         jPanel5.setLayout(new BorderLayout());
         jPanel5.add(detailsPanel,BorderLayout.WEST);
         jPanel7.setLayout(new BorderLayout());
@@ -162,7 +202,7 @@ public class orderPanel extends javax.swing.JPanel {
         fpage.run();
     }
     private JPanel addOrderPanel(managefile.OrderItems orderItems,managefile.Food foodItems){
-        CustomeritemPanel panel = new CustomeritemPanel(customerID, orderItems,foodItems);
+        CustomeritemPanel panel = new CustomeritemPanel(customerID, orderItems,foodItems,frame);
         return panel;
     }
 
@@ -195,6 +235,7 @@ public class orderPanel extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         naviButton = new method.RoundedButton();
+        jLabel2 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -268,7 +309,7 @@ public class orderPanel extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -278,9 +319,11 @@ public class orderPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 21, Short.MAX_VALUE)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
@@ -289,11 +332,11 @@ public class orderPanel extends javax.swing.JPanel {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 363, Short.MAX_VALUE)
+            .addGap(0, 358, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 71, Short.MAX_VALUE)
+            .addGap(0, 89, Short.MAX_VALUE)
         );
 
         naviButton.setText("View Vendor");
@@ -303,6 +346,9 @@ public class orderPanel extends javax.swing.JPanel {
                 naviButtonActionPerformed(evt);
             }
         });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -316,22 +362,32 @@ public class orderPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(naviButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(naviButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9)))))
                 .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(naviButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(naviButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(4, 4, 4)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -340,17 +396,87 @@ public class orderPanel extends javax.swing.JPanel {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
         CustomerHome intiHomePage = new CustomerHome(customerID);
-        int selection = JOptionPane.showConfirmDialog(null, "Do you confirm to cancel the order?\nThe 80% of total amount will be refunded.","Cancel Confirmation",JOptionPane.WARNING_MESSAGE);
-        if (selection == JOptionPane.YES_OPTION){
+        String option = cancelButton.getText();
+        if (option.equals("Cancel Order")){
+            int selection = JOptionPane.showConfirmDialog(null, "Do you confirm to cancel the order?\nThe 80% of total amount will be refunded.","Cancel Confirmation",JOptionPane.WARNING_MESSAGE);
+            if (selection == JOptionPane.YES_OPTION){
+                try {
+                    backend.updateOrderDetails(customerID, orderID);
+                    homepage.closeDialog();
+                    intiHomePage.run();
+                } catch (IOException ex) {
+                    Logger.getLogger(orderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                return;
+            }
+        }else if (option.equals("Order Received")){
             try {
-                backend.updateOrderDetails(customerID, orderID);
+                if (orderType.equalsIgnoreCase("delivery")){
+                    String[] options = {"1", "2", "3", "4", "5"};
+                    String ratingInput = (String) JOptionPane.showInputDialog(
+                        intiHomePage,
+                        "Please rate your delivery (1-5):",
+                        "Delivery Rating",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        "5"
+                    );
+                    if (ratingInput != null) {
+                        String review = JOptionPane.showInputDialog(
+                            intiHomePage,
+                            "Please enter your review:",
+                            "Delivery Review",
+                            JOptionPane.PLAIN_MESSAGE
+                        );
+
+                        backend.addDeliveryReview(orderID, ratingInput, (review.trim().isEmpty() || review.equals("")) ? null : review.trim());
+                        JOptionPane.showMessageDialog(
+                            intiHomePage,
+                            "Thank you for your feedback!",
+                            "Review Submitted",
+                            JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
+                }
+                backend.completeOrder(customerID,  orderID);
+                JOptionPane.showMessageDialog(null, "Order #"+orderID+" has been received!","Order Received",JOptionPane.INFORMATION_MESSAGE);
                 homepage.closeDialog();
                 intiHomePage.run();
             } catch (IOException ex) {
                 Logger.getLogger(orderPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-            return;
+        }else if (option.equals("Rate Order")){
+            String[] options = {"1", "2", "3", "4", "5"};
+            String ratingInput = (String) JOptionPane.showInputDialog(
+                intiHomePage,
+                "Please rate your order (1-5):",
+                "Vendor Rating",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                "5"
+            );
+            if (ratingInput != null) {
+                String review = JOptionPane.showInputDialog(
+                    intiHomePage,
+                    "Please enter your review:",
+                    "Vendor Food Review",
+                    JOptionPane.PLAIN_MESSAGE
+                );
+                
+                backend.addOrderReview(orderID, ratingInput, (review.trim().isEmpty() || review.equals("")) ? null : review.trim());
+
+                JOptionPane.showMessageDialog(
+                    intiHomePage,
+                    "Thank you for your feedback!",
+                    "Review Submitted",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                homepage.closeDialog();
+                intiHomePage.run();
+            }
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -362,6 +488,7 @@ public class orderPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.RoundedButton cancelButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

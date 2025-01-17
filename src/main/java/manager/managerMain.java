@@ -59,6 +59,12 @@ public class managerMain extends javax.swing.JFrame {
         }else if( e.getSource() == deliveryBtn){
             managerDelivery managerDelivery = new managerDelivery();
             switchToPanel(managerDelivery);
+        }else if(e.getSource() == complaintsBtn){
+            ManagerComplaints managerComplaints = new ManagerComplaints(managerId);
+            switchToPanel(managerComplaints);
+        }else if(e.getSource() == vendorBtn){
+            ManagerVendor managerVendor = new ManagerVendor();
+            switchToPanel(managerVendor);
         }
     }
 

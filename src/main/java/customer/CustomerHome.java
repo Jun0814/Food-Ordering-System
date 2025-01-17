@@ -67,7 +67,7 @@ public class CustomerHome extends javax.swing.JFrame implements ActionListener{
     public CustomerHome(){}
     public Color getStatusColor(String status) {
         switch (status.toLowerCase()) {
-            case "completed","accept": 
+            case "completed","accept","done","resolved": 
                 return new Color(39, 174, 96);
             case "pending": 
                 return new Color(243, 156, 18);
@@ -88,44 +88,49 @@ public class CustomerHome extends javax.swing.JFrame implements ActionListener{
         JPanel orderPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
-        
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
         HashSet<String> processedOrderIds = new HashSet<>();
         
-        for (int i = orders.size()-1; i >= 0; i--) {
+        boolean hasActiveOrders = false;
+
+        for (int i = orders.size() - 1; i >= 0; i--) {
             managefile.Order innerOrder = orders.get(i);
             String orderID = innerOrder.getOrderID();
-            if (!processedOrderIds.contains(orderID)){
+            String status = innerOrder.getStatus().toLowerCase();
+
+            if (!processedOrderIds.contains(orderID) && !(status.equals("completed") || status.equals("cancel"))) {
+                hasActiveOrders = true;
                 processedOrderIds.add(orderID);
-                System.out.println(orderID);
-                if (orders.getLast().getStatus().equalsIgnoreCase("completed") || orders.getLast().getStatus().equalsIgnoreCase("cancel")){
-                    System.out.println("No");
-                    jLabel1.setText("Order Again");
-                    JPanel panel = addOrderPanel(orders.getLast());
-                    orderPanel.add(panel, gbc);
-                    gbc.gridx++;
-                    if (gbc.gridx == 1) {
-                        gbc.gridx = 0;
-                        gbc.gridy++;
-                    }
-                    break;
-                }else{
-                    System.out.println("Yes");
-                    jLabel1.setText("My Order");
-                    if (!innerOrder.getStatus().equalsIgnoreCase("completed") && !innerOrder.getStatus().equalsIgnoreCase("cancel")){
-                        JPanel panel = addOrderPanel(innerOrder);
-                        orderPanel.add(panel, gbc);
-                        gbc.gridx++;
-                        if (gbc.gridx == 1) {
-                            gbc.gridx = 0;
-                            gbc.gridy++;
-                        }
-                    }
+                JPanel panel = addOrderPanel(innerOrder);
+                orderPanel.add(panel, gbc);
+                gbc.gridx++;
+                if (gbc.gridx == 1) {
+                    gbc.gridx = 0;
+                    gbc.gridy++;
                 }
             }
         }
+
+        if (hasActiveOrders) {
+            jLabel1.setText("My Order");
+        } else {
+            for (int i = orders.size() - 1; i >= 0; i--) {
+                managefile.Order innerOrder = orders.get(i);
+                String orderID = innerOrder.getOrderID();
+                String status = innerOrder.getStatus().toLowerCase();
+
+                if (!processedOrderIds.contains(orderID) && (status.equals("completed") || status.equals("cancel"))) {
+                    jLabel1.setText("Order Again");
+                    processedOrderIds.add(orderID);
+                    JPanel panel = addOrderPanel(innerOrder);
+                    orderPanel.add(panel, gbc);
+                    break;
+                }
+            }
+        }
+
         JPanel containerPanel = new JPanel(new BorderLayout());
         containerPanel.add(orderPanel, BorderLayout.NORTH);
         
@@ -187,6 +192,23 @@ public class CustomerHome extends javax.swing.JFrame implements ActionListener{
         JLabel titleLabel = createStyledLabel(title, 14, true);
         JLabel valueLabel = createStyledLabel(value, 14, false);
 
+        panel.add(titleLabel);
+        panel.add(valueLabel);
+        return panel;
+    }
+    public JPanel createDetailLabel2(String title, String value,String type) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        panel.setBackground(null);
+
+        JLabel titleLabel = createStyledLabel(title, 14, true);
+        JLabel valueLabel = createStyledLabel(value, 14, false);
+        if (type.equals("pos")){
+            valueLabel.setForeground(new Color(0, 102, 204));
+        }else if (type.equals("neg")){
+            valueLabel.setForeground(new Color(204, 0, 0));
+        }else {
+            valueLabel.setForeground(getStatusColor(type));
+        }
         panel.add(titleLabel);
         panel.add(valueLabel);
         return panel;
@@ -285,20 +307,20 @@ public class CustomerHome extends javax.swing.JFrame implements ActionListener{
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                viewOrderDetails(orders.getOrderID());
+                viewOrderDetails(orders.getOrderID(),CustomerHome.this);
             }
         });
 
         return panel;
     }
-    private void viewOrderDetails(String orderID) {
-        // Create an orderPanel and set the order ID
+    public void viewOrderDetails(String orderID,JFrame frame) {
         orderPanel orderPanel = new orderPanel(customerID,orderID);
         orderPanel.setOrderID(orderID);
 
-        JDialog dialog = new JDialog(this, true);
+        JDialog dialog = new JDialog(frame, true);
         orderPanel.setDialog(dialog);
-        orderPanel.setFrame(this);
+        orderPanel.setFrame(frame);
+        
         dialog.setResizable(false);
         dialog.setSize(new Dimension(950, 482));
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -317,8 +339,8 @@ public class CustomerHome extends javax.swing.JFrame implements ActionListener{
         orderPanel.repaint();
         orderPanel.revalidate();
     }
-    public void addCart(String customerID, managefile.OrderItems orderItems,managefile.Food foodItems){
-        JDialog dialog = new JDialog(this, true);
+    public void addCart(String customerID, managefile.OrderItems orderItems,managefile.Food foodItems,JFrame frame){
+        JDialog dialog = new JDialog(frame, true);
         dialog.setResizable(false);
         dialog.setSize(new Dimension(950, 482));
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -591,7 +613,6 @@ actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
-        actionPerformed(evt);
     }//GEN-LAST:event_logoutActionPerformed
 
     private void notificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificationActionPerformed

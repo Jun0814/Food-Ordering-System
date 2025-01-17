@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -80,23 +81,26 @@ public class CustomerFinance extends javax.swing.JFrame {
     }
     private JPanel addTransactionPanel(Transaction transaction){
         CustomerHome homepage = new CustomerHome(customerID);
-        // Create main rounded panel
+        
         method.RoundedPanel panel = new method.RoundedPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(975, 100));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15)); // Add some padding
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
-        // Create header panel (Order ID and Date)
-        JPanel headerPanel = new JPanel(new BorderLayout(20, 0)); // Add gap between components
+        JPanel headerPanel = new JPanel(new BorderLayout(20, 0));
         headerPanel.setBackground(Color.WHITE);
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15)); // Add bottom margin
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15));
 
         String transactionType = transaction.getTransactionType().toUpperCase();
         String transactionTypeDetails = null;
         switch (transactionType) {
             case "CREDIT" -> {
-                transactionTypeDetails = "Admin ID: "+ transaction.getGeneralID();
+                if (!transaction.getGeneralID().equals("null") && transaction.getGeneralID()!=null){
+                    transactionTypeDetails = "Admin ID: "+ transaction.getGeneralID();
+                }else{
+                    transactionTypeDetails = "Online Top Up: "+transaction.getTopupType();
+                }
             }
             case "DEBIT","REFUND" -> {
                 transactionTypeDetails = "Order ID: "+ transaction.getGeneralID();
@@ -112,21 +116,27 @@ public class CustomerFinance extends javax.swing.JFrame {
         headerPanel.add(orderIdLabel, BorderLayout.WEST);
         headerPanel.add(dateLabel, BorderLayout.EAST);
 
-        // Create bottom panel (Status and Total)
-        JPanel bottomPanel = new JPanel(new BorderLayout(20, 0)); // Add gap between components
+        JPanel bottomPanel = new JPanel(new BorderLayout(20, 0));
         bottomPanel.setBackground(Color.WHITE);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(30, 15, 5, 15)); // Add top margin
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(30, 15, 5, 15));
 
-        // Create total amount label
-        JLabel totalLabel = new JLabel("Total Amount: RM " + String.format("%.2f", Double.parseDouble(transaction.getAmount())));
-        totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        totalLabel.setForeground(new Color(51, 51, 51));
+        JLabel totalLabel = null;
+        switch (transactionType) {
+            case "CREDIT","REFUND" -> {
+                totalLabel = new JLabel("+ RM " + String.format("%.2f", Double.parseDouble(transaction.getAmount())));
+                totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                totalLabel.setForeground(new Color(0, 102, 204));
+            }
+            case "DEBIT" -> {
+                totalLabel = new JLabel("- RM " + String.format("%.2f", Double.parseDouble(transaction.getAmount())));
+                totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                totalLabel.setForeground(new Color(204, 0, 0));
+            }
+        }
 
-        // Add components to bottom panel
-        bottomPanel.add(homepage.createStatusPanel(transactionType), BorderLayout.EAST);
-        bottomPanel.add(totalLabel, BorderLayout.WEST);
+        bottomPanel.add(homepage.createStatusPanel(transactionType), BorderLayout.WEST);
+        bottomPanel.add(totalLabel, BorderLayout.EAST);
 
-        // Add all sections to main panel
         panel.add(headerPanel, BorderLayout.NORTH);
         panel.add(bottomPanel, BorderLayout.SOUTH);
         
@@ -134,11 +144,63 @@ public class CustomerFinance extends javax.swing.JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                
+                viewOrderDetails(transaction.getTransactionID(),CustomerFinance.this);
             }
         });
 
         return panel;
+    }
+    
+    public void viewOrderDetails(String transactionID,JFrame frame) {
+        CustomerFinancePanel transactionDetailsPanel = new CustomerFinancePanel(customerID,transactionID);
+
+        JDialog dialog = new JDialog(frame, true);
+        transactionDetailsPanel.setDialog(dialog);
+        transactionDetailsPanel.setFrame(frame);
+        
+        dialog.setResizable(false);
+        dialog.setSize(new Dimension(950, 482));
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(transactionDetailsPanel, BorderLayout.CENTER);
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+
+        dialog.setVisible(true);
+
+        transactionDetailsPanel.repaint();
+        transactionDetailsPanel.revalidate();
+    }
+    
+    public void viewTopUp(JFrame frame) {
+        topUpPanel topupPanel = new topUpPanel(customerID);
+
+        JDialog dialog = new JDialog(frame, true);
+        topupPanel.setDialog(dialog);
+        topupPanel.setFrame(frame);
+        
+        dialog.setResizable(false);
+        dialog.setSize(new Dimension(950, 482));
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(topupPanel, BorderLayout.CENTER);
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+
+        dialog.setVisible(true);
+
+        topupPanel.repaint();
+        topupPanel.revalidate();
     }
 
     /**
@@ -323,6 +385,7 @@ public class CustomerFinance extends javax.swing.JFrame {
 
     private void topButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topButtonActionPerformed
         // TODO add your handling code here:
+        viewTopUp(this);
     }//GEN-LAST:event_topButtonActionPerformed
 
     private void dashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButtonActionPerformed
