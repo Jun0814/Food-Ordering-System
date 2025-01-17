@@ -7,26 +7,25 @@ package manager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import managefile.Vendor;
 import managefile.Data;
+import managefile.Vendor;
 
 /**
  *
  * @author Asus
  */
-public class managerRevenue extends javax.swing.JPanel { 
+public class ManagerVendor extends javax.swing.JPanel {
     Vendor vendor = new Vendor();
     Data data = new Data();
     String vendorFilepath = vendor.getFilepath();
     /**
-     * Creates new form managerRevenue
+     * Creates new form ManagerVendor
      */
-    public managerRevenue() {
+    public ManagerVendor() {
         initComponents();
         this.setSize(1000,300);
         this.setLayout(new BorderLayout());
@@ -39,7 +38,7 @@ public class managerRevenue extends javax.swing.JPanel {
             String vendorName = vendor[1];
             String vendorStallName = vendor[5];
             String vendorStallType = vendor[6];
-            vendorPanel panel = new vendorPanel("Revenue", vendorId, vendorName, vendorStallName, vendorStallType);
+            vendorPanel panel = new vendorPanel("Food", vendorId, vendorName, vendorStallName, vendorStallType);
             containerPanel.add(panel);
         }
         JScrollPane scrollPane = new JScrollPane(containerPanel);
@@ -61,13 +60,11 @@ public class managerRevenue extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(1000, 500));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

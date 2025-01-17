@@ -14,7 +14,10 @@ public class Feedback {
     private String managerID;
     private String description;
     private String datetime;
-
+    private String filepath = "src\\main\\java\\repository\\feedback.txt";
+    
+    public Feedback(){}
+  
     public Feedback(String feedbackID,String customerID, String managerID, String description,String datetime) {
         this.feedbackID = feedbackID;
         this.customerID = customerID;
@@ -61,6 +64,10 @@ public class Feedback {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getFilepath(){
+        return filepath;
     }
     
 }

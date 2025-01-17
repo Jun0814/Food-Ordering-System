@@ -155,7 +155,6 @@ public class vendorRevenue extends javax.swing.JFrame {
         yearlyRevenueChartPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 500));
 
         vendorImagePanel.setBackground(java.awt.Color.black);
 

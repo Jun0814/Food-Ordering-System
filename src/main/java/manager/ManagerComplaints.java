@@ -5,24 +5,101 @@
 package manager;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import managefile.Data;
+import managefile.Feedback;
 
 /**
  *
  * @author Asus
  */
 public class ManagerComplaints extends javax.swing.JPanel {
+    Feedback feedback = new Feedback();
+    Data data = new Data();
+    String feedbackFilepath = feedback.getFilepath();
+    private String managerId;
+    private JPanel containerPanel; // Holds the feedback panels
+    private JScrollPane scrollPane; // Scrollable panel
 
     /**
      * Creates new form ManagerComplaints
      */
-    public ManagerComplaints() {
+    public ManagerComplaints(String managerId) {
         initComponents();
+        this.managerId = managerId;
         this.setSize(1000,300);
         this.setLayout(new BorderLayout());
-        JPanel containerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        containerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+//        List <String[]> feedbacks = data.readRolesFromFile(feedbackFilepath);
+//        
+//        for (String[] feedback : feedbacks){
+//            if (feedback[1].equals("Null")){
+//                String feedbackId = feedback[0];
+//                FeedbackPanel feedbackPanel = new FeedbackPanel(feedbackId, managerId, this);
+//                containerPanel.add(feedbackPanel);
+//            }
+//        }
+        JScrollPane scrollPane = new JScrollPane(containerPanel);
+        scrollPane.setPreferredSize(new Dimension(1200,300));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+        scrollPane.setBorder(null);
+        this.add(scrollPane, BorderLayout.CENTER);
+        
+        initializeComplaints();
     }
+    
+    private void initializeComplaints() {
+        // Read feedbacks from file
+        List<String[]> feedbacks = data.readRolesFromFile(feedbackFilepath);
+
+        // Populate the container panel with unapproved feedbacks
+        for (String[] feedback : feedbacks) {
+            if (feedback[1].equals("Null")) {
+                String feedbackId = feedback[0];
+                FeedbackPanel feedbackPanel = new FeedbackPanel(feedbackId, managerId, this); // Pass `this` reference
+                containerPanel.add(feedbackPanel); // This will now work as containerPanel is initialized
+            }
+        }
+    }
+    
+    public void refreshComplaints() {
+        // Check if containerPanel is not null before attempting to clear
+        if (containerPanel != null) {
+            containerPanel.removeAll();
+        }
+
+        // Reload feedbacks and repopulate
+        initializeComplaints();
+
+        // Refresh the UI
+        containerPanel.revalidate();
+        containerPanel.repaint();
+    }
+    
+    public void removeFeedbackPanel(FeedbackPanel panel) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                containerPanel.remove(panel); // Remove the panel
+                containerPanel.revalidate();  // Revalidate the layout
+                containerPanel.repaint();     // Repaint the container to reflect the change
+            }
+        });
+    }
+    
+
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +121,6 @@ public class ManagerComplaints extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
