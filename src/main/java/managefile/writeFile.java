@@ -61,4 +61,50 @@ public class writeFile {
             bw.close();
         }
     }
+    
+    public void writeFeedback(List<Feedback> feedbacks, String filepath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+            // Write the header
+            writer.write("FeedbackId,ManagerId,Description,Datetime");
+            writer.newLine();
+
+            // Write each feedback as a line in the CSV format
+            for (Feedback feedback : feedbacks) {
+                String line = String.format("%s,%s,%s,%s",
+                        feedback.getFeedbackID(),
+                        feedback.getManagerID() == null ? "Null" : feedback.getManagerID(),
+                        feedback.getDescription(),
+                        feedback.getDatetime());
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
+    
+    public void writeFood(List<Food> foods, String filepath){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))){
+            // Write the header
+            writer.write("FoodID,Name,Status,Description,Price,Imagepath,Category,VendorId");
+            writer.newLine();
+            
+            for (Food food : foods){
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s",
+                        food.getId(),
+                        food.getName(),
+                        food.getStatus(),
+                        food.getDescription(),
+                        food.getPrice(),
+                        food.getImagepath(),
+                        food.getCategory(),
+                        food.getVendorid());
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e){
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
 }   

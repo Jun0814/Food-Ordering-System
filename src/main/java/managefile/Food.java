@@ -17,6 +17,9 @@ public class Food {
     private String imagepath;
     private String category;
     private String vendorid;
+    private String filepath = "src\\main\\java\\repository\\food.txt";
+    
+    public Food(){}
 
     public Food(String id, String name, String status, String description, String price, String imagepath, String category, String vendorid) {
         this.id = id;
@@ -91,6 +94,10 @@ public class Food {
 
     public void setVendorid(String vendorid) {
         this.vendorid = vendorid;
+    }
+    
+    public String getFilepath(){
+        return this.filepath;
     }
     
 }
