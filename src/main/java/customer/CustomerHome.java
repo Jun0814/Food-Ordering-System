@@ -9,10 +9,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -22,6 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,19 +38,21 @@ import managefile.Customer;
 import managefile.OrderItems;
 import managefile.readFile;
 import method.scaleImage;
+import vendor.VendorStore;
 
 /**
  *
  * @author USER
  */
-public class Home extends javax.swing.JFrame implements ActionListener{
-    private final String customerID;
+public class CustomerHome extends javax.swing.JFrame implements ActionListener{
+    private String customerID;
     customer_backend backend = new customer_backend();
     String[] monthString = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     /**
      * Creates new form Home
      */
-    public Home(String customerID) {
+    
+    public CustomerHome(String customerID) {
         this.customerID = customerID;
         initComponents();
         Customer customerDetails = backend.getSpecificCustomerDetail(customerID);
@@ -57,14 +64,19 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         getOrderDetails();
     }
     
+    public CustomerHome(){}
     public Color getStatusColor(String status) {
         switch (status.toLowerCase()) {
-            case "completed": return new Color(39, 174, 96);
-            case "pending": return new Color(243, 156, 18);
-            case "processing": return new Color(52, 152, 219);
-            case "debit": return new Color(231, 76, 60);
-            case "credit": return new Color(52, 152, 219);
-            default: return new Color(149, 165, 166);
+            case "completed","accept": 
+                return new Color(39, 174, 96);
+            case "pending": 
+                return new Color(243, 156, 18);
+            case "processing","credit","refund":
+                return new Color(52, 152, 219);
+            case "debit","cancel": 
+                return new Color(231, 76, 60);
+            default: 
+                return new Color(99, 115, 116);
         }
     }
     
@@ -84,14 +96,25 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         
         for (int i = orders.size()-1; i >= 0; i--) {
             managefile.Order innerOrder = orders.get(i);
-            String orderId = innerOrder.getOrderID();
-            if (!processedOrderIds.contains(orderId)){
-                processedOrderIds.add(orderId);
-                if (orders.getLast().getStatus().equalsIgnoreCase("completed")){
+            String orderID = innerOrder.getOrderID();
+            if (!processedOrderIds.contains(orderID)){
+                processedOrderIds.add(orderID);
+                System.out.println(orderID);
+                if (orders.getLast().getStatus().equalsIgnoreCase("completed") || orders.getLast().getStatus().equalsIgnoreCase("cancel")){
+                    System.out.println("No");
                     jLabel1.setText("Order Again");
+                    JPanel panel = addOrderPanel(orders.getLast());
+                    orderPanel.add(panel, gbc);
+                    gbc.gridx++;
+                    if (gbc.gridx == 1) {
+                        gbc.gridx = 0;
+                        gbc.gridy++;
+                    }
+                    break;
                 }else{
+                    System.out.println("Yes");
                     jLabel1.setText("My Order");
-                    if (!innerOrder.getStatus().equalsIgnoreCase("completed")){
+                    if (!innerOrder.getStatus().equalsIgnoreCase("completed") && !innerOrder.getStatus().equalsIgnoreCase("cancel")){
                         JPanel panel = addOrderPanel(innerOrder);
                         orderPanel.add(panel, gbc);
                         gbc.gridx++;
@@ -119,9 +142,10 @@ public class Home extends javax.swing.JFrame implements ActionListener{
     
     public JPanel createStatusPanel(String status) {
         JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        statusPanel.setBackground(Color.WHITE);
+        statusPanel.setBackground(null);
 
         JLabel statusIcon = new JLabel("●");
+        
         statusIcon.setForeground(getStatusColor(status));
 
         JLabel statusLabel = new JLabel(status.toUpperCase());
@@ -130,6 +154,23 @@ public class Home extends javax.swing.JFrame implements ActionListener{
 
         statusPanel.add(statusIcon);
         statusPanel.add(statusLabel);
+        return statusPanel;
+    }
+    
+    public JPanel createRatingPanel(String status,int size) {
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        statusPanel.setBackground(null);
+
+        JLabel statusIcon = new JLabel();
+        statusIcon.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\star.png", 20, 20));
+        
+        JLabel statusLabel = new JLabel(status);
+        statusLabel.setFont(new Font("Segoe UI", Font.BOLD, size));
+        statusLabel.setForeground(getStatusColor(status));
+
+        statusPanel.add(statusIcon);
+        statusPanel.add(statusLabel);
+        statusPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         return statusPanel;
     }
     public JLabel createStyledLabel(String text, int size, boolean bold) {
@@ -141,7 +182,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
 
     public JPanel createDetailLabel(String title, String value) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(null);
 
         JLabel titleLabel = createStyledLabel(title, 14, true);
         JLabel valueLabel = createStyledLabel(value, 14, false);
@@ -245,17 +286,70 @@ public class Home extends javax.swing.JFrame implements ActionListener{
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 viewOrderDetails(orders.getOrderID());
-                SwingUtilities.getWindowAncestor(panel).dispose();
             }
         });
 
         return panel;
     }
-    
-    private void viewOrderDetails(String orderID){
-        orderPanel op = new orderPanel();
-        op.setVisible(true);
+    private void viewOrderDetails(String orderID) {
+        // Create an orderPanel and set the order ID
+        orderPanel orderPanel = new orderPanel(customerID,orderID);
+        orderPanel.setOrderID(orderID);
+
+        JDialog dialog = new JDialog(this, true);
+        orderPanel.setDialog(dialog);
+        orderPanel.setFrame(this);
+        dialog.setResizable(false);
+        dialog.setSize(new Dimension(950, 482));
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(orderPanel, BorderLayout.CENTER);
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+
+        dialog.setVisible(true);
+
+        orderPanel.repaint();
+        orderPanel.revalidate();
     }
+    public void addCart(String customerID, managefile.OrderItems orderItems,managefile.Food foodItems){
+        JDialog dialog = new JDialog(this, true);
+        dialog.setResizable(false);
+        dialog.setSize(new Dimension(950, 482));
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        reOrderCartPanel cartPanel = new reOrderCartPanel(customerID, orderItems,foodItems,dialog);
+        dialog.add(cartPanel, BorderLayout.CENTER);
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+
+        dialog.setVisible(true);
+        cartPanel.repaint();
+        cartPanel.revalidate();
+    }
+    
+    public void closeDialog(){
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                JDialog dialog1 = (JDialog) window;
+                dialog1.dispose();
+            }else if (window instanceof JFrame) {
+                JFrame frame1 = (JFrame) window;
+                frame1.dispose();
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -269,6 +363,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         inquiries = new javax.swing.JButton();
         finance = new javax.swing.JButton();
         menu = new javax.swing.JButton();
+        notification = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -284,7 +379,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         jPanel2.setBackground(new java.awt.Color(235, 148, 134));
 
         inquiries.setBackground(new java.awt.Color(243, 222, 138));
-        inquiries.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        inquiries.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         inquiries.setText("Inquiries");
         inquiries.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         inquiries.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +389,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         });
 
         finance.setBackground(new java.awt.Color(243, 222, 138));
-        finance.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        finance.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         finance.setText("Finance");
         finance.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         finance.addActionListener(new java.awt.event.ActionListener() {
@@ -304,7 +399,7 @@ public class Home extends javax.swing.JFrame implements ActionListener{
         });
 
         menu.setBackground(new java.awt.Color(243, 222, 138));
-        menu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        menu.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         menu.setText("Menu");
         menu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         menu.addActionListener(new java.awt.event.ActionListener() {
@@ -313,27 +408,41 @@ public class Home extends javax.swing.JFrame implements ActionListener{
             }
         });
 
+        notification.setBackground(new java.awt.Color(243, 222, 138));
+        notification.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        notification.setText("Notifications");
+        notification.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        notification.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notificationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(105, 105, 105)
+                .addContainerGap(57, Short.MAX_VALUE)
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
                 .addComponent(finance, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123)
+                .addGap(42, 42, 42)
                 .addComponent(inquiries, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
+                .addGap(42, 42, 42)
+                .addComponent(notification, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(finance, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                    .addComponent(inquiries, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(finance, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inquiries, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(notification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -482,35 +591,45 @@ actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_logoutActionPerformed
+
+    private void notificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificationActionPerformed
+        // TODO add your handling code here:
+        actionPerformed(evt);
+    }//GEN-LAST:event_notificationActionPerformed
 
     
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==menu){
-            Menu page = new Menu(customerID);
+            CustomerMenu page = new CustomerMenu(customerID);
             page.run();
             this.dispose();
         }else if (e.getSource()==finance){
-            Finance page = new Finance(customerID);
+            CustomerFinance page = new CustomerFinance(customerID);
             page.run();
             this.dispose();
         }else if (e.getSource()==inquiries){
-            Inquiries page = new Inquiries(customerID);
+            CustomerInquiries page = new CustomerInquiries(customerID);
             page.run();
             this.dispose();
         }else if (e.getSource()==order){
-            Order page = new Order(customerID);
+            CustomerOrder page = new CustomerOrder(customerID);
             page.run();
             this.dispose();
         }else if (e.getSource()==logout){
             UserLogin loginpage = new UserLogin("customer");
             loginpage.run();
             this.dispose();
+        }else if (e.getSource()==notification){
+            CustomerNotification page = new CustomerNotification(customerID);
+            page.run();
+            this.dispose();
         }
     }
     public void run() {
-        new Home(customerID).setVisible(true);
+        new CustomerHome(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -526,6 +645,7 @@ actionPerformed(evt);    }//GEN-LAST:event_orderActionPerformed
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton logout;
     private javax.swing.JButton menu;
+    private javax.swing.JButton notification;
     private javax.swing.JButton order;
     // End of variables declaration//GEN-END:variables
 }

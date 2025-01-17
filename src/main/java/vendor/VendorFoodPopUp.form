@@ -85,14 +85,14 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="260" width="110" height="30"/>
+              <AbsoluteConstraints x="20" y="300" width="110" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="method.RoundedButton" name="uploadRoundedButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="4b" green="49" red="46" type="rgb"/>
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f8" green="f8" red="f8" type="rgb"/>
@@ -111,7 +111,7 @@
               <Color blue="64" green="ff" red="32" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
+              <Font name="Segoe UI" size="18" style="1"/>
             </Property>
             <Property name="fontColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f8" green="f8" red="f8" type="rgb"/>
@@ -126,11 +126,11 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="500" y="380" width="190" height="30"/>
+              <AbsoluteConstraints x="110" y="440" width="170" height="50"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="method.RoundedButton" name="saveRoundedButton">
+        <Component class="method.RoundedButton" name="addRoundedButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f2" green="4b" red="8c" type="rgb"/>
@@ -138,7 +138,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f8" green="f8" red="f8" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Save"/>
+            <Property name="text" type="java.lang.String" value="Add"/>
             <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="dc" red="dc" type="rgb"/>
             </Property>
@@ -174,18 +174,18 @@
         <Component class="javax.swing.JTextField" name="priceTextField">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="260" width="660" height="30"/>
+              <AbsoluteConstraints x="130" y="300" width="660" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="nameTextField">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="220" width="660" height="30"/>
+              <AbsoluteConstraints x="130" y="260" width="660" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="quantityLabel2">
+        <Component class="javax.swing.JLabel" name="statusLabel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="38" green="28" red="28" type="rgb"/>
@@ -196,44 +196,21 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Quantity:"/>
+            <Property name="text" type="java.lang.String" value="Status:"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="300" width="110" height="30"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JTextField" name="quantityTextField">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="300" width="660" height="30"/>
+              <AbsoluteConstraints x="20" y="340" width="110" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="descriptionTextField">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="descriptionTextFieldActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="340" width="660" height="30"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JLabel" name="imageLabel">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="28" red="28" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="28" red="28" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Image:"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="430" y="380" width="60" height="30"/>
+              <AbsoluteConstraints x="130" y="380" width="660" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -252,7 +229,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="220" width="110" height="30"/>
+              <AbsoluteConstraints x="20" y="260" width="110" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -372,7 +349,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="340" width="110" height="30"/>
+              <AbsoluteConstraints x="20" y="380" width="110" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -414,7 +391,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="quantityLabel">
+        <Component class="javax.swing.JLabel" name="statusLabel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="38" green="28" red="28" type="rgb"/>
@@ -425,7 +402,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="38" green="28" red="28" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Quantity: 5"/>
+            <Property name="text" type="java.lang.String" value="Status: Available"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -467,14 +444,14 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="380" width="110" height="30"/>
+              <AbsoluteConstraints x="400" y="340" width="110" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="foodTypeTextField">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="380" width="280" height="30"/>
+              <AbsoluteConstraints x="510" y="340" width="280" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -494,6 +471,134 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="420" y="160" width="360" height="30"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="statusComboBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Item 1"/>
+                <StringItem index="1" value="Item 2"/>
+                <StringItem index="2" value="Item 3"/>
+                <StringItem index="3" value="Item 4"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="130" y="340" width="260" height="30"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="method.RoundedButton" name="saveRoundedButton">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Save"/>
+            <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="dc" red="dc" type="rgb"/>
+            </Property>
+            <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+            </Property>
+            <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="64" green="ff" red="32" type="rgb"/>
+            </Property>
+            <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="64" green="ff" red="32" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="fontColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="radius" type="int" value="20"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="700" y="440" width="90" height="50"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="foodIdLabel2">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="38" green="28" red="28" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="38" green="28" red="28" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Food ID"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="20" y="220" width="110" height="30"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JTextField" name="foodIdTextField">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="130" y="220" width="660" height="30"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="method.RoundedButton" name="uploadRoundedButton2">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Upload Image"/>
+            <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="dc" red="dc" type="rgb"/>
+            </Property>
+            <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f2" green="4b" red="8c" type="rgb"/>
+            </Property>
+            <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="64" green="ff" red="32" type="rgb"/>
+            </Property>
+            <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="64" green="ff" red="32" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="fontColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f8" green="f8" red="f8" type="rgb"/>
+            </Property>
+            <Property name="radius" type="int" value="15"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="110" y="440" width="170" height="50"/>
             </Constraint>
           </Constraints>
         </Component>

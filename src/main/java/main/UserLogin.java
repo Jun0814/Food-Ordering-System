@@ -4,12 +4,14 @@
  */
 package main;
 
-import customer.Home;
+import Admin.HomePage;
+import customer.CustomerHome;
 import customer.customer_backend;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import managefile.Admin;
 import managefile.Customer;
 import managefile.Data;
 import managefile.Manager;
@@ -36,6 +38,8 @@ public class UserLogin extends javax.swing.JFrame {
     public UserLogin(String role) {
         initComponents();
         this.role = role.toLowerCase();
+        usernameTextField.setText("jiajunchong00@gmail.com");
+        passwordTextField.setText("cjj6693");
         
         titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
         usernameTextField.setText("haosheanliew@gmail.com");
@@ -133,6 +137,30 @@ public class UserLogin extends javax.swing.JFrame {
                         }
                     }
                     break;
+                case "admin": 
+                    if(clickCount < 3){
+                        Admin admin = new Admin();
+                        String adminfilepath = admin.getFilepath();
+                        String adminid = data.retrieveData(username, password, 0, adminfilepath);
+                        if(adminid != null){
+                            JOptionPane.showMessageDialog(null, "Login Successfully!");
+                            HomePage mainpage = new HomePage(adminid);
+                            mainpage.run();
+                            this.dispose();
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
+                        }
+                        clickCount++;
+                    }else{
+                        try {
+                            JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
+                            Thread.sleep(40000);
+                            clickCount = 0;
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                    break;
                 case "customer":
                     if(clickCount < 3){
                         Customer customer = new Customer();
@@ -141,7 +169,7 @@ public class UserLogin extends javax.swing.JFrame {
                         String customerid = backend.validateCredentials(username, password);
                         if(customerid != null){
                             JOptionPane.showMessageDialog(null,"Login Successfully!");
-                            Home homepage = new Home(customerid);
+                            CustomerHome homepage = new CustomerHome(customerid);
                             homepage.run();
                             this.dispose();
                         }else{

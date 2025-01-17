@@ -5,6 +5,7 @@
 package customer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,27 +23,40 @@ import managefile.readFile;
  *
  * @author USER
  */
-public class Order extends javax.swing.JFrame {
+public class CustomerOrder extends javax.swing.JFrame {
     private String customerID;
     customer_backend backend = new customer_backend();
-    orderPanel op = new orderPanel();
+    private String filterButton = "current";
     
     /**
      * Creates new form menu
      */
-    public Order(String customerID) {
+    public CustomerOrder(String customerID) {
         this.customerID = customerID;
         initComponents();
         jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
         getOrderDetails();
+        currentButton.addActionListener(e->{
+            filterButton = "current";
+//            currentButton.setBackground(new Color(39,40,56));
+//            currentButton.setForeground(Color.WHITE);
+//            historyButton.setBackground(Color.WHITE);
+//            historyButton.setForeground(new Color(39,40,56));
+            getOrderDetails();
+        });
+        historyButton.addActionListener(e->{
+            filterButton = "history";
+            getOrderDetails();
+        });
     }
     
     public void getOrderDetails(){
-        Home homepage = new Home(customerID);
+        CustomerHome homepage = new CustomerHome(customerID);
         Map<Object, Object> allOrders = backend.getOrder(customerID);
         List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.OrderItems> orderItems = (List<managefile.OrderItems>) allOrders.get("ordersItems");
         
+        jPanel2.removeAll();
         JPanel orderPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
        
@@ -56,12 +70,22 @@ public class Order extends javax.swing.JFrame {
             String orderId = innerOrder.getOrderID();
             if (!processedOrderIds.contains(orderId)){
                 processedOrderIds.add(orderId);
-                JPanel panel = homepage.addOrderPanel(innerOrder);
-                orderPanel.add(panel, gbc);
-                gbc.gridx++;
-                if (gbc.gridx == 1) {
-                    gbc.gridx = 0;
-                    gbc.gridy++;
+                if (filterButton.equals("history") && (innerOrder.getStatus().equalsIgnoreCase("completed") || innerOrder.getStatus().equalsIgnoreCase("cancel"))){
+                    JPanel panel = homepage.addOrderPanel(innerOrder);
+                    orderPanel.add(panel, gbc);
+                    gbc.gridx++;
+                    if (gbc.gridx == 1) {
+                        gbc.gridx = 0;
+                        gbc.gridy++;
+                    }
+                }else if (filterButton.equals("current") && !innerOrder.getStatus().equalsIgnoreCase("completed") && !innerOrder.getStatus().equalsIgnoreCase("cancel")){
+                    JPanel panel = homepage.addOrderPanel(innerOrder);
+                    orderPanel.add(panel, gbc);
+                    gbc.gridx++;
+                    if (gbc.gridx == 1) {
+                        gbc.gridx = 0;
+                        gbc.gridy++;
+                    }
                 }
             }
         }
@@ -69,14 +93,18 @@ public class Order extends javax.swing.JFrame {
         containerPanel.add(orderPanel, BorderLayout.NORTH);
         
         JScrollPane scrollPane = new JScrollPane(containerPanel);
-        scrollPane.setPreferredSize(new Dimension(628,490));
+        scrollPane.setPreferredSize(new Dimension(628,440));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
         scrollPane.setBorder(null);
-        jPanel4.setLayout(new BorderLayout());
-        jPanel4.add(scrollPane, BorderLayout.CENTER);
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(scrollPane, BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
+        currentButton.setOpaque(true);
+        historyButton.setOpaque(true);
     }
 
     /**
@@ -93,6 +121,9 @@ public class Order extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         back_button = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        currentButton = new method.RoundedButton();
+        historyButton = new method.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,7 +150,7 @@ public class Order extends javax.swing.JFrame {
                 .addComponent(back_button, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 530, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -134,15 +165,47 @@ public class Order extends javax.swing.JFrame {
                 .addGap(32, 32, 32))
         );
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 442, Short.MAX_VALUE)
+        );
+
+        currentButton.setBackground(new java.awt.Color(39, 40, 56));
+        currentButton.setForeground(new java.awt.Color(255, 255, 255));
+        currentButton.setText("Current Order");
+        currentButton.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+
+        historyButton.setText("Order History");
+        historyButton.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(currentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(currentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,7 +219,7 @@ public class Order extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -166,20 +229,23 @@ public class Order extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Home homepage = new Home(customerID);
+        CustomerHome homepage = new CustomerHome(customerID);
         homepage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
 
     public void run() {
-        new Order(customerID).setVisible(true);
+        new CustomerOrder(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back_button;
+    private method.RoundedButton currentButton;
+    private method.RoundedButton historyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 }

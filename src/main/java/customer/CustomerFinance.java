@@ -13,10 +13,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,14 +31,14 @@ import managefile.Transaction;
  *
  * @author USER
  */
-public class Finance extends javax.swing.JFrame {
+public class CustomerFinance extends javax.swing.JFrame {
     private final String customerID;
     customer_backend backend = new customer_backend();
 
     /**
      * Creates new form menu
      */
-    public Finance(String customerID) {
+    public CustomerFinance(String customerID) {
         this.customerID = customerID;
         initComponents();
         jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
@@ -77,7 +79,7 @@ public class Finance extends javax.swing.JFrame {
         jPanel4.add(scrollPane, BorderLayout.CENTER);
     }
     private JPanel addTransactionPanel(Transaction transaction){
-        Home homepage = new Home(customerID);
+        CustomerHome homepage = new CustomerHome(customerID);
         // Create main rounded panel
         method.RoundedPanel panel = new method.RoundedPanel();
         panel.setBackground(Color.WHITE);
@@ -96,7 +98,7 @@ public class Finance extends javax.swing.JFrame {
             case "CREDIT" -> {
                 transactionTypeDetails = "Admin ID: "+ transaction.getGeneralID();
             }
-            case "DEBIT" -> {
+            case "DEBIT","REFUND" -> {
                 transactionTypeDetails = "Order ID: "+ transaction.getGeneralID();
             }
         }
@@ -132,9 +134,7 @@ public class Finance extends javax.swing.JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                TransactionDetail transactionpage = new TransactionDetail(customerID,transaction.getTransactionID());
-                transactionpage.run();
-                SwingUtilities.getWindowAncestor(panel).dispose();
+                
             }
         });
 
@@ -316,7 +316,7 @@ public class Finance extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Home homepage = new Home(customerID);
+        CustomerHome homepage = new CustomerHome(customerID);
         homepage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -327,16 +327,39 @@ public class Finance extends javax.swing.JFrame {
 
     private void dashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashButtonActionPerformed
         // TODO add your handling code here:
-        FinanceDash finDash = new FinanceDash(customerID);
+        CustomerFinanceDash finDash = new CustomerFinanceDash(customerID);
         finDash.run();
         this.dispose();
     }//GEN-LAST:event_dashButtonActionPerformed
+    private void viewOrderDetails(String orderID) {
+        // Create an orderPanel and set the order ID
+        orderPanel orderPanel = new orderPanel(customerID,orderID);
+        orderPanel.setOrderID(orderID);
 
+        JDialog dialog = new JDialog(this, true);
+        dialog.setResizable(false);
+        dialog.setSize(new Dimension(950, 482));
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(orderPanel, BorderLayout.CENTER);
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+
+        dialog.setVisible(true);
+
+        orderPanel.repaint();
+        orderPanel.revalidate();
+    }
     /**
      * @param args the command line arguments
      */
     public void run() {
-        new Finance(customerID).setVisible(true);
+        new CustomerFinance(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

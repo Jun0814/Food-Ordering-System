@@ -12,6 +12,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -31,14 +33,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import managefile.Customer;
 import managefile.Runner;
+import managefile.Vendor;
 
 /**
  *
  * @author USER
  */
-public class Cart extends javax.swing.JFrame {
+public class CustomerCart extends javax.swing.JFrame {
     private final String customerID;
     private String orderSelection = "dine in";
     customer_backend backend = new customer_backend();
@@ -55,12 +59,11 @@ public class Cart extends javax.swing.JFrame {
     /**
      * Creates new form Cart
      */
-    public Cart(String customerID) {
+    public CustomerCart(String customerID) {
         this.customerID = customerID;
         initComponents();
         jLabel1.setText("Cart");
         jLabel1.setHorizontalTextPosition(SwingConstants.LEFT);
-        jLabel1.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\trolley.png", 50, 50));
         jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
         try{
             addCartScrollPane();
@@ -157,6 +160,35 @@ public class Cart extends javax.swing.JFrame {
         Map<Object, Object> carts = backend.getCart(customerID);
         List<managefile.Cart> cartList = (List<managefile.Cart>) carts.get("carts");
         List<managefile.Food> foodList = (List<managefile.Food>) carts.get("foods");
+        
+        List<managefile.Vendor> vendors = backend.getVendors();
+        for (Vendor vendor : vendors) {
+            if (!cartList.isEmpty()){
+                if (cartList.getFirst().getVendorID().equals(vendor.getId())){
+                    jLabel1.setText(vendor.getName());
+                    File imageFile = new File(vendor.getImagePath());
+                    if (imageFile.exists()) {
+                        jLabel1.setIcon(backend.scale.processImage(vendor.getImagePath(), 50, 50));
+                    }else{
+                        jLabel1.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\trolley.png", 50, 50));
+                    }
+                    jLabel1.setOpaque(true);
+                    jLabel1.setBackground(Color.WHITE);
+                    jLabel1.setForeground(Color.BLACK);
+                    jLabel1.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            super.mouseReleased(e);
+                            CustomerFood fpage = new CustomerFood(customerID, cartList.getFirst().getVendorID());
+                            fpage.run();
+                            CustomerCart.this.dispose();
+                        }
+                    });
+                }
+            }else{
+                jLabel1.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\trolley.png", 50, 50));
+            }
+        }
         JPanel cartPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -222,7 +254,7 @@ public class Cart extends javax.swing.JFrame {
                 backend.updateCartItems(cart.getCartID(),customerID,(String) cartItemQuan.getSelectedItem());
                 reload();
             } catch (IOException ex) {
-                Logger.getLogger(Cart.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CustomerCart.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -233,6 +265,7 @@ public class Cart extends javax.swing.JFrame {
         } else {
             image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 80, 80));
         }
+        
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridheight = 2;
@@ -282,7 +315,7 @@ public class Cart extends javax.swing.JFrame {
                 backend.removeCartItems(cart.getCartID(),customerID, food.getId());
                 reload();
             } catch (IOException ex) {
-                Logger.getLogger(Cart.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CustomerCart.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         return panel;
@@ -324,6 +357,7 @@ public class Cart extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(39, 40, 56));
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -522,7 +556,7 @@ public class Cart extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Menu menupage = new Menu(customerID);
+        CustomerMenu menupage = new CustomerMenu(customerID);
         menupage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -531,12 +565,13 @@ public class Cart extends javax.swing.JFrame {
         try{
             Map<Object, Object> carts = backend.getCart(customerID);
             List<managefile.Cart> cartList = (List<managefile.Cart>) carts.get("carts");
+            List<managefile.Food> foodList = (List<managefile.Food>) carts.get("foods");
             boolean orderPlaced = false;
             boolean runnerAvailable = false;
             boolean availableTime = false;
             List<managefile.Runner> runners = backend.getRunner();
             
-            LocalTime start = LocalTime.of(9, 0);
+            LocalTime start = LocalTime.of(8, 0);
             LocalTime end = LocalTime.of(18, 0);
             
             if (carts.isEmpty()){
@@ -545,7 +580,7 @@ public class Cart extends javax.swing.JFrame {
             }
             if (currentTime.isBefore(start) || currentTime.isAfter(end)) {
                 orderPlaced = false;
-                JOptionPane.showMessageDialog(null, "Our opening hours is from 8:00a.m. to 6:00p.m. only!","Place Order Failed", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Our opening hours is from 9:00a.m. to 6:00p.m. only!","Place Order Failed", JOptionPane.WARNING_MESSAGE);
             }else{
                 availableTime = true;
             }
@@ -563,7 +598,7 @@ public class Cart extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "No runner in the system!");
                         }
                         if (runnerAvailable && availableTime){
-                            backend.addOrder(customerID,cartList,orderSelection,addressArea.getText(), totalPrice);
+                            backend.addOrder(customerID,cartList,foodList,orderSelection,addressArea.getText(), totalPrice);
                             orderPlaced = true;
                         }
                     }else if (!addressArea.getText().trim().toLowerCase().contains("bukit jalil")){
@@ -578,7 +613,7 @@ public class Cart extends javax.swing.JFrame {
                         if (backend.scale.isNumeric(tableNumber)) {
                             int tableNumValue = Integer.parseInt(tableNumber);
                             if (availableTime && (tableNumValue<=200 && 0<tableNumValue)){
-                                backend.addOrder(customerID, cartList, orderSelection, tableNumber, totalPrice);
+                                backend.addOrder(customerID, cartList,foodList, orderSelection, tableNumber, totalPrice);
                                 orderPlaced = true;
                             }else{
                                 JOptionPane.showMessageDialog(null, "Please enter a valid table number!", "Place Order Failed", JOptionPane.WARNING_MESSAGE);
@@ -596,30 +631,36 @@ public class Cart extends javax.swing.JFrame {
                     LocalTime pickupTime = LocalTime.parse(timeString);
                     
                     if (!pickupTime.isBefore(start) && !pickupTime.isAfter(end)) {
-                        backend.addOrder(customerID,cartList,orderSelection,timeString,totalPrice);
-                        orderPlaced = true;
+                        if (pickupTime.isBefore(currentTime)){
+                            orderPlaced = false;
+                            JOptionPane.showMessageDialog(null, "Please enter valid pickup time!\nNow is already "+currentTime.toString().split("\\.")[0],"Place Order Failed", JOptionPane.WARNING_MESSAGE);                
+                        } else{
+                            backend.addOrder(customerID,cartList,foodList,orderSelection,timeString,totalPrice);
+                            orderPlaced = true;
+                        }
                     } else{
-                        JOptionPane.showMessageDialog(null, "Our opening hours is from 8:00a.m. to 6:00p.m. only!","Place Order Failed", JOptionPane.WARNING_MESSAGE);
+                        orderPlaced = false;
+                        JOptionPane.showMessageDialog(null, "Our opening hours is from 9:00a.m. to 6:00p.m. only!","Place Order Failed", JOptionPane.WARNING_MESSAGE);
                     }
                 }
                 if (orderPlaced){
                     JOptionPane.showMessageDialog(null, "Your order is on placed!");
                     backend.removeCart(customerID);
-                    backend.updateCredit(customerID,totalPrice);
-                    Home homepage = new Home(customerID);
+                    backend.updateCredit(customerID,totalPrice,"Debit");
+                    CustomerHome homepage = new CustomerHome(customerID);
                     homepage.run();
                     this.dispose();
                 }
             }else{
                 int option = JOptionPane.showConfirmDialog(null, "Please top up your balance!", "Insufficient Balance",JOptionPane.WARNING_MESSAGE);
                 if (option == JOptionPane.YES_OPTION) {
-                    Finance f = new Finance(customerID);
+                    CustomerFinance f = new CustomerFinance(customerID);
                     f.run();
                     this.dispose();
                 }
             }
         }catch (IOException ex) {
-            Logger.getLogger(Cart.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerCart.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_placeOrderButtonActionPerformed
 
@@ -666,7 +707,7 @@ public class Cart extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public void run() {
-        new Cart(customerID).setVisible(true);
+        new CustomerCart(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

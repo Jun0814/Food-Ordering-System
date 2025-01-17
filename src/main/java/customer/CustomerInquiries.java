@@ -8,13 +8,13 @@ package customer;
  *
  * @author USER
  */
-public class Inquiries extends javax.swing.JFrame {
+public class CustomerInquiries extends javax.swing.JFrame {
     private String customerID;
 
     /**
      * Creates new form menu
      */
-    public Inquiries(String customerID) {
+    public CustomerInquiries(String customerID) {
         this.customerID = customerID;
         initComponents();
         customer_backend backend = new customer_backend();
@@ -107,7 +107,7 @@ public class Inquiries extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Home homepage = new Home(customerID);
+        CustomerHome homepage = new CustomerHome(customerID);
         homepage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -116,7 +116,7 @@ public class Inquiries extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public void run() {
-        new Inquiries(customerID).setVisible(true);
+        new CustomerInquiries(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

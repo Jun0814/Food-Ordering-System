@@ -4,7 +4,7 @@
  */
 package managefile;
 
-import customer.Cart;
+import customer.CustomerCart;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,6 +22,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -42,6 +43,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -64,6 +66,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -88,6 +91,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("FoodID")) continue;
@@ -114,6 +118,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -181,6 +186,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -206,6 +212,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -228,6 +235,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -250,6 +258,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -272,6 +281,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -293,6 +303,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -312,15 +323,16 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
                 String reviewID = fields[0].trim();
-                String customerID = fields[1].trim();
+                String deliveryID = fields[1].trim();
                 String runnerID = fields[2].trim();
-                Double rating = Double.parseDouble(fields[3].trim());
+                String rating = fields[3].trim();
                 String comments = fields[4].trim();
-                reviews.add(new DeliveryReview(reviewID,customerID,runnerID, rating, comments));
+                reviews.add(new DeliveryReview(reviewID,deliveryID,runnerID, rating, comments));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -332,6 +344,7 @@ public class readFile {
         try{
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");

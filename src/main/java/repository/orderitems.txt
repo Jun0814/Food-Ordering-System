@@ -1,7 +1,13 @@
-OrderItemID,OrderID,FoodID,Quantity,Status,Remarks
-OI1,O1,F1,3,Accept,Nothing
-OI2,O1,F3,1,Accept,null
-OI3,O1,F5,1,Accept,Tell me something
-OI4,O2,F1,4,Accept,Nothing
-OI5,O2,F3,3,Accept,null
-OI6,O2,F5,2,Accept,Tell me something
+OrderItemID,OrderID,FoodID,Quantity,TotalAmount,Status,Remarks
+OI1,O1,F1,1,10.0,Accept,Tell me something
+OI2,O1,F4,6,120.0,Accept,Tell me something
+OI3,O2,F5,3,45.0,Accept,Dont want noodle
+OI4,O2,F6,3,63.0,Accept,No spicy
+OI5,O3,F2,1,10.0,Pending,Tell me something
+OI6,O4,F5,1,15.0,Pending,Tell me something
+OI7,O5,F5,4,60.0,Cancel,Tell me something
+OI8,O6,F1,2,20.0,Cancel,Tell me something
+OI9,O7,F4,5,100.0,Cancel,Tell me something
+OI10,O8,F1,1,10.0,Cancel,Tell me something
+OI11,O8,F4,5,100.0,Cancel,null
+OI12,O9,F1,4,40.0,Cancel,GG dot com

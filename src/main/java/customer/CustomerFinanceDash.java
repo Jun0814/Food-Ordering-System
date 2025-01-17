@@ -15,6 +15,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -36,95 +37,24 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author USER
  */
-public class FinanceDash extends javax.swing.JFrame {
+public class CustomerFinanceDash extends javax.swing.JFrame {
     private final String customerID;
     customer_backend backend = new customer_backend();        
-    String[] month_text = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-    private JComboBox yearComboBox;
-    private ChartPanel chartPanel;
-    private double totalExpense, averageExpense;
+
     /**
      * Creates new form menu
      */
-    public FinanceDash(String customerID) {
+    public CustomerFinanceDash(String customerID) {
         this.customerID = customerID;
         initComponents();
         jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
         List<managefile.Transaction> transactions = backend.getTransaction(customerID);
-        JPanel dashboardPanel = new JPanel();
-        
-        JPanel innerPanel = new method.RoundedPanel();
-        
-        yearComboBox = new JComboBox();
-        for (Transaction transaction : transactions) {
-            String yearIndex = transaction.getDatetime().split("T")[0].split("-")[0];
-            yearComboBox.addItem(yearIndex);
-        }
-        
-        chartPanel = new ChartPanel(createExpense(transactions));
-        chartPanel.setPreferredSize(new Dimension(800, 400));
-        chartPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
-        
-        JLabel totalLabel = new JLabel(String.format("Total Expenses: RM %.2f", totalExpense));
-        JLabel averageLabel = new JLabel(String.format("Average Expenses: RM %.2f", averageExpense));
-        
-        yearComboBox.addActionListener(e->{
-            chartPanel = new ChartPanel(createExpense(transactions));
-            chartPanel.setPreferredSize(new Dimension(800, 400));
-            chartPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
-            totalLabel.setText(String.format("Total Expenses: RM %.2f", totalExpense));
-            averageLabel.setText(String.format("Average Expenses: RM %.2f", averageExpense));
-            innerPanel.removeAll();
-            innerPanel.add(totalLabel);
-            innerPanel.add(averageLabel);
-            innerPanel.add(yearComboBox);
-            innerPanel.add(chartPanel);
-            innerPanel.revalidate();
-            innerPanel.repaint();
-        });
-        
-        innerPanel.add(totalLabel);
-        innerPanel.add(averageLabel);
-        innerPanel.add(yearComboBox);
-        innerPanel.add(chartPanel);
-        dashboardPanel.add(innerPanel);
+        CustomerdashboardCard dash = new CustomerdashboardCard(transactions);
         
         jPanel3.setLayout(new BorderLayout());
-        jPanel3.add(dashboardPanel,BorderLayout.CENTER);
+        jPanel3.add(dash,BorderLayout.CENTER);
     }
     
-    
-    private JFreeChart createExpense(List<managefile.Transaction> transactions){
-        String selectedYear = (String) yearComboBox.getSelectedItem();
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        int[] monthList = new int[transactions.size()];
-        totalExpense = 0.0;
-        for (int j=0;j<month_text.length;j++) {
-            Double total =0.0;
-            for (int i = 0; i < transactions.size(); i++) {
-                Transaction transaction = transactions.get(i);
-                String yearIndex = transaction.getDatetime().split("T")[0].split("-")[0];
-                int monthIndex = Integer.parseInt(transaction.getDatetime().split("T")[0].split("-")[1]);
-                if (yearIndex.equals(selectedYear)){
-                    if (monthIndex == j + 1) {
-                        double amount = Double.parseDouble(transaction.getAmount());
-                        total += amount;
-                    }
-                }
-                monthList[i] = monthIndex;
-            }
-            dataset.addValue(total, "Expenses (RM)", month_text[j].substring(0,3));
-            totalExpense += total;
-        }
-        method.scaleImage sc = new method.scaleImage();
-        int maximumMonth = sc.maxMonth(monthList);
-        averageExpense = totalExpense/maximumMonth;
-        JFreeChart barChart = ChartFactory.createBarChart("Expense for Year "+selectedYear,"Months","Expenses (RM)",dataset, PlotOrientation.VERTICAL,false,true, false);
-
-        CategoryPlot plot = barChart.getCategoryPlot();
-        plot.setRangeGridlinePaint(Color.BLACK);
-        return barChart;
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -212,7 +142,7 @@ public class FinanceDash extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Finance financePage = new Finance(customerID);
+        CustomerFinance financePage = new CustomerFinance(customerID);
         financePage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -221,7 +151,7 @@ public class FinanceDash extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public void run() {
-        new FinanceDash(customerID).setVisible(true);
+        new CustomerFinanceDash(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

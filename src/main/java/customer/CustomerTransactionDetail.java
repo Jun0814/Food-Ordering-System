@@ -27,7 +27,7 @@ import managefile.Transaction;
  *
  * @author USER
  */
-public class TransactionDetail extends javax.swing.JFrame {
+public class CustomerTransactionDetail extends javax.swing.JFrame {
     private final String customerID;
     private final String transactionID;
     customer_backend backend = new customer_backend();
@@ -35,7 +35,7 @@ public class TransactionDetail extends javax.swing.JFrame {
     /**
      * Creates new form menu
      */
-    public TransactionDetail(String customerID,String transactionID) {
+    public CustomerTransactionDetail(String customerID,String transactionID) {
         this.customerID = customerID;
         this.transactionID = transactionID;
         initComponents();
@@ -143,7 +143,7 @@ public class TransactionDetail extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Finance financepage = new Finance(customerID);
+        CustomerFinance financepage = new CustomerFinance(customerID);
         financepage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -152,7 +152,7 @@ public class TransactionDetail extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public void run() {
-        new TransactionDetail(customerID,transactionID).setVisible(true);
+        new CustomerTransactionDetail(customerID,transactionID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

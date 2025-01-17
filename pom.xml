@@ -14,13 +14,13 @@
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
-            <version>1.5.3</version> <!-- Use the latest version -->
+            <version>1.5.3</version>
         </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>com.mycompany.foodordering.FoodOrdering</exec.mainClass>
     </properties>
 </project>

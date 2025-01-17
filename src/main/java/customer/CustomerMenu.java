@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -24,23 +25,25 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import managefile.Vendor;
+import managefile.VendorReview;
 
 /**
  *
  * @author USER
  */
-public class Menu extends javax.swing.JFrame {
+public class CustomerMenu extends javax.swing.JFrame {
     private final String customerID;
     private List<Vendor> vendorList;
     customer_backend backend = new customer_backend();
+    CustomerHome homepage = new CustomerHome();
         
-    public Menu(String customerID) {
+    public CustomerMenu(String customerID) {
         this.customerID = customerID;
         initComponents();
 //        jLabel3.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 110, 85));
         addVendorScrollPane();
         jLabel1.setText("Select Vendor");
-        Cart cart = new Cart(customerID);
+        CustomerCart cart = new CustomerCart(customerID);
         cartButton.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\trolley.png", 35, 35));
         cartButton.setFocusable(false);
         cartButton.addActionListener(e->{
@@ -51,6 +54,9 @@ public class Menu extends javax.swing.JFrame {
     
     private void addVendorScrollPane(){
         vendorList = backend.getVendors();
+        Map<Object, Object> vendorReviewList = backend.getVendorsReviews();
+        List<managefile.Vendor> vendors = (List<managefile.Vendor>) vendorReviewList.get("vendors");
+        List<managefile.VendorReview> vendorReviews = (List<managefile.VendorReview>) vendorReviewList.get("reviews");
 
         JPanel vendorPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -60,7 +66,7 @@ public class Menu extends javax.swing.JFrame {
         gbc.gridy = 0;
         
         for (Vendor vendor:vendorList){
-            JPanel panel = addVendorPanel(vendor);
+            JPanel panel = addVendorPanel(vendor,vendorReviews);
             vendorPanel.setBackground(Color.LIGHT_GRAY);
             vendorPanel.add(panel, gbc);
             gbc.gridx++;
@@ -176,7 +182,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Home homepage = new Home(customerID);
+        CustomerHome homepage = new CustomerHome(customerID);
         homepage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -185,7 +191,7 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cartButtonActionPerformed
     
-    private JPanel addVendorPanel(Vendor vendor){
+    private JPanel addVendorPanel(Vendor vendor,List<managefile.VendorReview> vendorReview){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -207,12 +213,11 @@ public class Menu extends javax.swing.JFrame {
         image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
         JLabel vendorName = new JLabel();
-        vendorName.setText(vendor.getStallName());
+        vendorName.setText(vendor.getStallName()+" Stall - ("+vendor.getStallType()+")");
         vendorName.setFont(new Font("Segeo UI",Font.BOLD,18));
         
-        JLabel vendorType = new JLabel();
-        vendorType.setText(vendor.getStallType());
-        vendorType.setFont(new Font("Segeo UI",Font.BOLD,15));
+        double aveRating = countRating(vendor,vendorReview);
+        JPanel rating = homepage.createRatingPanel(String.valueOf(aveRating)+" Ratings",18);
         
         panel.addMouseListener(new MouseAdapter() {
             @Override
@@ -231,19 +236,35 @@ public class Menu extends javax.swing.JFrame {
         panel.add(vendorName,gbc);
 
         gbc.gridy = 2;
-        panel.add(vendorType,gbc);
+        panel.add(rating,gbc);
+        
         
         return panel;
     }
     
+    public double countRating(Vendor vendor,List<managefile.VendorReview> vendorReview){
+        double totalRating = 0.0;
+        int count = 0;
+        for (VendorReview vendorReview1 : vendorReview) {
+            if (vendorReview1.getVendorID().equals(vendor.getId())){
+                if (vendorReview1.getRating() != null && !vendorReview1.getRating().equals("null")){
+                    int rating = Integer.parseInt(vendorReview1.getRating());
+                    totalRating += rating;
+                    count += 1;
+                }
+            }
+        }
+        return totalRating/count;
+    }
+    
     private void viewMenuButton(String id){                                          
-        Food foodpage = new Food(customerID,id);
+        CustomerFood foodpage = new CustomerFood(customerID,id);
         foodpage.run();
         this.dispose();
     }
     
     public void run() {
-        new Menu(customerID).setVisible(true);
+        new CustomerMenu(customerID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

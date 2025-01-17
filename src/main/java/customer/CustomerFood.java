@@ -11,8 +11,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException; 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -20,6 +22,8 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,24 +39,24 @@ import managefile.Vendor;
  *
  * @author USER
  */
-public class Food extends javax.swing.JFrame{
+public class CustomerFood extends javax.swing.JFrame{
     private final String customerID;
     private final String vendorID;
     private JButton button;
     private String selectedQuantity = "1";
     customer_backend backend = new customer_backend();
-    private String searchQuery="";
+    CustomerHome homepage = new CustomerHome();
     private JPanel foodPanel;
 
     /**
      * Creates new form Food
      */
-    public Food(String customerID,String vendorID) {
+    public CustomerFood(String customerID,String vendorID) {
         this.customerID = customerID;
         this.vendorID = vendorID;
         initComponents();
         getVendorFoodDetails();
-        Cart cart = new Cart(customerID);
+        CustomerCart cart = new CustomerCart(customerID);
         cartButton.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\trolley.png", 35, 35));
         cartButton.setFocusable(false);
         cartButton.addActionListener(e->{
@@ -63,29 +67,32 @@ public class Food extends javax.swing.JFrame{
             @Override
             public void insertUpdate(DocumentEvent e) {
                 jLabel7.setText(jTextField1.getText());
-                searchQuery = jTextField1.getText();
                 getVendorFoodDetails();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 jLabel7.setText(jTextField1.getText());
-                searchQuery = jTextField1.getText();
                 getVendorFoodDetails();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 jLabel7.setText(jTextField1.getText());
-                searchQuery = jTextField1.getText();
                 getVendorFoodDetails();
             }
         });
     }
     private void getVendorFoodDetails(){
-        Map<String, Object> details = backend.getSpecificVendorDetail(vendorID);
+        CustomerMenu cm = new CustomerMenu(customerID);
+        Map<Object, Object> details = backend.getSpecificVendorDetail(vendorID);
         List<Vendor> vendors = (List<Vendor>) details.get("vendors");
         List<managefile.Food> foods = (List<managefile.Food>) details.get("foods");
+        
+        Map<Object, Object> vendorReviewList = backend.getVendorsReviews();
+        List<managefile.Vendor> vendors1 = (List<managefile.Vendor>) vendorReviewList.get("vendors");
+        List<managefile.VendorReview> vendorReviews1 = (List<managefile.VendorReview>) vendorReviewList.get("reviews");
+        
         for(Vendor vendor:vendors){
             File imageFile = new File(vendor.getImagePath());
             if (imageFile.exists()){
@@ -101,16 +108,20 @@ public class Food extends javax.swing.JFrame{
             stallType.setText(vendor.getStallType());
             vendorName.setText(vendor.getName());
             phoneNum.setText(vendor.getPhone());
+            double aveRating = cm.countRating(vendor,vendorReviews1);
+            JPanel ratingPanel = homepage.createRatingPanel(String.valueOf(aveRating),16);
+            jPanel5.setLayout(new BorderLayout());
+            jPanel5.add(ratingPanel,BorderLayout.CENTER);
         }
         foodPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        String query = searchQuery.trim().toLowerCase();
+        String query = jTextField1.getText().trim().toLowerCase();
         for(managefile.Food food:foods){
             if (query.isEmpty() || food.getCategory().toLowerCase().contains(query) || food.getName().toLowerCase().contains(query)) {
-                JPanel panel = addFoodPanel(food);
+                JPanel panel = addFoodPanel(food,null);
                 foodPanel.setBackground(Color.LIGHT_GRAY);
                 foodPanel.add(panel, gbc);
                 gbc.gridx++;
@@ -133,7 +144,7 @@ public class Food extends javax.swing.JFrame{
         jPanel4.repaint();
     }
     
-    private JPanel addFoodPanel(managefile.Food food) {
+    public JPanel addFoodPanel(managefile.Food food,JDialog dialog) {
         try {
             Map<Object, Object> carts = backend.getCart(customerID);
             List<managefile.Cart> cartList = (List<managefile.Cart>) carts.get("carts");
@@ -147,16 +158,16 @@ public class Food extends javax.swing.JFrame{
             JPanel panel = new JPanel(new GridBagLayout());
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             panel.setBackground(new Color(255, 255, 204));
-            panel.setPreferredSize(new Dimension(500, 420));
+            panel.setPreferredSize(new Dimension(600, 420));
             
             JLabel image = new JLabel();
             File imageFile = new File(food.getImagepath());
             if (imageFile.exists()) {
-                image.setIcon(backend.scale.processImage(food.getImagepath(), 120, 120));
+                image.setIcon(backend.scale.processImage(food.getImagepath(), 150, 150));
             } else {
-                image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 120, 120));
+                image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\logo.png", 150, 150));
             }
-            image.setPreferredSize(new Dimension(120, 120));
+            image.setPreferredSize(new Dimension(150, 150));
             image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             
             JLabel foodID = new JLabel(food.getId());
@@ -191,49 +202,33 @@ public class Food extends javax.swing.JFrame{
             quantitySelection.addActionListener(e->{
                 selectedQuantity = (String) quantitySelection.getSelectedItem();
             });
-            Cart cartpage = new Cart(customerID);
+            
+            CustomerCart cartpage = new CustomerCart(customerID);
             button = new JButton("Add to Cart");
             button.setBackground(new Color(0, 102, 204));
             button.setForeground(Color.WHITE);
             button.setFont(new Font("SansSerif", Font.BOLD, 16));
             button.setPreferredSize(new Dimension(200, 40));
             button.addActionListener(e->{
-                String remarks = JOptionPane.showInputDialog(null,"Remarks","Tell me something");
-                try {
-                    if (remarks != null) {
-                        boolean sameVendor = true;
-                        for (managefile.Cart cart : cartList) {
-                            if (!cart.getVendorID().equals(food.getVendorid())) {
-                                sameVendor = false;
-                                break;
-                            }
-                        }
-                        if (sameVendor) {
-                            addToCart(food.getId(),food.getVendorid(),remarks);
-                            JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + foodName.getText() + " is added into cart!");
-                        } else {
-                            int selection = JOptionPane.showConfirmDialog(null, "You can't order different vendors in an order!\nDo you want to remove the existing cart?");
-                            if (selection == JOptionPane.YES_OPTION) {
-                                backend.removeCart(customerID);
-                                addToCart(food.getId(),food.getVendorid(),remarks);
-                                JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + foodName.getText() + " is added into cart!");
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Failed to add item into cart.", "Error", JOptionPane.WARNING_MESSAGE);
-                                cartpage.run();
-                                this.dispose();
-                            }
-                        }
+                addCartButton(cartList,food);
+                for (Window window : Window.getWindows()) {
+                    if (window instanceof JDialog) {
+                        JDialog dialog1 = (JDialog) window;
+                        dialog1.dispose();
+                    }else if (window instanceof JFrame) {
+                        JFrame frame1 = (JFrame) window;
+                        frame1.dispose();
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(Food.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                cartpage.run();
             });
             
             //xuanhanchin@gmail.com
+            gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.gridwidth = 1;
-            gbc.gridheight = 4;
+            gbc.gridheight = 5;
             panel.add(foodID, gbc);
             
             gbc.gridwidth = 1;
@@ -271,11 +266,42 @@ public class Food extends javax.swing.JFrame{
             gbc.gridx = 3;
             panel.add(button, gbc);
             
-            return panel;
+            return panel; 
+            
         } catch (IOException ex) {
-            Logger.getLogger(Food.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerFood.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    private void addCartButton(List<managefile.Cart> cartList,managefile.Food food){
+        String remarks = JOptionPane.showInputDialog(null,"Remarks","Tell me something");
+        try {
+            if (remarks != null) {
+                boolean sameVendor = true;
+                for (managefile.Cart cart : cartList) {
+                    if (!cart.getVendorID().equals(food.getVendorid())) {
+                        sameVendor = false;
+                        break;
+                    }
+                }
+                if (sameVendor) {
+                    addToCart(food.getId(),food.getVendorid(),remarks);
+                    JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + food.getName()+ " is added into cart!");
+                } else {
+                    int selection = JOptionPane.showConfirmDialog(null, "You can't order different vendors in an order!\nDo you want to remove the existing cart?");
+                    if (selection == JOptionPane.YES_OPTION) {
+                        backend.removeCart(customerID);
+                        addToCart(food.getId(),food.getVendorid(),remarks);
+                        JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + food.getName() + " is added into cart!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to add item into cart.", "Error", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerFood.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void addToCart(String foodid,String vendorid,String remark) throws IOException {
@@ -306,6 +332,9 @@ public class Food extends javax.swing.JFrame{
         stallType = new javax.swing.JLabel();
         vendorName = new javax.swing.JLabel();
         phoneNum = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -314,6 +343,7 @@ public class Food extends javax.swing.JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(39, 40, 56));
 
@@ -364,75 +394,110 @@ public class Food extends javax.swing.JFrame{
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel2.setText("Stall Name:");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Stall Type:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel5.setText("Vendor Name:");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setText("Phone Number:");
 
+        stallName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         stallName.setText("jLabel7");
 
+        stallType.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         stallType.setText("jLabel7");
 
+        vendorName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         vendorName.setText("jLabel7");
 
+        phoneNum.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         phoneNum.setText("jLabel7");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel8.setText("Ratings:");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 16, Short.MAX_VALUE)
+        );
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("View Reviews");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(imageStall, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(50, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel2))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(vendorName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(stallType, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(stallName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(phoneNum, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(40, 40, 40))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(79, 79, 79)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2))
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(vendorName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(stallType, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(phoneNum, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(stallName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(imageStall, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 45, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(imageStall, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(14, 14, 14)
+                .addComponent(imageStall, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(stallName))
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(stallType))
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(vendorName))
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(phoneNum))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -441,7 +506,7 @@ public class Food extends javax.swing.JFrame{
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 636, Short.MAX_VALUE)
+            .addGap(0, 626, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -469,7 +534,7 @@ public class Food extends javax.swing.JFrame{
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
@@ -506,8 +571,7 @@ public class Food extends javax.swing.JFrame{
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 0, 0))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -519,7 +583,7 @@ public class Food extends javax.swing.JFrame{
     }//GEN-LAST:event_cartButtonActionPerformed
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
-        Menu menupage = new Menu(customerID);
+        CustomerMenu menupage = new CustomerMenu(customerID);
         menupage.run();
         this.dispose();
     }//GEN-LAST:event_back_buttonActionPerformed
@@ -529,13 +593,14 @@ public class Food extends javax.swing.JFrame{
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     public void run() {
-        new Food(customerID,vendorID).setVisible(true);
+        new CustomerFood(customerID,vendorID).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back_button;
     private javax.swing.JButton cartButton;
     private javax.swing.JLabel imageStall;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -543,10 +608,12 @@ public class Food extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel phoneNum;
     private javax.swing.JLabel stallName;
