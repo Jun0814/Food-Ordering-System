@@ -18,12 +18,16 @@ public class VendorList extends javax.swing.JPanel {
     public VendorList() {
         initComponents();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
         
 =======
 >>>>>>> master
 >>>>>>> managerRole
+=======
+        
+>>>>>>> a5e82ed934e19b16db3ef2c456eed6c5655a23de
     }
 
     /**
