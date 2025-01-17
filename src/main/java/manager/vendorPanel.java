@@ -13,14 +13,16 @@ public class vendorPanel extends javax.swing.JPanel {
     private String vendorName;
     private String vendorStallName;
     private String vendorStallType;
+    private String type;
     /**
      * Creates new form vendorPanel
      */
-    public vendorPanel(String vendorId, String vendorName, String vendorStallName, String vendorStallType) {
+    public vendorPanel(String type, String vendorId, String vendorName, String vendorStallName, String vendorStallType) {
         this.vendorId = vendorId;
         this.vendorName = vendorName;
         this.vendorStallName = vendorStallName;
         this.vendorStallType = vendorStallType;
+        this.type = type;
         initComponents();
         this.setSize(300,190);
         vendorStallNameLabel.setText(vendorStallName);
@@ -144,8 +146,14 @@ public class vendorPanel extends javax.swing.JPanel {
 
     private void viewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewBtnActionPerformed
         // TODO add your handling code here:
-        vendorRevenue vendorPage = new vendorRevenue(vendorId);
-        vendorPage.run();
+        System.out.println("Vendor ID: " + vendorId);
+        if(this.type.equals("Revenue")){
+            vendorRevenue vendorPage = new vendorRevenue(vendorId);
+            vendorPage.run();
+        }else if (this.type.equals("Food")){
+            ManagerVendorItem vendorItem = new ManagerVendorItem(vendorId);
+            vendorItem.run();
+        }
     }//GEN-LAST:event_viewBtnActionPerformed
 
 
