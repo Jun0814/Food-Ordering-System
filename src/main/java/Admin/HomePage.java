@@ -5,7 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+<<<<<<< HEAD
 import javax.swing.JPanel;
+=======
+>>>>>>> master
 import method.scaleImage;
 
 public class HomePage extends javax.swing.JFrame {
@@ -26,6 +29,7 @@ public class HomePage extends javax.swing.JFrame {
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
     }
 
+<<<<<<< HEAD
     protected void switchToPanel(JPanel targetPanel) {        
         targetPanel.setSize(contentPanel.getWidth(), contentPanel.getHeight());
         targetPanel.setLocation(0,0);
@@ -33,11 +37,25 @@ public class HomePage extends javax.swing.JFrame {
         contentPanel.add(targetPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
+=======
+    protected void switchToPanel(javax.swing.JPanel targetPanel) {        
+        if (contentPanel != null) { this.remove(contentPanel); }
+        contentPanel = targetPanel;
+        this.add(contentPanel, BorderLayout.CENTER);
+        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
+        this.revalidate();
+        this.repaint();
+>>>>>>> master
         
         logoLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) { switchToPanel(new AdminHome(userId)); }
         });
+<<<<<<< HEAD
+=======
+        System.out.println(targetPanel);
+>>>>>>> master
     }
     
     public void run( ) {
