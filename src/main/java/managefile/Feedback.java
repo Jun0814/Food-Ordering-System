@@ -10,18 +10,36 @@ package managefile;
  */
 public class Feedback {
     private String feedbackID;
+    private String customerID;
     private String managerID;
     private String description;
     private String datetime;
     private String filepath = "src\\main\\java\\repository\\feedback.txt";
     
     public Feedback(){}
-
-    public Feedback(String feedbackID, String managerID, String description, String datetime) {
+  
+    public Feedback(String feedbackID,String customerID, String managerID, String description,String datetime) {
         this.feedbackID = feedbackID;
+        this.customerID = customerID;
         this.managerID = managerID;
         this.description = description;
+        this.datetime =datetime;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
     public String getFeedbackID() {
@@ -46,14 +64,6 @@ public class Feedback {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
     }
     
     public String getFilepath(){

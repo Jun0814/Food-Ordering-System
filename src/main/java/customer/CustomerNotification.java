@@ -39,36 +39,28 @@ public class CustomerNotification extends javax.swing.JFrame {
         
         JPanel notificationPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
+        
         for (int i = notifications.size()-1; i >=0 ; i--) {
             Notification notification = notifications.get(i);
-            JPanel panel = addNotificationPanel(notification);
-            notificationPanel.add(panel);
+            notificationPanel panel = new notificationPanel(customerID,notification);
+            notificationPanel.add(panel,gbc);
+            gbc.gridx++;
+            if (gbc.gridx == 1) {
+                gbc.gridx = 0;
+                gbc.gridy++;
+            }
         }
-        JPanel containerPanel = new JPanel(new BorderLayout());
-        containerPanel.add(notificationPanel, BorderLayout.NORTH);
-        
-        JScrollPane scrollPane = new JScrollPane(containerPanel);
-        scrollPane.setPreferredSize(new Dimension(628,460));
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane = new JScrollPane(notificationPanel);
+        scrollPane.setPreferredSize(new Dimension(900,460));
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
         scrollPane.setBorder(null);
+        
         jPanel5.setLayout(new BorderLayout());
         jPanel5.add(scrollPane, BorderLayout.CENTER);
-    }
-    private JPanel addNotificationPanel(Notification notification){
-        method.RoundedPanel panel = new method.RoundedPanel();
-        panel.setBackground(Color.WHITE);
-        panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(980, 160));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
-        
-        
-        
-        return panel;
     }
 
     /**
@@ -131,11 +123,11 @@ public class CustomerNotification extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1073, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
+            .addGap(0, 457, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -144,19 +136,17 @@ public class CustomerNotification extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 512, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 99, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

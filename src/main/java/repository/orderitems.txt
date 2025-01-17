@@ -10,4 +10,4 @@ OI8,O6,F1,2,20.0,Cancel,Tell me something
 OI9,O7,F4,5,100.0,Cancel,Tell me something
 OI10,O8,F1,1,10.0,Cancel,Tell me something
 OI11,O8,F4,5,100.0,Cancel,null
-OI12,O9,F1,4,40.0,Cancel,GG dot com
+OI12,O9,F1,4,40.0,Completed,GG dot com

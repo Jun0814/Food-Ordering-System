@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import managefile.OrderItems;
+import managefile.Vendor;
 
 /**
  *
@@ -46,7 +47,9 @@ public class reOrderCartPanel extends javax.swing.JPanel {
         this.foodItems = foodItems;
         initComponents();
         CustomerFood foodpage = new CustomerFood(customerID, foodItems.getVendorid());
-        JPanel panel =  foodpage.addFoodPanel(foodItems,cartDialog);
+        Map<Object,Object> vendor = backend.getSpecificVendorDetail(foodItems.getVendorid());
+        List<Vendor> vendorDetails = (List<Vendor>) vendor.get("vendors");
+        JPanel panel =  foodpage.addFoodPanel(vendorDetails.getFirst(),foodItems,cartDialog);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
    }

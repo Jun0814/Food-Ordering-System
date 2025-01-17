@@ -5,6 +5,6 @@ O3,C1,null,V1,VR3,pickup,16:20,2025-01-12T16:18:28,12.0,Completed
 O4,C1,null,V2,VR4,pickup,09:00,2025-01-12T16:22:55,17.0,Completed
 O5,C1,null,V2,VR5,dine in,200,2025-01-13T08:40:49,66.0,Cancel
 O6,C1,D1,V1,VR6,delivery,Bukit Jalil,2025-01-13T09:27:18,28.0,Cancel
-O7,C1,null,V1,VR7,dine in,115,2025-01-14T10:00:39,110.00000000000001,Pending
-O8,C1,null,V1,VR8,dine in,100,2025-01-14T10:04:40,121,Pending
-O9,C1,D2,V1,VR9,delivery,bukit jalil,2025-01-14T10:32:40,48.0,Pending
+O7,C1,null,V1,VR7,dine in,115,2025-01-14T10:00:39,110.00000000000001,Cancel
+O8,C1,null,V1,VR8,dine in,100,2025-01-14T10:04:40,121,Cancel
+O9,C1,D2,V1,VR9,delivery,bukit jalil,2025-01-14T10:32:40,48.0,Completed

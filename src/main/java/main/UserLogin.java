@@ -35,11 +35,12 @@ public class UserLogin extends javax.swing.JFrame {
     /**
      * Creates new form UserLogin
      */
+    
     public UserLogin(String role) {
         initComponents();
         this.role = role.toLowerCase();
-        usernameTextField.setText("jiajunchong00@gmail.com");
-        passwordTextField.setText("cjj6693");
+        usernameTextField.setText("xuanhanchin@gmail.com");
+        passwordTextField.setText("abcd");
         
         titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
         usernameTextField.setText("haosheanliew@gmail.com");
@@ -53,11 +54,11 @@ public class UserLogin extends javax.swing.JFrame {
         leftPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;  
-        gbc.gridy = 0;  
-        gbc.anchor = GridBagConstraints.CENTER; 
-        gbc.fill = GridBagConstraints.NONE; 
-
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        
         leftPanel.add(logoLabel, gbc);
     }
     
@@ -163,8 +164,6 @@ public class UserLogin extends javax.swing.JFrame {
                     break;
                 case "customer":
                     if(clickCount < 3){
-                        Customer customer = new Customer();
-                        String customerFilepath = customer.getFilepath();
                         customer_backend backend = new customer_backend();
                         String customerid = backend.validateCredentials(username, password);
                         if(customerid != null){
