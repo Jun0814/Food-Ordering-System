@@ -10,15 +10,33 @@ package managefile;
  */
 public class Feedback {
     private String feedbackID;
+    private String customerID;
     private String managerID;
-    private String status;
+    private String description;
     private String datetime;
 
-    public Feedback(String feedbackID, String managerID, String status, String datetime) {
+    public Feedback(String feedbackID,String customerID, String managerID, String description,String datetime) {
         this.feedbackID = feedbackID;
+        this.customerID = customerID;
         this.managerID = managerID;
-        this.status = status;
+        this.description = description;
+        this.datetime =datetime;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
     public String getFeedbackID() {
@@ -37,20 +55,12 @@ public class Feedback {
         this.managerID = managerID;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
+    public void setDescription(String description) {
+        this.description = description;
     }
     
 }

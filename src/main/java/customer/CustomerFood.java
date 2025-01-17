@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.File;
 import java.io.IOException; 
@@ -109,7 +110,7 @@ public class CustomerFood extends javax.swing.JFrame{
             vendorName.setText(vendor.getName());
             phoneNum.setText(vendor.getPhone());
             double aveRating = cm.countRating(vendor,vendorReviews1);
-            JPanel ratingPanel = homepage.createRatingPanel(String.valueOf(aveRating),16);
+            JPanel ratingPanel = homepage.createRatingPanel(String.format("%.1f",aveRating),16);
             jPanel5.setLayout(new BorderLayout());
             jPanel5.add(ratingPanel,BorderLayout.CENTER);
         }
@@ -121,7 +122,7 @@ public class CustomerFood extends javax.swing.JFrame{
         String query = jTextField1.getText().trim().toLowerCase();
         for(managefile.Food food:foods){
             if (query.isEmpty() || food.getCategory().toLowerCase().contains(query) || food.getName().toLowerCase().contains(query)) {
-                JPanel panel = addFoodPanel(food,null);
+                JPanel panel = addFoodPanel(vendors.getFirst(),food,null);
                 foodPanel.setBackground(Color.LIGHT_GRAY);
                 foodPanel.add(panel, gbc);
                 gbc.gridx++;
@@ -131,6 +132,9 @@ public class CustomerFood extends javax.swing.JFrame{
                 }
             }
         }
+        reviewButton.addActionListener(e->{
+            viewReviewRatings(vendorID,this);
+        });
         JScrollPane scrollPane = new JScrollPane(foodPanel);
         scrollPane.setPreferredSize(new Dimension(628,400));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -144,7 +148,7 @@ public class CustomerFood extends javax.swing.JFrame{
         jPanel4.repaint();
     }
     
-    public JPanel addFoodPanel(managefile.Food food,JDialog dialog) {
+    public JPanel addFoodPanel(Vendor vendor,managefile.Food food,JDialog dialog) {
         try {
             Map<Object, Object> carts = backend.getCart(customerID);
             List<managefile.Cart> cartList = (List<managefile.Cart>) carts.get("carts");
@@ -203,24 +207,19 @@ public class CustomerFood extends javax.swing.JFrame{
                 selectedQuantity = (String) quantitySelection.getSelectedItem();
             });
             
-            CustomerCart cartpage = new CustomerCart(customerID);
             button = new JButton("Add to Cart");
             button.setBackground(new Color(0, 102, 204));
             button.setForeground(Color.WHITE);
             button.setFont(new Font("SansSerif", Font.BOLD, 16));
             button.setPreferredSize(new Dimension(200, 40));
             button.addActionListener(e->{
-                addCartButton(cartList,food);
-                for (Window window : Window.getWindows()) {
-                    if (window instanceof JDialog) {
-                        JDialog dialog1 = (JDialog) window;
-                        dialog1.dispose();
-                    }else if (window instanceof JFrame) {
-                        JFrame frame1 = (JFrame) window;
-                        frame1.dispose();
-                    }
+                if (vendor.getStatus().equalsIgnoreCase("available") && food.getStatus().equalsIgnoreCase("available")){
+                    addCartButton(cartList,food);
+                }else if (!food.getStatus().equalsIgnoreCase("available")){
+                    JOptionPane.showMessageDialog(null, "The food is currently unavailable!", "Unavailable food", JOptionPane.WARNING_MESSAGE);
+                }else if (!vendor.getStatus().equalsIgnoreCase("available")){
+                    JOptionPane.showMessageDialog(null, "Vendor is currently unavailable!", "Unavailable vendor", JOptionPane.WARNING_MESSAGE);
                 }
-                cartpage.run();
             });
             
             //xuanhanchin@gmail.com
@@ -274,6 +273,20 @@ public class CustomerFood extends javax.swing.JFrame{
         return null;
     }
     
+    private void navigateToCart(){
+        CustomerCart cartpage = new CustomerCart(customerID);
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                JDialog dialog1 = (JDialog) window;
+                dialog1.dispose();
+            }else if (window instanceof JFrame) {
+                JFrame frame1 = (JFrame) window;
+                frame1.dispose();
+            }
+        }
+        cartpage.run();
+    }
+    
     private void addCartButton(List<managefile.Cart> cartList,managefile.Food food){
         String remarks = JOptionPane.showInputDialog(null,"Remarks","Tell me something");
         try {
@@ -288,12 +301,14 @@ public class CustomerFood extends javax.swing.JFrame{
                 if (sameVendor) {
                     addToCart(food.getId(),food.getVendorid(),remarks);
                     JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + food.getName()+ " is added into cart!");
+                    navigateToCart();
                 } else {
                     int selection = JOptionPane.showConfirmDialog(null, "You can't order different vendors in an order!\nDo you want to remove the existing cart?");
                     if (selection == JOptionPane.YES_OPTION) {
                         backend.removeCart(customerID);
                         addToCart(food.getId(),food.getVendorid(),remarks);
                         JOptionPane.showMessageDialog(null, "x" + selectedQuantity + " " + food.getName() + " is added into cart!");
+                        navigateToCart();
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to add item into cart.", "Error", JOptionPane.WARNING_MESSAGE);
                     }
@@ -307,7 +322,31 @@ public class CustomerFood extends javax.swing.JFrame{
     private void addToCart(String foodid,String vendorid,String remark) throws IOException {
         backend.addCartItems(customerID, foodid, selectedQuantity,vendorid, remark);
     }
+    
+    public void viewReviewRatings(String vendorid,JFrame frame) {
+        reviewPanel reviewPanel = new reviewPanel(customerID,vendorid);
 
+        JDialog dialog = new JDialog(frame, true);
+        reviewPanel.setDialog(dialog);
+
+        dialog.setResizable(false);
+        dialog.setSize(new Dimension(950, 482));
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(reviewPanel, BorderLayout.CENTER);
+        dialog.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog.setLocation(
+            (screenSize.width - dialog.getWidth()) / 2,
+            (screenSize.height - dialog.getHeight()) / 2
+        );
+
+        dialog.setVisible(true);
+
+        reviewPanel.repaint();
+        reviewPanel.revalidate();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -334,7 +373,7 @@ public class CustomerFood extends javax.swing.JFrame{
         phoneNum = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        reviewButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -432,8 +471,13 @@ public class CustomerFood extends javax.swing.JFrame{
             .addGap(0, 16, Short.MAX_VALUE)
         );
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("View Reviews");
+        reviewButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        reviewButton.setText("View Reviews");
+        reviewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reviewButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -443,7 +487,7 @@ public class CustomerFood extends javax.swing.JFrame{
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap(50, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,7 +540,7 @@ public class CustomerFood extends javax.swing.JFrame{
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -592,6 +636,10 @@ public class CustomerFood extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reviewButtonActionPerformed
+
     public void run() {
         new CustomerFood(customerID,vendorID).setVisible(true);
     }
@@ -600,7 +648,6 @@ public class CustomerFood extends javax.swing.JFrame{
     private javax.swing.JButton back_button;
     private javax.swing.JButton cartButton;
     private javax.swing.JLabel imageStall;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -616,6 +663,7 @@ public class CustomerFood extends javax.swing.JFrame{
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel phoneNum;
+    private javax.swing.JButton reviewButton;
     private javax.swing.JLabel stallName;
     private javax.swing.JLabel stallType;
     private javax.swing.JLabel vendorName;

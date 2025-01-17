@@ -38,10 +38,6 @@ public class CustomerOrder extends javax.swing.JFrame {
         getOrderDetails();
         currentButton.addActionListener(e->{
             filterButton = "current";
-//            currentButton.setBackground(new Color(39,40,56));
-//            currentButton.setForeground(Color.WHITE);
-//            historyButton.setBackground(Color.WHITE);
-//            historyButton.setForeground(new Color(39,40,56));
             getOrderDetails();
         });
         historyButton.addActionListener(e->{
@@ -176,13 +172,13 @@ public class CustomerOrder extends javax.swing.JFrame {
             .addGap(0, 442, Short.MAX_VALUE)
         );
 
-        currentButton.setBackground(new java.awt.Color(39, 40, 56));
-        currentButton.setForeground(new java.awt.Color(255, 255, 255));
         currentButton.setText("Current Order");
         currentButton.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        currentButton.setRadius(10);
 
         historyButton.setText("Order History");
         historyButton.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        historyButton.setRadius(10);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
