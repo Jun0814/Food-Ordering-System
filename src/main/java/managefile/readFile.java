@@ -266,10 +266,11 @@ public class readFile {
                 String deliveryreviewid = fields[1].trim();
                 String orderid = fields[2].trim();
                 String runnerid = fields[3].trim();
-                String description = fields[4].trim();
-                String datetime = fields[5].trim();
-                String status = fields[6].trim();
-                deliverys.add(new Delivery(deliveryid,deliveryreviewid, orderid, runnerid, description, datetime, status));
+                String total = fields[4].trim();
+                String description = fields[5].trim();
+                String datetime = fields[6].trim();
+                String status = fields[7].trim();
+                deliverys.add(new Delivery(deliveryid,deliveryreviewid, orderid, runnerid, Double.parseDouble(total), description, datetime, status));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -289,9 +290,9 @@ public class readFile {
                 String name = fields[1].trim();
                 String emailaddress = fields[2].trim();
                 String phonenum = fields[3].trim();
-                String passwor = fields[4].trim();
+                String password = fields[4].trim();
                 String status = fields[5].trim();
-                runners.add(new Runner(runnerid, name, emailaddress, phonenum, passwor, status));
+                runners.add(new Runner(runnerid, name, emailaddress, phonenum, password, status));
             }
         }catch(IOException e){
             e.printStackTrace();

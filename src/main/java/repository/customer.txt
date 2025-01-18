@@ -1,5 +1,5 @@
 CustomerID,Name,Email,Phone,Password,Credit,Feedback
-C1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,abcd,20285.200000000004,FB1
+C1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,abcd,20150.200000000004,FB1
 C2,LEE Xuan Han2,xuanhanchin@gmail.com,010-3891107,abcd,20285.200000000004,FB1
 C3,fads Xuan Han3,xuanhanchin@gmail.com,010-3891107,abcd,20285.200000000004,FB1
 C4,fhgsh Xuan Han4,xuanhanchin@gmail.com,010-3891107,abcd,20285.200000000004,FB1

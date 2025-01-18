@@ -35,3 +35,5 @@ NT33,You have top up RM 20 to your e-wallet successfully!,2025-01-17T09:17:16,C1
 NT34,You have top up RM 150 to your e-wallet successfully!,2025-01-17T09:20:50,C1
 NT35,You have top up RM 180 to your e-wallet successfully!,2025-01-17T09:23:05,C1
 NT36,You have top up RM 200 to your e-wallet successfully!,2025-01-17T09:24:34,C1
+NT37,Your Order #O10 is placed order!,2025-01-17T22:59:51,C1
+NT38,You received Order #O10|x6 Fried Cake is placed order!|x1 Fried Duck is placed order!|,2025-01-17T22:59:51,C1
