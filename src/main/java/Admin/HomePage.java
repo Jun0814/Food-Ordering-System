@@ -8,8 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import main.UserLogin;
-import javax.swing.JPanel;
-import javax.swing.JPanel;
 import method.scaleImage;
 
 public class HomePage extends javax.swing.JFrame implements ActionListener {

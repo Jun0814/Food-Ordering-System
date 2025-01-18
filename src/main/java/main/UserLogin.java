@@ -15,9 +15,11 @@ import managefile.Admin;
 import managefile.Customer;
 import managefile.Data;
 import managefile.Manager;
+import managefile.Runner;
 import managefile.Vendor;
 import manager.managerMain;
 import method.scaleImage;
+import runner.RunnerMain;
 import vendor.VendorMain;
 
 
@@ -43,8 +45,10 @@ public class UserLogin extends javax.swing.JFrame {
         passwordTextField.setText("abcd");
         
         titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
-        usernameTextField.setText("jiajunchong00@gmail.com");
-        passwordTextField.setText("cjj6693");
+
+        usernameTextField.setText("xuanhanchin@gmail.com");
+        passwordTextField.setText("xuanhan");
+
         
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
@@ -146,6 +150,30 @@ public class UserLogin extends javax.swing.JFrame {
                         if(adminid != null){
                             JOptionPane.showMessageDialog(null, "Login Successfully!");
                             HomePage mainpage = new HomePage(adminid);
+                            mainpage.run();
+                            this.dispose();
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
+                        }
+                        clickCount++;
+                    }else{
+                        try {
+                            JOptionPane.showMessageDialog(null, "Attempt limit exceeded. Please wait for 40 seconds!", "Attempt Limit", JOptionPane.ERROR_MESSAGE);
+                            Thread.sleep(40000);
+                            clickCount = 0;
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                    break;
+                case "runner": 
+                    if(clickCount < 3){
+                        Runner runner = new Runner();
+                        String runnerfilepath = runner.getFilepath();
+                        String runnerid = data.retrieveData(username, password, 0, runnerfilepath);
+                        if(runnerid != null){
+                            JOptionPane.showMessageDialog(null, "Login Successfully!");
+                            RunnerMain mainpage = new RunnerMain(runnerid);
                             mainpage.run();
                             this.dispose();
                         }else{
