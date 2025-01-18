@@ -16,6 +16,9 @@ public class Delivery {
     private String description;
     private String datetime;
     private String status;
+    private String filepath = "src\\main\\java\\repository\\delivery.txt";
+    
+    public Delivery(){};
 
     public Delivery(String deliveryID, String deliveryReviewID, String orderID, String runnerID, String description, String datetime, String status) {
         this.deliveryID = deliveryID;
@@ -83,5 +86,8 @@ public class Delivery {
         this.status = status;
     }
     
+    public String getFilepath(){
+        return filepath;
+    }
     
 }

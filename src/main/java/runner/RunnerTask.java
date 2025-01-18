@@ -2,21 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Admin;
-
-import vendor.*;
+package runner;
 
 /**
  *
- * @author TPY
+ * @author Asus
  */
-public class VendorList extends javax.swing.JPanel {
-
+public class RunnerTask extends javax.swing.JPanel {
+    private String runnerId;
     /**
-     * Creates new form VendorStore
+     * Creates new form RunnnerTask
      */
-    public VendorList() {
+    public RunnerTask(String runnerId) {
         initComponents();
+        this.runnerId = runnerId;
+        this.setSize(1000, 300);
     }
 
     /**
@@ -28,36 +28,30 @@ public class VendorList extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        VendorLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(126, 127, 154));
-        setPreferredSize(new java.awt.Dimension(1000, 800));
-
-        VendorLabel.setBackground(new java.awt.Color(255, 255, 51));
-        VendorLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        VendorLabel.setForeground(new java.awt.Color(255, 255, 51));
-        VendorLabel.setText("Vendor");
+        jLabel1.setText("hihi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(VendorLabel)
-                .addContainerGap(794, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(234, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(146, 146, 146))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(VendorLabel)
-                .addContainerGap(706, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(143, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(141, 141, 141))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel VendorLabel;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

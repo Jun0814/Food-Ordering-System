@@ -5,21 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-<<<<<<< HEAD
 import javax.swing.JPanel;
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import javax.swing.JPanel;
-=======
->>>>>>> master
->>>>>>> managerRole
-=======
-import javax.swing.JPanel;
->>>>>>> a5e82ed934e19b16db3ef2c456eed6c5655a23de
->>>>>>> master
 import method.scaleImage;
 
 public class HomePage extends javax.swing.JFrame {
@@ -40,15 +27,6 @@ public class HomePage extends javax.swing.JFrame {
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
     }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> a5e82ed934e19b16db3ef2c456eed6c5655a23de
->>>>>>> master
     protected void switchToPanel(JPanel targetPanel) {        
         targetPanel.setSize(contentPanel.getWidth(), contentPanel.getHeight());
         targetPanel.setLocation(0,0);
@@ -56,46 +34,13 @@ public class HomePage extends javax.swing.JFrame {
         contentPanel.add(targetPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> managerRole
-    protected void switchToPanel(javax.swing.JPanel targetPanel) {        
-        if (contentPanel != null) { this.remove(contentPanel); }
-        contentPanel = targetPanel;
-        this.add(contentPanel, BorderLayout.CENTER);
-        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
-        getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
-        this.revalidate();
-        this.repaint();
-<<<<<<< HEAD
-=======
->>>>>>> master
->>>>>>> managerRole
-=======
->>>>>>> a5e82ed934e19b16db3ef2c456eed6c5655a23de
->>>>>>> master
+
         
         logoLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) { switchToPanel(new AdminHome(userId)); }
         });
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-        System.out.println(targetPanel);
-=======
-<<<<<<< HEAD
-=======
-        System.out.println(targetPanel);
->>>>>>> master
->>>>>>> managerRole
-=======
->>>>>>> a5e82ed934e19b16db3ef2c456eed6c5655a23de
->>>>>>> master
     }
     
     public void run( ) {

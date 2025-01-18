@@ -1,28 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-FoodID,Name,Status,Description,Price,Imagepath,Category,VendorId
-F1,Fried Chicken,4,Delicious and Juicy Fresh Chicken elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke,10,null,Rice,V1
-F2,Fried Duck,4,Delicious and Juicy Fresh Chicken,10,null,Rice,V1
-F3,Fried Rice,4,Delicious and Juicy Fresh Chicken,15,null,Rice,V1
-F5,Fried Noodle,1,Fried to XXXX,15.00,src/main/java/image_repository/F5.png,Rice,V2
-F6,Fried Chicken,2,Ice & Lemon Tea,21,src/main/java/image_repository/default-food.png,Rice,V2
-F7,Fried Chicken,3,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F8,Fried Chicken,1,Ice & Lemon Tea,15,src/main/java/image_repository/default-food.png,Beverage,V2
-F9,Fried Chicken,2,Ice & Lemon Tea,21,src/main/java/image_repository/default-food.png,Japanese,V2
-F10,Fried Chicken,3,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F11,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F12,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F13,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F14,Fried Chicken,5,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-=======
-=======
->>>>>>> master
->>>>>>> managerRole
->>>>>>> master
 FoodID, Name, Status, Description, Price, Imagepath, Category, VendorID
 F1,Fried Chicken,Available,Delicious and Juicy Fresh Chicken elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke,10,null, Rice,V1
 F2,Fried Duck,Available,Delicious and Juicy Fresh Chicken,10,null,Rice, V1
@@ -38,13 +13,3 @@ F11,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/de
 F12,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F13,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F14,Fried Chicken,Available,,10,src/main/java/image_repository/default-food.png,Desert,V2
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> a5e82ed934e19b16db3ef2c456eed6c5655a23de
-=======
->>>>>>> master
->>>>>>> managerRole
->>>>>>> master
