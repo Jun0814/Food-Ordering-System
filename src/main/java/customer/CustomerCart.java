@@ -54,6 +54,7 @@ public class CustomerCart extends javax.swing.JFrame {
     private int totalQuantity = 0;
     private Double credit;
     private LocalTime currentTime = LocalTime.now();
+    private JComboBox<String>deliverySelection;
     
 
     /**
@@ -135,10 +136,19 @@ public class CustomerCart extends javax.swing.JFrame {
                 panel.add(timePanel, gbc);
             }
             case "delivery" -> {
-                table.setText("DELIVERY (Bukit Jalil Area Only!)");
+                table.setText("DELIVERY");
                 gbc.gridx = 0;
                 gbc.gridy = 0;
                 panel.add(table, gbc);
+                deliverySelection = new JComboBox<>();
+                deliverySelection.addItem("Standard Delivery");
+                deliverySelection.addItem("Fast Delivery");
+                deliverySelection.addActionListener(e->{
+                    updateDeliveryPrice();
+                });
+                gbc.gridx = 1;
+                gbc.gridy = 0;
+                panel.add(deliverySelection, gbc);
                 addressArea = new JTextArea();
                 addressArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
                 addressArea.setBorder(BorderFactory.createTitledBorder("Delivery Address"));
@@ -572,7 +582,7 @@ public class CustomerCart extends javax.swing.JFrame {
             List<managefile.Runner> runners = backend.getRunner();
             
             LocalTime start = LocalTime.of(8, 0);
-            LocalTime end = LocalTime.of(18, 0);
+            LocalTime end = LocalTime.of(23, 0);
             
             if (carts.isEmpty()){
                 orderPlaced = false;
@@ -598,7 +608,7 @@ public class CustomerCart extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "No runner in the system!");
                         }
                         if (runnerAvailable && availableTime){
-                            backend.addOrder(customerID,cartList,foodList,orderSelection,addressArea.getText(), totalPrice);
+                            backend.addOrder(customerID,cartList,foodList,orderSelection,addressArea.getText(), totalPrice,totalPrice-initialTotal);
                             orderPlaced = true;
                         }
                     }else if (!addressArea.getText().trim().toLowerCase().contains("bukit jalil")){
@@ -613,7 +623,7 @@ public class CustomerCart extends javax.swing.JFrame {
                         if (backend.scale.isNumeric(tableNumber)) {
                             int tableNumValue = Integer.parseInt(tableNumber);
                             if (availableTime && (tableNumValue<=200 && 0<tableNumValue)){
-                                backend.addOrder(customerID, cartList,foodList, orderSelection, tableNumber, totalPrice);
+                                backend.addOrder(customerID, cartList,foodList, orderSelection, tableNumber, totalPrice,0);
                                 orderPlaced = true;
                             }else{
                                 JOptionPane.showMessageDialog(null, "Please enter a valid table number!", "Place Order Failed", JOptionPane.WARNING_MESSAGE);
@@ -635,7 +645,7 @@ public class CustomerCart extends javax.swing.JFrame {
                             orderPlaced = false;
                             JOptionPane.showMessageDialog(null, "Please enter valid pickup time!\nNow is already "+currentTime.toString().split("\\.")[0],"Place Order Failed", JOptionPane.WARNING_MESSAGE);                
                         } else{
-                            backend.addOrder(customerID,cartList,foodList,orderSelection,timeString,totalPrice);
+                            backend.addOrder(customerID,cartList,foodList,orderSelection,timeString,totalPrice,0);
                             orderPlaced = true;
                         }
                     } else{
@@ -674,11 +684,24 @@ public class CustomerCart extends javax.swing.JFrame {
         deliveryButton.setEnabled(true);
         dineButton.setEnabled(true);
     }//GEN-LAST:event_takeButtonActionPerformed
-
+    private void updateDeliveryPrice() {
+        String optionDelivery = (String) deliverySelection.getSelectedItem();
+        if (optionDelivery.equals("Standard Delivery")) {
+            totalPrice = initialTotal + 5;
+            updateText(" (incl. RM 5 delivery fees)");
+        } else {
+            totalPrice = initialTotal + 8;
+            updateText(" (incl. RM 8 delivery fees)");
+        }
+    }
     private void deliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryButtonActionPerformed
-        totalPrice = initialTotal + 8;
         orderSelection = "delivery";
-        updateText(" (incl. RM 8 delivery fees)");
+        if (deliverySelection == null) {
+            deliverySelection = new JComboBox<>(new String[]{"Standard Delivery", "Fast Delivery"});
+            deliverySelection.setSelectedItem("Standard Delivery");
+        }
+
+        updateDeliveryPrice();
         updateSelectionPanel();
         takeButton.setEnabled(true);
         deliveryButton.setEnabled(false);
