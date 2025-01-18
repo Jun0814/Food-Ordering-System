@@ -61,6 +61,27 @@ public class readFile {
         }
         return users;
     }
+    public List readFeedback(String filePath){
+        List<Feedback> feedbacks = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+                String feedbackID = fields[0].trim();
+                String customerID = fields[1].trim();
+                String managerID = fields[2].trim();
+                String description = fields[3].trim();
+                String datetime = fields[4].trim();
+                feedbacks.add(new Feedback(feedbackID,customerID,managerID,description,datetime));
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return feedbacks;
+    } 
     public List readVendorAccount(String filePath){
         List<Vendor> users = new ArrayList<>();
         try{
@@ -159,27 +180,6 @@ public class readFile {
         }
         return managers;
     }
-    
-    public List readFeedback(String filepath){
-        List<Feedback> feedbacks = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader(filepath);
-            BufferedReader br = new BufferedReader(fr);
-            br.readLine();
-            String line;
-            while((line = br.readLine()) != null) {
-                String [] fields = line.split(",");
-                String feedbackId = fields[0].trim();
-                String managerId = fields[1].trim();
-                String description = fields[2].trim();
-                String datetime = fields[3].trim();
-                feedbacks.add(new Feedback(feedbackId, managerId, description, datetime));
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return feedbacks;
-    }
         
     public List readOrder(String filePath){
         List<Order> orders = new ArrayList<>();
@@ -266,10 +266,11 @@ public class readFile {
                 String deliveryreviewid = fields[1].trim();
                 String orderid = fields[2].trim();
                 String runnerid = fields[3].trim();
-                String description = fields[4].trim();
-                String datetime = fields[5].trim();
-                String status = fields[6].trim();
-                deliverys.add(new Delivery(deliveryid,deliveryreviewid, orderid, runnerid, description, datetime, status));
+                String total = fields[4].trim();
+                String description = fields[5].trim();
+                String datetime = fields[6].trim();
+                String status = fields[7].trim();
+                deliverys.add(new Delivery(deliveryid,deliveryreviewid, orderid, runnerid, Double.parseDouble(total), description, datetime, status));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -289,9 +290,9 @@ public class readFile {
                 String name = fields[1].trim();
                 String emailaddress = fields[2].trim();
                 String phonenum = fields[3].trim();
-                String passwor = fields[4].trim();
+                String password = fields[4].trim();
                 String status = fields[5].trim();
-                runners.add(new Runner(runnerid, name, emailaddress, phonenum, passwor, status));
+                runners.add(new Runner(runnerid, name, emailaddress, phonenum, password, status));
             }
         }catch(IOException e){
             e.printStackTrace();

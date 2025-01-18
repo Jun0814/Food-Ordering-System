@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -210,14 +211,14 @@ public class CustomerMenu extends javax.swing.JFrame {
             image.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 200, 200));
         }
         image.setPreferredSize(new Dimension(205,205));
-        image.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        image.setBorder(null);
         
         JLabel vendorName = new JLabel();
         vendorName.setText(vendor.getStallName()+" Stall - ("+vendor.getStallType()+")");
         vendorName.setFont(new Font("Segeo UI",Font.BOLD,18));
         
         double aveRating = countRating(vendor,vendorReview);
-        JPanel rating = homepage.createRatingPanel(String.valueOf(aveRating)+" Ratings",18);
+        JPanel rating = homepage.createRatingPanel(String.format("%.1f",aveRating)+" Ratings",18);
         
         panel.addMouseListener(new MouseAdapter() {
             @Override

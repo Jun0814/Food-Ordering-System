@@ -37,15 +37,18 @@ public class UserLogin extends javax.swing.JFrame {
     /**
      * Creates new form UserLogin
      */
+    
     public UserLogin(String role) {
         initComponents();
         this.role = role.toLowerCase();
-        usernameTextField.setText("jiajunchong00@gmail.com");
-        passwordTextField.setText("cjj6693");
+        usernameTextField.setText("xuanhanchin@gmail.com");
+        passwordTextField.setText("abcd");
         
         titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
+
         usernameTextField.setText("xuanhanchin@gmail.com");
         passwordTextField.setText("xuanhan");
+
         
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
@@ -55,11 +58,11 @@ public class UserLogin extends javax.swing.JFrame {
         leftPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;  
-        gbc.gridy = 0;  
-        gbc.anchor = GridBagConstraints.CENTER; 
-        gbc.fill = GridBagConstraints.NONE; 
-
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        
         leftPanel.add(logoLabel, gbc);
     }
     
@@ -90,7 +93,7 @@ public class UserLogin extends javax.swing.JFrame {
         if(isFilled == true){    
             switch(this.role) {
                 case "vendor":
-                    if(clickCount < 3){
+                    if(clickCount < 4){
                         Vendor vendor = new Vendor();
                         String vendorfilepath = vendor.getFilepath();
                         String vendorid = data.retrieveData(username, password, 0, vendorfilepath);
@@ -115,7 +118,7 @@ public class UserLogin extends javax.swing.JFrame {
                     }
                     break;
                 case "manager": 
-                    if(clickCount < 3){
+                    if(clickCount < 4){
                         Manager manager = new Manager();
                         String managerfilepath = manager.getFilepath();
                         String managerid = data.retrieveData(username, password, 0, managerfilepath);
@@ -140,7 +143,7 @@ public class UserLogin extends javax.swing.JFrame {
                     }
                     break;
                 case "admin": 
-                    if(clickCount < 3){
+                    if(clickCount < 4){
                         Admin admin = new Admin();
                         String adminfilepath = admin.getFilepath();
                         String adminid = data.retrieveData(username, password, 0, adminfilepath);
@@ -188,9 +191,7 @@ public class UserLogin extends javax.swing.JFrame {
                     }
                     break;
                 case "customer":
-                    if(clickCount < 3){
-                        Customer customer = new Customer();
-                        String customerFilepath = customer.getFilepath();
+                    if(clickCount < 4){
                         customer_backend backend = new customer_backend();
                         String customerid = backend.validateCredentials(username, password);
                         if(customerid != null){

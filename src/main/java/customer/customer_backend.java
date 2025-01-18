@@ -16,7 +16,7 @@ import managefile.Customer;
 import managefile.Data;
 import managefile.Delivery;
 import managefile.DeliveryReview;
-import managefile.Food;
+import managefile.Feedback;
 import managefile.Notification;
 import managefile.OrderItems;
 import managefile.Runner;
@@ -44,6 +44,7 @@ public class customer_backend{
     private final String notificationFile = "src\\main\\java\\repository\\notifications.txt";
     private final String deliveryReviewFile = "src\\main\\java\\repository\\deliveryreview.txt";
     private final String orderReviewFile = "src\\main\\java\\repository\\orderreview.txt";
+    private final String feedbackFile = "src\\main\\java\\repository\\feedback.txt";
     private readFile read = new readFile();
     scaleImage scale = new scaleImage();
     method.primaryKey pri = new primaryKey();
@@ -64,9 +65,9 @@ public class customer_backend{
     
     public String returnOrderItemDescription(String status){
         String des = "";
-        switch (status) {
+        switch (status.toLowerCase()) {
             case "cancel":
-                des = "The order item is been cancel!";
+                des = "The order item has been cancelled!";
                 break;
             case "done":
                 des = "The order item is prepared!";
@@ -74,7 +75,93 @@ public class customer_backend{
             case "pending":
                 des = "The order item is waiting for vendor!";
                 break;
+            case "completed":
+                des = "The order item has been received!";
+                break;
             default:
+                break;
+        }
+        return des;
+    }
+    
+    public String returnOrderDescription(String status){
+        String des = "";
+        switch (status.toLowerCase()) {
+            case "reject":
+                des = "The order is rejected by vendor!";
+                break;
+            case "cancel":
+                des = "The order has been cancelled!";
+                break;
+            case "done":
+                des = "The order is prepared!";
+                break;
+            case "accept":
+                des = "The order is being preparing!";
+                break;
+            case "pending":
+                des = "The order is waiting for vendor!";
+                break;
+            case "completed":
+                des = "The order has been received!";
+                break;
+            default:
+                break;
+        }
+        return des;
+    }
+    
+    public String returnDeliveryDescription(String status, String orderStatus) {
+        String des = "";
+
+        switch (status.toLowerCase()) {
+            case "accept":
+                if (orderStatus.equalsIgnoreCase("done")) {
+                    des = "The delivery task is accepted by the runner! The order will be arriving soon!";
+                } else {
+                    des = "The delivery task is accepted by the runner!";
+                }
+                break;
+
+            case "pending":
+                des = "Waiting for a delivery runner to accept the task.";
+                break;
+
+            case "reject":
+                des = "The delivery task was rejected by the runner. Searching for the next runner.";
+                break;
+
+            case "completed":
+                des = "The order has been successfully delivered to the customer.";
+                break;
+
+            case "cancel":
+                if (orderStatus.equalsIgnoreCase("cancel")) {
+                    des = "The delivery task was cancelled due to order cancellation.";
+                } else {
+                    des = "The delivery task was cancelled.";
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return des;
+    }
+    
+    public String returnTransactionDescription(String status,String amount){
+        String des = "";
+        
+        switch (status.toLowerCase()) {
+            case "debit":
+                des = "Your wallet balance has been deducted by RM "+String.format("%.2f",Double.parseDouble(amount))+".";
+                break;
+            case "credit":
+                des = "Your wallet balance has been top up by RM "+String.format("%.2f",Double.parseDouble(amount))+".";
+                break;
+            case "refund":
+                des = "Your wallet balance has been added by RM "+String.format("%.2f",Double.parseDouble(amount))+".";
                 break;
         }
         return des;
@@ -122,12 +209,12 @@ public class customer_backend{
         List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
         
         List<Vendor> matchedVendors = new ArrayList<>();
-        List<managefile.Food> matchedReviews = new ArrayList<>();
+        List<managefile.VendorReview> matchedReviews = new ArrayList<>();
         for (Vendor vendor : vendors) {
-            for (Food matchedReview : matchedReviews) {
-                if (vendor.getId().equals(vendorID) && vendor.getId().equals(matchedReview.getVendorid())){
+            for (VendorReview vendorReview : vendorReviews) {
+                if (vendor.getId().equals(vendorID) && vendor.getId().equals(vendorReview.getVendorID())){
                     matchedVendors.add(vendor);
-                    matchedReviews.add(matchedReview);
+                    matchedReviews.add(vendorReview);
                 }
             }
         }
@@ -169,7 +256,7 @@ public class customer_backend{
         for (managefile.Cart cart:carts){
             for (managefile.Food food:foods){
                 if (customerID.equals(cart.getCustomerID())){
-                    if (cart.getFoodID().equals(food.getId())){
+                    if (cart.getFoodID().equals(food.getId()) && food.getStatus().equalsIgnoreCase("available")){
                         validCarts.add(cart);
                         matchedFoods.add(food);
                         break;
@@ -291,12 +378,64 @@ public class customer_backend{
         return result;
     }
     
+    public Map<Object, Object> getOrderByOrderReviewID(String reviewID){
+        List<managefile.Order> orders = read.readOrder(orderFile);
+        List<managefile.Customer> customers = read.readCustomerAccount(customerFile);
+        List<managefile.OrderItems> orderItems = read.readOrderItems(orderItemFile);
+        List<managefile.Food> foodItems = read.readFood(foodFile);
+        
+        List<managefile.Order> allOrders = new ArrayList<>();
+        List<managefile.OrderItems> allOrderItems = new ArrayList<>();
+        List<managefile.Food> matchingFoodItems = new ArrayList<>();
+        List<managefile.Customer> matchingCustomer = new ArrayList<>();
+        
+        for (managefile.Order order :orders){
+            for (Customer customer : customers) {
+                for (managefile.OrderItems orderitem:orderItems){
+                    for (managefile.Food foodItem : foodItems) {
+                        if (order.getCustomerID().equals(customer.getId())){
+                            if(reviewID.equals(order.getOrderReviewID())){
+                                if (order.getOrderID().equals(orderitem.getOrderID())){
+                                    if (orderitem.getFoodID().equals(foodItem.getId())){
+                                        allOrders.add(order);
+                                        allOrderItems.add(orderitem);
+                                        matchingFoodItems.add(foodItem);
+                                        matchingCustomer.add(customer);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Map<Object, Object> result = new HashMap<>();
+        result.put("orders", allOrders);
+        result.put("ordersItems", allOrderItems);
+        result.put("foodItems", matchingFoodItems);
+        result.put("customers", matchingCustomer);
+        return result;
+    }
+    
+    
     public List<managefile.Transaction> getTransaction(String customerID){
         List<managefile.Transaction> transactions = read.readTransaction(transactionFile);
         List<managefile.Transaction> matchedTransactions = new ArrayList<>();
         
         for (managefile.Transaction transaction :transactions){
             if (transaction.getCustomerID().equals(customerID)){
+                matchedTransactions.add(transaction);
+            }
+        }
+        return matchedTransactions;
+    }
+    
+    public List<managefile.Transaction> getTransactionByID(String transactionID){
+        List<managefile.Transaction> transactions = read.readTransaction(transactionFile);
+        List<managefile.Transaction> matchedTransactions = new ArrayList<>();
+        
+        for (managefile.Transaction transaction :transactions){
+            if (transaction.getTransactionID().equals(transactionID)){
                 matchedTransactions.add(transaction);
             }
         }
@@ -343,7 +482,8 @@ public class customer_backend{
         return vendorReviews;
     }
     
-    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice) throws IOException{
+    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice,double deliveryfees) throws IOException{
+        System.out.println(deliveryfees);
         Map<Object, Object> allOrders = getOrder(customerID);
         List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.Runner> runners = read.readRunner(runnerFile);
@@ -382,7 +522,7 @@ public class customer_backend{
         orderStore.add(orderType);
         orderStore.add(orderTypeDetails);
         orderStore.add(datetime);
-        orderStore.add(String.valueOf(totalPrice));
+        orderStore.add(String.valueOf(totalPrice-deliveryfees));
         orderStore.add("Pending");
         data.addGeneralFile(orderStore, orderFile);
         
@@ -402,6 +542,7 @@ public class customer_backend{
             deliveryStore.add(latestDeliveryReviewID);
             deliveryStore.add(latestOrderID);
             deliveryStore.add(runners.getFirst().getId());
+            deliveryStore.add(String.valueOf(deliveryfees));
             deliveryStore.add(null);
             deliveryStore.add(datetime);
             deliveryStore.add("Pending");
@@ -462,7 +603,25 @@ public class customer_backend{
         String description2 = "You received Order #"+latestOrderID+"|"+orderItems;
         sendNotifications(customerID,description1);
         sendNotifications(customerID,description2);
+    }
+    
+    public void completeOrder(String customerID,String orderID) throws IOException{
+        Map<Object, Object> allOrders = getOrderByOrderID(orderID);
+        List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
+        List<managefile.OrderItems> orderItems = (List<managefile.OrderItems>) allOrders.get("ordersItems");
+        List<managefile.Food> foodItems = (List<managefile.Food>) allOrders.get("foodItems");
         
+        for (OrderItems orderItem : orderItems) {
+            data.updateData(orderItem.getOrderItemID(), 5, "Completed", orderItemFile);
+        }
+        
+        if (orders.getFirst().getOrderType().equalsIgnoreCase("delivery")){
+            data.updateData(orders.getFirst().getDeliveryID(), 6, "Completed", deliveryFile);
+            sendNotifications(customerID, "Your delivery order is received!");
+        }else{
+            sendNotifications(customerID, "Your order is received!");
+        }
+        data.updateData(orderID, 9, "Completed", orderFile);
     }
     
     public String sendNotifications(String userID,String message) throws IOException{
@@ -545,4 +704,89 @@ public class customer_backend{
         return matchedNotifications;
     }
     
+    public void addDeliveryReview(String orderID,String ratings,String reviews){
+        Map<Object, Object> allOrders = getOrderByOrderID(orderID);
+        List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
+        List<managefile.Delivery> deliverys = getDelivery(orderID);
+        String deliveryReviewID = deliverys.getFirst().getDeliveryReviewID();
+        
+        List<managefile.DeliveryReview> deliveryReviews = read.readDeliveryReview(deliveryReviewFile);
+        for (DeliveryReview deliveryReview : deliveryReviews) {
+            if (deliveryReview.getReviewID().equals(deliveryReviewID)){
+                String updateData = deliveryReviewID+","+
+                                    deliveryReview.getCustomerID()+","+
+                                    deliveryReview.getRunnerID()+","+
+                                    ratings+","+
+                                    reviews+","+
+                                    datetime;
+                data.updateData(deliveryReviewID, updateData, deliveryReviewFile);
+            }
+        }
+    }
+    
+    public List<managefile.VendorReview> getOrderReviewByID(String reviewID){
+        List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
+                
+        List<managefile.VendorReview> matchedVendorReview = new ArrayList<>();
+        
+        for (managefile.VendorReview vendorReview :vendorReviews){
+            if (vendorReview.getReviewID().equals(reviewID)){
+                matchedVendorReview.add(vendorReview);
+            }
+        }
+        return matchedVendorReview;
+    }
+    
+    public void addOrderReview(String orderID,String ratings,String reviews){
+        Map<Object, Object> allOrders = getOrderByOrderID(orderID);
+        List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
+        String orderReviewID = orders.getFirst().getOrderReviewID();
+        List<managefile.VendorReview> vendorReviews = getOrderReviewByID(orderReviewID);
+        
+        for (managefile.VendorReview vendorReview :vendorReviews){
+            if (vendorReview.getReviewID().equals(orderReviewID)){
+                String updateData = orderReviewID+","+
+                                    vendorReview.getVendorID()+","+
+                                    ratings+","+
+                                    reviews;
+                data.updateData(orderReviewID, updateData, orderReviewFile);
+            }
+        }
+    }
+    public Map<Object, Object> getAllFeedback(){
+        List<Feedback> feedbacks = read.readFeedback(feedbackFile);
+        List<Customer> customers = read.readCustomerAccount(customerFile);
+        
+        List<Feedback> matchedFeedbacks = new ArrayList<>();
+        List<Customer> matchedCustomers = new ArrayList<>();
+        for (Feedback feedback : feedbacks) {
+            for (Customer customer : customers) {
+                if (feedback.getCustomerID().equals(customer.getId())){
+                    matchedFeedbacks.add(feedback);
+                    matchedCustomers.add(customer);
+                }
+            }
+        }
+        
+        Map<Object, Object> result = new HashMap<>();
+        result.put("feedbacks", matchedFeedbacks);
+        result.put("customers", matchedCustomers);
+        return result;
+    }
+    public void addFeedback(String customerID,String description) throws IOException{
+        List<Feedback> feedbacks = read.readFeedback(feedbackFile);
+        List feedbackList = new ArrayList();
+        for (managefile.Feedback feedback : feedbacks) {
+            feedbackList.add(feedback.getFeedbackID());
+        }
+        String latestFeedbackID = feedbackList.isEmpty() ? "F1" : pri.incrementPrimaryKey(feedbackList);
+        
+        List<String> feedbackStore = new ArrayList<>();
+        feedbackStore.add(latestFeedbackID);
+        feedbackStore.add(customerID);
+        feedbackStore.add(null);
+        feedbackStore.add(description);
+        feedbackStore.add(datetime);
+        data.addGeneralFile(feedbackStore, feedbackFile);
+    }
 }

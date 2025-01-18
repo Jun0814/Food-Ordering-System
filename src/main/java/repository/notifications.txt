@@ -24,3 +24,16 @@ NT22,Your order is cancel.|The total of RM 52.80 is refunded.,2025-01-14T10:26:4
 NT23,Your Order #O9 is placed order!,2025-01-14T10:32:40,C1
 NT24,You received Order #O9|x4 Fried Chicken is placed order!|,2025-01-14T10:32:40,C1
 NT25,Your delivery order is cancel.|The total of RM 38.40 is refunded.,2025-01-14T10:42:42,C1
+NT26,Your delivery order is cancel.|The total of RM 38.40 is refunded.,2025-01-15T20:05:47,C1
+NT27,Your delivery order is received!,2025-01-16T08:28:07,C1
+NT28,Your delivery order is received!,2025-01-16T09:22:48,C1
+NT29,Your delivery order is received!,2025-01-16T09:23:58,C1
+NT30,Your delivery order is received!,2025-01-16T09:25:33,C1
+NT31,Your delivery order is received!,2025-01-16T09:26:35,C1
+NT32,Your delivery order is received!,2025-01-16T09:49:35,C1
+NT33,You have top up RM 20 to your e-wallet successfully!,2025-01-17T09:17:16,C1
+NT34,You have top up RM 150 to your e-wallet successfully!,2025-01-17T09:20:50,C1
+NT35,You have top up RM 180 to your e-wallet successfully!,2025-01-17T09:23:05,C1
+NT36,You have top up RM 200 to your e-wallet successfully!,2025-01-17T09:24:34,C1
+NT37,Your Order #O10 is placed order!,2025-01-17T22:59:51,C1
+NT38,You received Order #O10|x6 Fried Cake is placed order!|x1 Fried Duck is placed order!|,2025-01-17T22:59:51,C1
