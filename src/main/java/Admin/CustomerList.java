@@ -98,19 +98,6 @@ public class CustomerList extends javax.swing.JPanel {
         this.repaint();
     }
 
-//    public void setJScrollPane() {
-//        customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.Y_AXIS)); // Use vertical layout
-//        customerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 15)); // Layout with spacing
-//        JScrollPane scrollPane = new JScrollPane(customerPanel);
-//        scrollPane.setPreferredSize(new Dimension(1000, 610));
-//        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-//        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-//        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
-//        this.setLayout(new BorderLayout());
-//        this.add(scrollPane, BorderLayout.CENTER);
-//    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

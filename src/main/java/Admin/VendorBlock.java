@@ -1,39 +1,51 @@
 package Admin;
 
 import java.awt.Color;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import method.RoundedButton;
 
-public class UserBlock extends JPanel {
+public class VendorBlock extends JPanel {
 
-    public String username, userId, email, phone;
+    public String vendorName, vendorId, stallName, email, phone;
     public Color edgeColor, backgroundColor, themeColor;
 
-    public UserBlock() {
+    public VendorBlock() {
         initComponents();
         setMinimumSize(new java.awt.Dimension(916, 200));
         setPreferredSize(new java.awt.Dimension(916, 200));
     }
     
     public String getUserId() {
-        return userId;
+        return vendorId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-        if (UserId != null) { 
-            UserId.setText(userId);
+    public void setUserId(String vendorId) {
+        this.vendorId = vendorId;
+        if (VendorId != null) { 
+            VendorId.setText(vendorId);
+        }
+    }
+    
+    public String getStallName() {
+        return stallName;
+    }
+    
+    public void setStallName(String stallName) {
+        this.stallName = stallName;
+        if (vendorStallName != null) { 
+            vendorStallName.setText(stallName != null ? stallName : "Unknown Store");
         }
     }
     
     public String getUsername() {
-        return username;
+        return vendorName;
     }
     
-    public void setUsername(String username) {
-        this.username = username;
-        if (UsernameLabel != null) { 
-            UsernameLabel.setText(username != null ? username : "Unknown User");
+    public void setUsername(String vendorName) {
+        this.vendorName = vendorName;
+        if (VendorName != null) { 
+            VendorName.setText(vendorName != null ? vendorName : "Unknown User");
         }
     }
     
@@ -88,6 +100,10 @@ public class UserBlock extends JPanel {
     public RoundedButton getButton(){
         return roundedButton;
     }
+    
+    public JLabel getLabel(){
+        return ImageLabel;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -97,9 +113,12 @@ public class UserBlock extends JPanel {
         Phone = new javax.swing.JLabel();
         roundedButton = new method.RoundedButton();
         roundedButton1 = new method.RoundedButton();
-        UsernameLabel = new javax.swing.JLabel();
+        vendorStallName = new javax.swing.JLabel();
         UserId = new javax.swing.JLabel();
         Email = new javax.swing.JLabel();
+        VendorId = new javax.swing.JLabel();
+        VendorName = new javax.swing.JLabel();
+        ImageLabel = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(916, 200));
         setPreferredSize(new java.awt.Dimension(916, 200));
@@ -113,7 +132,7 @@ public class UserBlock extends JPanel {
         Phone.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Phone.setForeground(new java.awt.Color(40, 40, 56));
         Phone.setText("018-7783486");
-        roundedPanel.add(Phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 370, 30));
+        roundedPanel.add(Phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 370, 30));
 
         roundedButton.setBackground(new java.awt.Color(140, 75, 242));
         roundedButton.setForeground(new java.awt.Color(248, 248, 248));
@@ -153,23 +172,41 @@ public class UserBlock extends JPanel {
         });
         roundedPanel.add(roundedButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 140, 120, 50));
 
-        UsernameLabel.setBackground(new java.awt.Color(40, 40, 56));
-        UsernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        UsernameLabel.setForeground(new java.awt.Color(40, 40, 56));
-        UsernameLabel.setText("Username");
-        roundedPanel.add(UsernameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 590, 50));
+        vendorStallName.setBackground(new java.awt.Color(40, 40, 56));
+        vendorStallName.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        vendorStallName.setForeground(new java.awt.Color(40, 40, 56));
+        vendorStallName.setText("StallName");
+        roundedPanel.add(vendorStallName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 640, 50));
 
         UserId.setBackground(new java.awt.Color(40, 40, 56));
         UserId.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         UserId.setForeground(new java.awt.Color(40, 40, 56));
-        UserId.setText("X1");
-        roundedPanel.add(UserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 370, 30));
+        UserId.setText("|");
+        roundedPanel.add(UserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, 10, 30));
 
         Email.setBackground(new java.awt.Color(40, 40, 56));
         Email.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Email.setForeground(new java.awt.Color(40, 40, 56));
         Email.setText("jiajunchong00@gmail.com");
-        roundedPanel.add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 370, 30));
+        roundedPanel.add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, 370, 30));
+
+        VendorId.setBackground(new java.awt.Color(40, 40, 56));
+        VendorId.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        VendorId.setForeground(new java.awt.Color(40, 40, 56));
+        VendorId.setText("X1");
+        roundedPanel.add(VendorId, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 30, 30));
+
+        VendorName.setBackground(new java.awt.Color(40, 40, 56));
+        VendorName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        VendorName.setForeground(new java.awt.Color(40, 40, 56));
+        VendorName.setText("vendorName");
+        roundedPanel.add(VendorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 180, 30));
+
+        ImageLabel.setForeground(new java.awt.Color(40, 40, 56));
+        ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ImageLabel.setMaximumSize(new java.awt.Dimension(1438, 1125));
+        ImageLabel.setPreferredSize(new java.awt.Dimension(240, 200));
+        roundedPanel.add(ImageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 18, 220, 160));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -194,11 +231,14 @@ public class UserBlock extends JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Email;
+    private javax.swing.JLabel ImageLabel;
     private javax.swing.JLabel Phone;
     private javax.swing.JLabel UserId;
-    private javax.swing.JLabel UsernameLabel;
+    private javax.swing.JLabel VendorId;
+    private javax.swing.JLabel VendorName;
     private method.RoundedButton roundedButton;
     private method.RoundedButton roundedButton1;
     method.RoundedPanel roundedPanel;
+    private javax.swing.JLabel vendorStallName;
     // End of variables declaration//GEN-END:variables
 }
