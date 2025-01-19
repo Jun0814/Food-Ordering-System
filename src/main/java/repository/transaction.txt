@@ -21,3 +21,4 @@ TR19,C1,null,2025-01-17T09:17:16,20,Credit,Touch'n Go
 TR20,C1,null,2025-01-17T09:20:50,150,Credit,Touch'n Go
 TR21,C1,null,2025-01-17T09:23:05,180,Credit,Grab Pay
 TR22,C1,null,2025-01-17T09:24:34,200,Credit,Debit Card
+TR23,C1,O10,2025-01-17T22:59:51,135.0,Debit,E-Wallet

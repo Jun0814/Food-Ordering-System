@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -119,9 +120,9 @@ public class orderPanel extends javax.swing.JPanel {
         JPanel containerPanel = new JPanel(new BorderLayout());
         containerPanel.add(orderPanel, BorderLayout.NORTH);
         
-        JPanel detailsPanel = new JPanel(new GridLayout(3, 1, 5, 5));
-        detailsPanel.setBackground(null);
-        detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 18));
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         
         String description = "";
         
@@ -135,12 +136,14 @@ public class orderPanel extends javax.swing.JPanel {
                 description = String.format("<html><div style='text-align: right;'>" +
                            "<span style='font-size: 12px;'>%s</span></html>", 
                            backend.returnOrderDescription(orders.getFirst().getStatus()));
+                detailsPanel.add(homepage.createDetailLabel("Total Amount: ", "RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount()))));
             }
             case "PICKUP" -> {
                 detailsPanel.add(homepage.createDetailLabel("Pick up Time:", orderTypeD));
                 description = String.format("<html><div style='text-align: right;'>" +
                            "<span style='font-size: 12px;'>%s</span></html>", 
                            backend.returnOrderDescription(orders.getFirst().getStatus()));
+                detailsPanel.add(homepage.createDetailLabel("Total Amount: ", "RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount()))));
             }
             case "DELIVERY" -> {
                 Map<Object, Object> deliveryDetails = backend.getDeliveryDetails(orderID);
@@ -154,11 +157,11 @@ public class orderPanel extends javax.swing.JPanel {
                 managefile.Runner runner = runners.getFirst();
                 detailsPanel.add(homepage.createDetailLabel("Delivery Address:", orderTypeD));
                 detailsPanel.add(homepage.createDetailLabel("Delivery Description:", delivery.getDescription()));
+                detailsPanel.add(homepage.createDetailLabel("Total Amount: ", "RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount()))+" (+ RM "+String.format("%.2f", delivery.getDeliveryFees())+" Delivery fees)"));
             }
             default -> {
             }
         }
-        detailsPanel.add(homepage.createDetailLabel("Total Amount: ", "RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount()))));
         String status = orders.getFirst().getStatus();
         if (status.equalsIgnoreCase("pending")){
             cancelButton.setVisible(true);

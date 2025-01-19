@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import main.MainMenu;
 import method.scaleImage;
 
 /**
@@ -57,13 +58,16 @@ public class VendorMain extends javax.swing.JFrame {
         if (e.getSource() == storeButton){
             switchToPanel(new VendorStore(userId));
         }else if(e.getSource() == orderButton){
-            switchToPanel(new VendorOrder());
+            switchToPanel(new VendorOrder(userId));
         }else if(e.getSource() == historyButton){
             switchToPanel(new VendorHistory());
         }else if(e.getSource() == reviewButton){
             switchToPanel(new VendorReview());
         }else if(e.getSource() == revenueButton){
             switchToPanel(new VendorRevenue());
+        }else if(e.getSource() == exitButton){
+            this.dispose();
+            new MainMenu().run();
         }
     }
     
@@ -83,6 +87,7 @@ public class VendorMain extends javax.swing.JFrame {
         revenueButton = new method.RoundedButton();
         historyButton = new method.RoundedButton();
         reviewButton = new method.RoundedButton();
+        exitButton = new method.RoundedButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -190,20 +195,44 @@ public class VendorMain extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setBackground(new java.awt.Color(40, 40, 56));
+        exitButton.setText("Exit");
+        exitButton.setAlignmentX(0.5F);
+        exitButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        exitButton.setColor(new java.awt.Color(40, 40, 56));
+        exitButton.setColorClick(new java.awt.Color(243, 222, 138));
+        exitButton.setColorOver(new java.awt.Color(140, 75, 242));
+        exitButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        exitButton.setFontColor(new java.awt.Color(227, 216, 255));
+        exitButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        exitButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        exitButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        exitButton.setRadius(30);
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(menuPanelLayout.createSequentialGroup()
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +247,10 @@ public class VendorMain extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(307, Short.MAX_VALUE))
         );
 
         getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
@@ -262,8 +294,13 @@ public class VendorMain extends javax.swing.JFrame {
         actionPerformed(evt);
     }//GEN-LAST:event_reviewButtonActionPerformed
 
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_exitButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
+    private method.RoundedButton exitButton;
     private method.RoundedButton historyButton;
     protected javax.swing.JLabel logoLabel;
     private javax.swing.JPanel menuPanel;

@@ -482,7 +482,8 @@ public class customer_backend{
         return vendorReviews;
     }
     
-    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice) throws IOException{
+    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice,double deliveryfees) throws IOException{
+        System.out.println(deliveryfees);
         Map<Object, Object> allOrders = getOrder(customerID);
         List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.Runner> runners = read.readRunner(runnerFile);
@@ -521,7 +522,7 @@ public class customer_backend{
         orderStore.add(orderType);
         orderStore.add(orderTypeDetails);
         orderStore.add(datetime);
-        orderStore.add(String.valueOf(totalPrice));
+        orderStore.add(String.valueOf(totalPrice-deliveryfees));
         orderStore.add("Pending");
         data.addGeneralFile(orderStore, orderFile);
         
@@ -541,6 +542,7 @@ public class customer_backend{
             deliveryStore.add(latestDeliveryReviewID);
             deliveryStore.add(latestOrderID);
             deliveryStore.add(runners.getFirst().getId());
+            deliveryStore.add(String.valueOf(deliveryfees));
             deliveryStore.add(null);
             deliveryStore.add(datetime);
             deliveryStore.add("Pending");

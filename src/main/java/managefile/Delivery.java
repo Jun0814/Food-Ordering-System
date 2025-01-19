@@ -13,18 +13,31 @@ public class Delivery {
     private String deliveryReviewID;
     private String orderID;
     private String runnerID;
+    private double deliveryFees;
     private String description;
     private String datetime;
     private String status;
+    private String filepath = "src\\main\\java\\repository\\delivery.txt";
+    
+    public Delivery(){};
 
-    public Delivery(String deliveryID, String deliveryReviewID, String orderID, String runnerID, String description, String datetime, String status) {
+    public Delivery(String deliveryID, String deliveryReviewID, String orderID, String runnerID, double totalAmount, String description, String datetime, String status) {
         this.deliveryID = deliveryID;
         this.deliveryReviewID = deliveryReviewID;
         this.orderID = orderID;
         this.runnerID = runnerID;
+        this.deliveryFees = totalAmount;
         this.description = description;
         this.datetime = datetime;
         this.status = status;
+    }
+
+    public double getDeliveryFees() {
+        return deliveryFees;
+    }
+
+    public void setDeliveryFees(double totalAmount) {
+        this.deliveryFees = totalAmount;
     }
 
     public String getDeliveryID() {
@@ -83,5 +96,8 @@ public class Delivery {
         this.status = status;
     }
     
+    public String getFilepath(){
+        return filepath;
+    }
     
 }

@@ -57,23 +57,23 @@ public class VendorStore extends javax.swing.JPanel {
         setJScrollPane();
     }
 
-    public String getCurrentFoodId() {
+    private String getCurrentFoodId() {
         return currentFoodId;
     }
 
-    public void setCurrentFoodId(String currentFoodId) {
+    private void setCurrentFoodId(String currentFoodId) {
         this.currentFoodId = currentFoodId;
     }
 
-    public String getCurrentFoodCategory() {
+    private String getCurrentFoodCategory() {
         return currentFoodCategory;
     }
 
-    public void setCurrentFoodCategory(String currentFoodCategory) {
+    private void setCurrentFoodCategory(String currentFoodCategory) {
         this.currentFoodCategory = currentFoodCategory;
     }
     
-    public void setMenuPanelHeight(){
+    private void setMenuPanelHeight(){
         int foodBlockCount = 0;
         int row;
         int menuPanelHeight = 600;
@@ -94,7 +94,7 @@ public class VendorStore extends javax.swing.JPanel {
         menuPanel.setPreferredSize(new Dimension(1000,menuPanelHeight));
     }
     
-    public void setJScrollPane(){
+    private void setJScrollPane(){
         menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JScrollPane scrollPane = new JScrollPane(menuPanel);
         scrollPane.setPreferredSize(new Dimension(1000,610));
@@ -105,7 +105,7 @@ public class VendorStore extends javax.swing.JPanel {
         this.add(scrollPane);
     }
         
-    public void intiDefaultFoodCategory(){
+    private void intiDefaultFoodCategory(){
         for (String[] data : foodData) {
             try{
                 String foodType = data.length > 6 ? data[6].trim() : "";
@@ -119,7 +119,7 @@ public class VendorStore extends javax.swing.JPanel {
         }
     }
     
-    public void intiCategoryButton() {
+    private void intiCategoryButton() {
         Map<String, RoundedButton> foodTypeButtons = new HashMap<>();
 
         for (String[] data : foodData) {
@@ -174,7 +174,7 @@ public class VendorStore extends javax.swing.JPanel {
         categoryPanel.add(addRoundedButton);
     }
     
-    public void intiMenuPanel(String foodCategory){
+    private void intiMenuPanel(String foodCategory){
         closeMenuPanel();
         
         for (String[] data : foodData) {
@@ -224,7 +224,7 @@ public class VendorStore extends javax.swing.JPanel {
     }
     
     //** Create Pop Up **//
-    public void intiPopUp(){
+    private void intiPopUp(){
                 
         String[] ids = data.retrieveIdsFromFile("src\\main\\java\\repository\\food.txt");
         List<String> idList = Arrays.asList(ids); 
@@ -239,7 +239,7 @@ public class VendorStore extends javax.swing.JPanel {
         price = Double.parseDouble(String.format("%.2f", price));
         String formattedPrice = String.format("%.2f", price);
 
-        VendorFoodPopUp popUp = new VendorFoodPopUp();
+        FoodPopUp popUp = new FoodPopUp();
         popUp.setFoodId(foodId);
         popUp.setFoodName(foodName);
         popUp.setPriceTag(formattedPrice);
@@ -297,7 +297,7 @@ public class VendorStore extends javax.swing.JPanel {
     }
     
     //** Update Pop Up **//
-    public void intiPopUp(String foodID){
+    private void intiPopUp(String foodID){
         for (String[] data : foodData) {
             try {
                 String firstId = data.length > 0 ? data[0].trim() : "";
@@ -312,7 +312,7 @@ public class VendorStore extends javax.swing.JPanel {
                     price = Double.parseDouble(String.format("%.2f", price));
                     String formattedPrice = String.format("%.2f", price);
                     
-                    VendorFoodPopUp popUp = new VendorFoodPopUp();
+                    FoodPopUp popUp = new FoodPopUp();
                     popUp.setFoodId(foodId);
                     popUp.setFoodName(foodName);
                     popUp.setPriceTag(formattedPrice);
@@ -380,7 +380,7 @@ public class VendorStore extends javax.swing.JPanel {
         menuPanel.revalidate();
     }
     
-    public void closeMenuPanel(){
+    private void closeMenuPanel(){
         Component[] componentList = menuPanel.getComponents();
         for(Component c : componentList){
             if(c instanceof FoodBlock){
@@ -389,7 +389,7 @@ public class VendorStore extends javax.swing.JPanel {
         }
     }
     
-    public void closeAllJDialog(){
+    private void closeAllJDialog(){
         for (Window window : Window.getWindows()) {
             if (window instanceof JDialog) {
                 JDialog dialog = (JDialog) window;
@@ -398,7 +398,7 @@ public class VendorStore extends javax.swing.JPanel {
         }
     }
     
-    public void reinitializeToPopUp() {
+    private void reinitializeToPopUp() {
         foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
         removeAll();
         revalidate();
@@ -411,7 +411,7 @@ public class VendorStore extends javax.swing.JPanel {
         intiPopUp(getCurrentFoodId());
     }
     
-    public void reinitializeToMenuPanel(){
+    private void reinitializeToMenuPanel(){
         foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
         removeAll();
         revalidate();
@@ -423,7 +423,7 @@ public class VendorStore extends javax.swing.JPanel {
         intiMenuPanel(getCurrentFoodCategory());
     }
         
-    public static void showPopUp(JPanel panel) {        
+    private static void showPopUp(JPanel panel) {        
         JDialog dialog = new JDialog();
         dialog.setUndecorated(true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

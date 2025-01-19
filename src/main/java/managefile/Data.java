@@ -47,8 +47,8 @@ public class Data {
     }
     
     
-    //*** Update a single data element by the first ID and target index in a file ***/
-    public void updateData(String targetId, int targetIndex, String newContent, String filepath) {
+    //*** Update a single data element by the first ID and content index in a file ***/
+    public void updateData(String targetId, int cotentIndex, String newContent, String filepath) {
         String resolvedPath = Data.this.getResolvedPath(filepath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
@@ -66,8 +66,52 @@ public class Data {
 
                 // Check if the line's ID matches the target ID
                 if (parts[0].trim().equals(targetId)) {
-                    if (targetIndex >= 0 && targetIndex < parts.length) {
-                        parts[targetIndex] = newContent;
+                    if (cotentIndex >= 0 && cotentIndex < parts.length) {
+                        parts[cotentIndex] = newContent;
+                        isUpdated = true;
+                    } else {
+                        System.out.println("Invalid index. No updates were made for ID: " + targetId);
+                    }
+                }
+                updatedContent.append(String.join(",", parts)).append(System.lineSeparator());
+            }
+
+            if (isUpdated) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(resolvedPath))) {
+                    bw.write(updatedContent.toString());
+                }
+            } else {
+                System.out.println("No updates were made. Key '" + targetId + "' not found.");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
+        } catch (NumberFormatException ex) {
+            System.out.println("Error parsing the file content. Ensure proper formatting.");
+        }
+    }
+    
+    
+    //*** Update a single data element by the ID and content index in a file ***/
+    public void updateData(String targetId, int targetIndex, String newContent, int contentIndex, String filepath) {
+        String resolvedPath = Data.this.getResolvedPath(filepath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(resolvedPath))) {
+            StringBuilder updatedContent = new StringBuilder();
+
+            // Read and store the header line
+            String headerLine = br.readLine();
+            if (headerLine != null) { updatedContent.append(headerLine).append(System.lineSeparator()); }
+
+            String line;
+            boolean isUpdated = false;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                // Check if the line's ID matches the target ID
+                if (parts[targetIndex].trim().equals(targetId)) {
+                    if (contentIndex >= 0 && contentIndex < parts.length) {
+                        parts[contentIndex] = newContent;
                         isUpdated = true;
                     } else {
                         System.out.println("Invalid index. No updates were made for ID: " + targetId);

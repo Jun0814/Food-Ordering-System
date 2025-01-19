@@ -154,8 +154,8 @@ public class FoodBlock extends JPanel {
         roundedButton.setText("XXX");
         roundedButton.setBorderColor(new java.awt.Color(248, 248, 248));
         roundedButton.setColor(new java.awt.Color(140, 75, 242));
-        roundedButton.setColorClick(new java.awt.Color(50, 255, 130));
-        roundedButton.setColorOver(new java.awt.Color(50, 255, 100));
+        roundedButton.setColorClick(new java.awt.Color(60, 200, 0));
+        roundedButton.setColorOver(new java.awt.Color(60, 200, 80));
         roundedButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         roundedButton.setFontColor(new java.awt.Color(248, 248, 248));
         roundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
@@ -172,7 +172,7 @@ public class FoodBlock extends JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(roundedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -93,6 +93,13 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
         List<managefile.OrderItems> orderItems = (List<managefile.OrderItems>) allOrders.get("ordersItems");
         List<managefile.Food> foodItems = (List<managefile.Food>) allOrders.get("foodItems");
         
+        Map<Object, Object> deliveryDetails = backend.getDeliveryDetails(orders.getFirst().getOrderID());
+        List<managefile.Delivery> deliverys = (List<managefile.Delivery>) deliveryDetails.get("deliverys");
+        List<managefile.Runner> runners = (List<managefile.Runner>) deliveryDetails.get("runners");
+
+        managefile.Delivery delivery = deliverys.getFirst();
+        managefile.Runner runner = runners.getFirst();
+        
         JPanel transactionPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
        
@@ -111,9 +118,9 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
             }
         }
         
-        JPanel detailsPanel = new JPanel(new GridLayout(4,1, 5, 5));
-        detailsPanel.setBackground(null);
-        detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 18));
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         
         String orderType = orders.getFirst().getOrderType().toUpperCase();
         String orderTypeD = orders.getFirst().getOrderTypeDetails().toUpperCase();
@@ -129,12 +136,6 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
                 detailsPanel.add(homepage.createDetailLabel("Pick up Time:", orderTypeD));
             }
             case "DELIVERY" -> {
-                Map<Object, Object> deliveryDetails = backend.getDeliveryDetails(orders.getFirst().getOrderID());
-                List<managefile.Delivery> deliverys = (List<managefile.Delivery>) deliveryDetails.get("deliverys");
-                List<managefile.Runner> runners = (List<managefile.Runner>) deliveryDetails.get("runners");
-
-                managefile.Delivery delivery = deliverys.getFirst();
-                managefile.Runner runner = runners.getFirst();
                 detailsPanel.add(homepage.createDetailLabel("Delivery Address:", orderTypeD));
                 detailsPanel.add(homepage.createDetailLabel("Delivery Description:", delivery.getDescription()));
             }
@@ -149,7 +150,12 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
                 detailsPanel.add(homepage.createDetailLabel2("Total Amount: ", "+ RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount())),"pos"));
             }
             case "DEBIT" -> {
+                if (orderType.equals("DELIVERY")){
+                    detailsPanel.add(homepage.createDetailLabel2("Total Amount: ", "- RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount()))+" (+ RM "+String.format("%.2f", delivery.getDeliveryFees())+" Delivery fees)","neg"));
+                }else{
                 detailsPanel.add(homepage.createDetailLabel2("Total Amount: ", "- RM "+String.format("%.2f", Double.parseDouble(orders.getFirst().getTotalAmount())),"neg"));
+                
+                }
             }
         }
         String status = orders.getFirst().getStatus();
@@ -338,7 +344,7 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 375, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,9 +377,9 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
