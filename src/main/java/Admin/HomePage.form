@@ -80,7 +80,7 @@
               <Component id="logoLabel" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="logout" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="logoutButton" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -100,7 +100,7 @@
                   <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                   <Component id="transactionButton" min="-2" pref="42" max="-2" attributes="0"/>
                   <EmptySpace pref="286" max="32767" attributes="0"/>
-                  <Component id="logout" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="logoutButton" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -306,7 +306,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="creditButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="logout">
+        <Component class="javax.swing.JButton" name="logoutButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="38" green="28" red="27" type="rgb"/>
@@ -317,7 +317,7 @@
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

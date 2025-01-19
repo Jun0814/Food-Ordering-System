@@ -76,7 +76,6 @@ public class CustomerList extends javax.swing.JPanel {
        }
 
        row = userBlockCount; 
-
        if (row >= 3) {
            customerPanelHeight = 600 + ((row - 3) * 250);
        } else {
@@ -89,10 +88,10 @@ public class CustomerList extends javax.swing.JPanel {
     public void setJScrollPane() {
         customerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JScrollPane scrollPane = new JScrollPane(customerPanel);
-        scrollPane.setPreferredSize(new Dimension(1000,610));
+        scrollPane.setPreferredSize(new Dimension(1000,590));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         this.add(scrollPane);
         this.revalidate(); 
@@ -116,6 +115,7 @@ public class CustomerList extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         CustomerLabel = new javax.swing.JLabel();
         addCustomerButton = new method.RoundedButton();
         customerPanel = new javax.swing.JPanel();
@@ -123,6 +123,8 @@ public class CustomerList extends javax.swing.JPanel {
         setBackground(new java.awt.Color(126, 127, 154));
         setMinimumSize(new java.awt.Dimension(1000, 800));
         setPreferredSize(new java.awt.Dimension(1000, 800));
+
+        jPanel1.setBackground(new java.awt.Color(126, 127, 154));
 
         CustomerLabel.setBackground(new java.awt.Color(255, 255, 51));
         CustomerLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
@@ -149,6 +151,35 @@ public class CustomerList extends javax.swing.JPanel {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(749, Short.MAX_VALUE)
+                .addComponent(addCustomerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(18, 18, 18)
+                    .addComponent(CustomerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(88, Short.MAX_VALUE)
+                .addComponent(addCustomerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(CustomerLabel)
+                    .addContainerGap(66, Short.MAX_VALUE)))
+        );
+
+        add(jPanel1);
+
         customerPanel.setBackground(new java.awt.Color(126, 127, 154));
         customerPanel.setAutoscrolls(true);
         customerPanel.setMinimumSize(new java.awt.Dimension(1000, 600));
@@ -164,32 +195,7 @@ public class CustomerList extends javax.swing.JPanel {
             .addGap(0, 600, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(CustomerLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addCustomerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(customerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(CustomerLabel)
-                .addGap(18, 18, 18)
-                .addComponent(addCustomerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(customerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        add(customerPanel);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCustomerButtonActionPerformed
@@ -209,5 +215,6 @@ public class CustomerList extends javax.swing.JPanel {
     private javax.swing.JLabel CustomerLabel;
     private method.RoundedButton addCustomerButton;
     javax.swing.JPanel customerPanel;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

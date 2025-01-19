@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
+import main.MainMenu;
 import main.UserLogin;
 import method.scaleImage;
 
@@ -26,9 +27,8 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         this.setResizable(false);
         this.setLocationRelativeTo(null); 
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\logo.png", 230, 184));
-        logout.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\log-out.png", 30, 30));
-        logout.setFocusable(false);
-        logout.addActionListener(this);
+        logoutButton.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\log-out.png", 30, 30));
+        logoutButton.setFocusable(false);
     }
 
     protected void switchToPanel(JPanel targetPanel) {        
@@ -60,10 +60,10 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
             switchToPanel(new Transaction());
         }else if(e.getSource() == creditButton){
             switchToPanel(new CreditTopUp());
-        }else if (e.getSource()==logout){
-            UserLogin loginpage = new UserLogin("admin");
-            loginpage.run();
+        }else if (e.getSource()== logoutButton){
             this.dispose();
+            MainMenu mainmenu = new MainMenu();
+            mainmenu.run();
         }
     }
 
@@ -78,7 +78,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         transactionButton = new method.RoundedButton();
         runnerButton = new method.RoundedButton();
         creditButton = new method.RoundedButton();
-        logout = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -185,12 +185,12 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
             }
         });
 
-        logout.setBackground(new java.awt.Color(39, 40, 56));
-        logout.setBorder(null);
-        logout.setBorderPainted(false);
-        logout.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton.setBackground(new java.awt.Color(39, 40, 56));
+        logoutButton.setBorder(null);
+        logoutButton.setBorderPainted(false);
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutActionPerformed(evt);
+                logoutButtonActionPerformed(evt);
             }
         });
 
@@ -210,7 +210,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
             .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
         menuPanelLayout.setVerticalGroup(
@@ -228,7 +228,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
                 .addGap(12, 12, 12)
                 .addComponent(transactionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
-                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
@@ -294,17 +294,17 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         actionPerformed(evt);
     }//GEN-LAST:event_creditButtonActionPerformed
 
-    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
         actionPerformed(evt);
-    }//GEN-LAST:event_logoutActionPerformed
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private method.RoundedButton creditButton;
     private method.RoundedButton customerButton;
     protected javax.swing.JLabel logoLabel;
-    private javax.swing.JButton logout;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JPanel menuPanel;
     private method.RoundedButton runnerButton;
     private method.RoundedButton transactionButton;

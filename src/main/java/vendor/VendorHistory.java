@@ -26,34 +26,57 @@ public class VendorHistory extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        categoryPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        menuPanel = new javax.swing.JPanel();
 
-        setBackground(new java.awt.Color(126, 127, 154));
+        setBackground(new java.awt.Color(200, 200, 255));
+        setMinimumSize(new java.awt.Dimension(1000, 800));
         setPreferredSize(new java.awt.Dimension(1000, 800));
+        setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel1.setText("History");
+        jLabel2.setBackground(new java.awt.Color(39, 40, 56));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(140, 75, 242));
+        jLabel2.setText("Order Category");
+        add(jLabel2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(236, 236, 236)
-                .addComponent(jLabel1)
-                .addContainerGap(599, Short.MAX_VALUE))
+        categoryPanel.setBackground(new java.awt.Color(200, 200, 255));
+        categoryPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
+        categoryPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        add(categoryPanel);
+
+        jLabel1.setBackground(new java.awt.Color(39, 40, 56));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(140, 75, 242));
+        jLabel1.setText("Customer Order");
+        add(jLabel1);
+
+        menuPanel.setBackground(new java.awt.Color(200, 200, 255));
+        menuPanel.setAutoscrolls(true);
+        menuPanel.setMinimumSize(new java.awt.Dimension(1000, 600));
+        menuPanel.setName(""); // NOI18N
+
+        javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
+        menuPanel.setLayout(menuPanelLayout);
+        menuPanelLayout.setHorizontalGroup(
+            menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(148, 148, 148)
-                .addComponent(jLabel1)
-                .addContainerGap(233, Short.MAX_VALUE))
+        menuPanelLayout.setVerticalGroup(
+            menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
+
+        add(menuPanel);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel categoryPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel menuPanel;
     // End of variables declaration//GEN-END:variables
 }
