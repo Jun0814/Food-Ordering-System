@@ -22,7 +22,8 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public MainMenu() {
-        initComponents();        
+        initComponents();     
+        System.out.println("hihi");
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
         this.setLocationRelativeTo(null);

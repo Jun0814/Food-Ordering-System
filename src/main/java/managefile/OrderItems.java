@@ -16,6 +16,9 @@ public class OrderItems {
     private String totalAmount;
     private String status;
     private String remarks;
+    private String filepath = "src\\main\\java\\repository\\orderitems.txt";
+    
+    public OrderItems(){}
 
     public OrderItems(String orderItemID, String orderID, String foodID, String quantity, String totalAmount, String status, String remarks) {
         this.orderItemID = orderItemID;
@@ -81,6 +84,10 @@ public class OrderItems {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+    
+    public String getFilepath(){
+        return filepath;
     }
     
 }

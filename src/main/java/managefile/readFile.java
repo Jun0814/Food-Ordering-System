@@ -360,4 +360,25 @@ public class readFile {
         }
         return notifications;
     }
+
+    public List<RunnerNotification> readRunnerNotification(String filepath) {
+        List<RunnerNotification> notifications = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(filepath);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+                String runnerNotificationId = fields[0].trim();
+                String runnerId = fields[1].trim();
+                String orderId = fields[2].trim();
+                String status = fields[3].trim();
+                notifications.add(new RunnerNotification(runnerNotificationId,runnerId,orderId, status));
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return notifications;
+    }
 }

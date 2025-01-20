@@ -106,5 +106,67 @@ public class writeFile {
             System.err.println("Error writing to file: " + e.getMessage());
         }
     }
+    
+    public void writeRunnerNotification(List<RunnerNotification> notifications, String filepath,Boolean method) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath, method))) {
+            for (RunnerNotification notification : notifications) {
+                // Create a line for each notification in the format: notificationId,userId,orderId,status
+                String line = notification.getNotificationId() + "," +
+                              notification.getRunnerId() + "," +
+                              notification.getOrderId() + "," +
+                              notification.getStatus();
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to the notification file: " + e.getMessage());
+        }
+    }
+    
+    public void writeRunner(List<Runner> runners, String filepath){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))){
+            // Write the header
+            writer.write("RunnerId,Name,Email,Phone,Password,Status");
+            writer.newLine();
+            
+            for (Runner runner : runners){
+                String line = String.format("%s,%s,%s,%s,%s,%s",
+                        runner.getId(),
+                        runner.getName(),
+                        runner.getEmail(),
+                        runner.getPhone(),
+                        runner.getPassword(),
+                        runner.getStatus());
+                writer.write(line);
+                writer.newLine();
+            }
+ 
+        } catch (IOException e) {
+            System.err.println("Error writing to the notification file: " + e.getMessage());
+        }
+    }
+    
+    public void writeDeliveryReview(List<DeliveryReview> deliveryReviews, String filepath){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))){
+            //write headerline
+            writer.write("ReviewID,CustomerId,RunnerId,Rating,Comments,Datetime");
+            writer.newLine();
+            
+            for(DeliveryReview deliveryReview : deliveryReviews){
+                String line = String.format("%s,%s,%s,%s,%s,%s",
+                        deliveryReview.getReviewID(),
+                        deliveryReview.getCustomerID(),
+                        deliveryReview.getRunnerID(),
+                        deliveryReview.getRating(),
+                        deliveryReview.getComments(),
+                        deliveryReview.getDatetime());
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e){
+            System.err.println("Error writing to the notification file: " + e.getMessage());
+        }
+        
+    }
 
 }   

@@ -8,9 +8,13 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JPanel;
 import managefile.Data;
 import managefile.Runner;
+import managefile.RunnerNotification;
+import managefile.readFile;
 
 /**
  *
@@ -21,10 +25,14 @@ public class RunnerMain extends javax.swing.JFrame {
     private String runnerName;
     Runner runner = new Runner();
     Data data = new Data();
+    readFile read = new readFile();
+    RunnerNotification runnerNotification = new RunnerNotification();
+    String runnerNotificationFilepath = runnerNotification.getFilepath();
     /**
      * Creates new form RunnerMain
      */
     public RunnerMain(String runnerId) {
+    
         initComponents();
         this.runnerId = runnerId;
         contentPanel.setOpaque(false);
@@ -39,6 +47,29 @@ public class RunnerMain extends javax.swing.JFrame {
         String formattedDateTime = now.format(formatter);
         datetimeLabel.setText(formattedDateTime);
         
+        System.out.println(runnerId);
+        List<RunnerNotification> runnerNotifications = read.readRunnerNotification(runnerNotificationFilepath);
+        System.out.println(runnerNotifications);
+
+        //receive notification
+        javax.swing.Timer timer = new javax.swing.Timer(3000, e -> {
+            // Open the DeliveryNotification frame after 3 seconds
+            for (RunnerNotification runnerNotification : runnerNotifications) {
+                if (runnerNotification.getRunnerId().equals(runnerId) && runnerNotification.getStatus().equals("Pending")) {
+                    String selectedRunnerId = runnerNotification.getRunnerId();
+                    String orderId = runnerNotification.getOrderId();
+                    String notificationId = runnerNotification.getNotificationId();
+                    String status = runnerNotification.getStatus();
+
+                    DeliveryNotification dnFrame = new DeliveryNotification(selectedRunnerId, orderId, notificationId, status);
+                    dnFrame.setVisible(true);
+                    break;
+                }
+            }
+        });
+        timer.setRepeats(false); // Ensure the timer fires only once
+        timer.start();
+
         RunnerHome home = new RunnerHome(runnerId);
         switchToPanel(home);
     }
@@ -56,9 +87,15 @@ public class RunnerMain extends javax.swing.JFrame {
         if(e.getSource() == taskBtn){
             RunnerTask runnerTask = new RunnerTask(runnerId);
             switchToPanel(runnerTask);
+        }else if(e.getSource() == historyBtn){
+            RunnerHistory historyTask = new RunnerHistory(runnerId);
+            switchToPanel(historyTask);
+        }else if(e.getSource() == reviewBtn){
+            RunnerReview runnerReview = new RunnerReview(runnerId);
+            switchToPanel(runnerReview);
         }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -192,14 +229,17 @@ public class RunnerMain extends javax.swing.JFrame {
 
     private void reviewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewBtnActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_reviewBtnActionPerformed
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_historyBtnActionPerformed
 
     private void taskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taskBtnActionPerformed
         // TODO add your handling code here:
+        actionPerformed(evt);
     }//GEN-LAST:event_taskBtnActionPerformed
 
     /**

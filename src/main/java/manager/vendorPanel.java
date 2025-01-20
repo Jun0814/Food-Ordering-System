@@ -4,6 +4,11 @@
  */
 package manager;
 
+import java.util.ArrayList;
+import java.util.List;
+import managefile.VendorReview;
+import managefile.readFile;
+
 /**
  *
  * @author Asus
@@ -14,6 +19,10 @@ public class vendorPanel extends javax.swing.JPanel {
     private String vendorStallName;
     private String vendorStallType;
     private String type;
+    VendorReview orderReview = new VendorReview();
+    readFile read = new readFile();
+    managerAccountManager acc = new managerAccountManager();
+    
     /**
      * Creates new form vendorPanel
      */
@@ -28,6 +37,16 @@ public class vendorPanel extends javax.swing.JPanel {
         vendorStallNameLabel.setText(vendorStallName);
         vendorNameLabel.setText(vendorName);
         vendorTypeLabel.setText(vendorStallType);
+        List<VendorReview> reviews = read.readVendorReview(orderReview.getFilepath());
+
+        List<String> ratings = new ArrayList();
+        for (VendorReview review : reviews){
+            if(review.getVendorID().equals(vendorId)){
+                ratings.add(review.getRating());
+            }
+        }
+        double totalRatings = acc.calculateTotalRatings(ratings);
+        ratingsLabel.setText("*" + Double.toString(totalRatings));
     }
 
     /**
@@ -91,7 +110,7 @@ public class vendorPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(vendorStallNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                        .addComponent(vendorStallNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(ratingsLabel)
                         .addGap(14, 14, 14))
@@ -130,7 +149,7 @@ public class vendorPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(vendorImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+            .addComponent(vendorImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +157,7 @@ public class vendorPanel extends javax.swing.JPanel {
                 .addComponent(vendorImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
