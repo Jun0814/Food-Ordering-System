@@ -197,6 +197,16 @@ public class Data {
         return rows.toArray(new String[rows.size()][]);
     }
     
+    // Method to reverse a 2D array
+    public String[][] reverse2DArray(String[][] array) {
+        int rowCount = array.length;
+        String[][] reversed = new String[rowCount][];
+        for (int i = 0; i < rowCount; i++) {
+            reversed[i] = array[rowCount - 1 - i];
+        }
+        return reversed;
+    }
+    
     
     //*** Retrieve All Ids from certain file ***//
     public String[] retrieveIdsFromFile(String filepath) {

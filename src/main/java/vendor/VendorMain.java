@@ -60,9 +60,9 @@ public class VendorMain extends javax.swing.JFrame {
         }else if(e.getSource() == orderButton){
             switchToPanel(new VendorOrder(userId));
         }else if(e.getSource() == historyButton){
-            switchToPanel(new VendorHistory());
+            switchToPanel(new VendorHistory(userId));
         }else if(e.getSource() == reviewButton){
-            switchToPanel(new VendorReview());
+            switchToPanel(new VendorReview(userId));
         }else if(e.getSource() == revenueButton){
             switchToPanel(new VendorRevenue());
         }else if(e.getSource() == exitButton){
@@ -96,9 +96,11 @@ public class VendorMain extends javax.swing.JFrame {
         menuPanel.setBackground(new java.awt.Color(40, 40, 56));
         menuPanel.setPreferredSize(new java.awt.Dimension(280, 800));
         menuPanel.setRequestFocusEnabled(false);
+        menuPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        menuPanel.add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 175));
 
         storeButton.setBackground(new java.awt.Color(40, 40, 56));
         storeButton.setText("Store");
@@ -118,6 +120,7 @@ public class VendorMain extends javax.swing.JFrame {
                 storeButtonActionPerformed(evt);
             }
         });
+        menuPanel.add(storeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 181, 268, 42));
 
         orderButton.setBackground(new java.awt.Color(40, 40, 56));
         orderButton.setText("Order");
@@ -137,6 +140,7 @@ public class VendorMain extends javax.swing.JFrame {
                 orderButtonActionPerformed(evt);
             }
         });
+        menuPanel.add(orderButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 235, 268, 42));
 
         revenueButton.setBackground(new java.awt.Color(40, 40, 56));
         revenueButton.setText("Revenue");
@@ -156,6 +160,7 @@ public class VendorMain extends javax.swing.JFrame {
                 revenueButtonActionPerformed(evt);
             }
         });
+        menuPanel.add(revenueButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 397, 268, 42));
 
         historyButton.setBackground(new java.awt.Color(40, 40, 56));
         historyButton.setText("History");
@@ -175,6 +180,7 @@ public class VendorMain extends javax.swing.JFrame {
                 historyButtonActionPerformed(evt);
             }
         });
+        menuPanel.add(historyButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, 268, 42));
 
         reviewButton.setBackground(new java.awt.Color(40, 40, 56));
         reviewButton.setText("Review");
@@ -194,6 +200,7 @@ public class VendorMain extends javax.swing.JFrame {
                 reviewButtonActionPerformed(evt);
             }
         });
+        menuPanel.add(reviewButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 343, 268, 42));
 
         exitButton.setBackground(new java.awt.Color(40, 40, 56));
         exitButton.setText("Exit");
@@ -213,45 +220,7 @@ public class VendorMain extends javax.swing.JFrame {
                 exitButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
-        menuPanel.setLayout(menuPanelLayout);
-        menuPanelLayout.setHorizontalGroup(
-            menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        menuPanelLayout.setVerticalGroup(
-            menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(storeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(orderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(revenueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(307, Short.MAX_VALUE))
-        );
+        menuPanel.add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 451, 268, 42));
 
         getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
 

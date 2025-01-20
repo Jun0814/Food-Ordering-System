@@ -4,8 +4,8 @@
  */
 package vendor;
 
+import java.awt.Color;
 import javax.swing.JLabel;
-import managefile.Data;
 import method.RoundedButton;
 
 /**
@@ -13,10 +13,9 @@ import method.RoundedButton;
  * @author TPY
  */
 public class OrderPopUp extends javax.swing.JPanel {
-
-    Data data = new Data();
-    private String foodId, foodName, quantity, totalAmount, status, remark, imagePath, filepath;
     
+    private String foodId, foodName, quantity, totalAmount, status, remark, imagePath, filepath;
+    public Color edgeColor, backgroundColor;
     
     /**
      * Creates new form OrderPopUp
@@ -114,6 +113,28 @@ public class OrderPopUp extends javax.swing.JPanel {
 
     public void setImageLabel(JLabel ImageLabel) {
         this.ImageLabel = ImageLabel;
+    }
+    
+        public Color getEdgeColor() {
+        return edgeColor;
+    }
+
+    public void setEdgeColor(Color edgeColor) {
+        this.edgeColor = edgeColor;
+        if (roundedPanel.getBackground() != null) {
+            roundedPanel.setBackground(edgeColor != null ? edgeColor : Color.WHITE);
+        }
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        if(roundedPanel.getBackgroundColor() != new Color(248,248,248)){
+            roundedPanel.setBackgroundColor(backgroundColor != null ? backgroundColor : Color.WHITE);
+        }
     }
 
     public JLabel getAmountLabel() {
