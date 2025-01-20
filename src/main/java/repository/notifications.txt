@@ -37,3 +37,16 @@ NT35,You have top up RM 180 to your e-wallet successfully!,2025-01-17T09:23:05,C
 NT36,You have top up RM 200 to your e-wallet successfully!,2025-01-17T09:24:34,C1
 NT37,Your Order #O10 is placed order!,2025-01-17T22:59:51,C1
 NT38,You received Order #O10|x6 Fried Cake is placed order!|x1 Fried Duck is placed order!|,2025-01-17T22:59:51,C1
+NT39,Your Order #O11 is placed order!,2025-01-18T17:51:44,C1
+NT40,You received Order #O11|x2 Fried Noodle is placed order!|,2025-01-18T17:51:44,C1
+NT41,Your delivery order is cancel.|The total of RM 24.00 is refunded.,2025-01-18T18:16:47,C1
+NT42,Your Order #O12 is placed order!,2025-01-18T18:17:06,C1
+NT43,You received Order #O12|x1 Fried Noodle is placed order!|,2025-01-18T18:17:06,C1
+NT44,Your Order #O13 is placed order!,2025-01-18T18:18:33,C1
+NT45,You received Order #O13|x1 Fried Noodle is placed order!|,2025-01-18T18:18:33,C1
+NT46,Your Order #O14 is placed order!,2025-01-18T18:41:24,C1
+NT47,You received Order #O14|x1 Fried Noodle is placed order!|,2025-01-18T18:41:24,C1
+NT48,Your Order #O15 is placed order!,2025-01-19T18:42:18,C1
+NT49,You received Order #O15|x1 Fried Duck is placed order!|,2025-01-19T18:42:18,C1
+NT50,Your Order #O16 is placed order!,2025-01-20T11:15:23,C1
+NT51,You received Order #O16|x1 Fried Cake is placed order!|,2025-01-20T11:15:23,C1

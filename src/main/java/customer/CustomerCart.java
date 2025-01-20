@@ -43,6 +43,7 @@ import managefile.Vendor;
  * @author USER
  */
 public class CustomerCart extends javax.swing.JFrame {
+    private String runnerId;
     private final String customerID;
     private String orderSelection = "dine in";
     customer_backend backend = new customer_backend();
@@ -598,6 +599,8 @@ public class CustomerCart extends javax.swing.JFrame {
                 if (orderSelection.equals("delivery")){
                     for (Runner runner : runners) {
                         if (runner.getStatus().equalsIgnoreCase("Available")) {
+                            this.runnerId = runner.getId();
+                            System.out.println(runnerId);
                             runnerAvailable = true;
                             break;
                         }
@@ -608,7 +611,7 @@ public class CustomerCart extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "No runner in the system!");
                         }
                         if (runnerAvailable && availableTime){
-                            backend.addOrder(customerID,cartList,foodList,orderSelection,addressArea.getText(), totalPrice,totalPrice-initialTotal);
+                            backend.addOrder(customerID,cartList,foodList,orderSelection,addressArea.getText(), totalPrice,totalPrice-initialTotal,runnerId);
                             orderPlaced = true;
                         }
                     }else if (!addressArea.getText().trim().toLowerCase().contains("bukit jalil")){
@@ -623,7 +626,7 @@ public class CustomerCart extends javax.swing.JFrame {
                         if (backend.scale.isNumeric(tableNumber)) {
                             int tableNumValue = Integer.parseInt(tableNumber);
                             if (availableTime && (tableNumValue<=200 && 0<tableNumValue)){
-                                backend.addOrder(customerID, cartList,foodList, orderSelection, tableNumber, totalPrice,0);
+                                backend.addOrder(customerID, cartList,foodList, orderSelection, tableNumber, totalPrice,0,null);
                                 orderPlaced = true;
                             }else{
                                 JOptionPane.showMessageDialog(null, "Please enter a valid table number!", "Place Order Failed", JOptionPane.WARNING_MESSAGE);
@@ -645,7 +648,7 @@ public class CustomerCart extends javax.swing.JFrame {
                             orderPlaced = false;
                             JOptionPane.showMessageDialog(null, "Please enter valid pickup time!\nNow is already "+currentTime.toString().split("\\.")[0],"Place Order Failed", JOptionPane.WARNING_MESSAGE);                
                         } else{
-                            backend.addOrder(customerID,cartList,foodList,orderSelection,timeString,totalPrice,0);
+                            backend.addOrder(customerID,cartList,foodList,orderSelection,timeString,totalPrice,0,null);
                             orderPlaced = true;
                         }
                     } else{

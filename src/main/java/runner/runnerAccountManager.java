@@ -34,8 +34,8 @@ public class runnerAccountManager {
                 String[] columns = line.split(",");
                 
                 String fileRunnerId = columns[3].trim();
-                String dateTime = columns[5].trim();
-                String yearlyRevenueStr = columns[7].trim();
+                String dateTime = columns[6].trim();
+                String yearlyRevenueStr = columns[4].trim();
                 
                 String year = dateTime.split("-")[0];
                 
@@ -61,8 +61,8 @@ public class runnerAccountManager {
             while((line = br.readLine()) != null){
                 String [] columns = line.split(",");
                 
-                String dateTimeStr = columns[5].trim();
-                String amountStr = columns[7].trim();
+                String dateTimeStr = columns[6].trim();
+                String amountStr = columns[4].trim();
                 String fileRunnerId = columns[3].trim();
                 
                 LocalDate date = LocalDate.parse(dateTimeStr.split("T")[0]);

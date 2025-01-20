@@ -9,3 +9,9 @@ O7,C1,null,V1,VR7,dine in,115,2025-01-14T10:00:39,110.00000000000001,Cancel
 O8,C1,null,V1,VR8,dine in,100,2025-01-14T10:04:40,121,Cancel
 O9,C1,D2,V1,VR9,delivery,bukit jalil,2025-01-14T10:32:40,48.0,Completed
 O10,C1,D3,V1,VR10,delivery,bukit jalil,2025-01-17T22:59:51,130.0,Pending
+O11,C1,D4,V2,VR11,delivery,bukit jalil,2025-01-18T17:51:44,30.0,Cancel
+O12,C1,D5,V2,VR12,delivery,bukit jalil,2025-01-18T18:17:06,15.0,Pending
+O13,C1,D6,V2,VR13,delivery,bukit jalil,2025-01-18T18:18:33,15.0,Pending
+O14,C1,D7,V2,VR14,delivery,bukit jalil,2025-01-18T18:41:24,15.0,Pending
+O15,C1,D8,V1,VR15,delivery,Bukit Jalil,2025-01-19T18:37:30,10.0,Completed
+O16,C1,D9,V1,VR17,delivery,bukit jalil,2025-01-20T11:15:23,20.0,Completed
