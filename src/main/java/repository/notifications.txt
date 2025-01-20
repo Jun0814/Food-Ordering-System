@@ -1,4 +1,4 @@
-NotificationID,Description,Datetime,CustomerID
+NotificationID,Description,Datetime,UserID
 NT1,Your Order #O1 is placed order!,2025-01-11T22:36:23,C1
 NT2,You received Order #O1|x1 Fried Chicken is placed order!|x6 Fried Cake is placed order!|,2025-01-11T22:36:23,V1
 NT3,Your Order #O2 is placed order!,2025-01-11T22:38:07,C1

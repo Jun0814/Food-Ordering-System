@@ -733,7 +733,7 @@ public class customer_backend{
             if (deliveryReview.getReviewID().equals(deliveryReviewID)){
                 String updateData = deliveryReviewID+","+
                                     deliveryReview.getCustomerID()+","+
-                                    deliveryReview.getRunnerID()+","+
+                                    deliverys.getFirst().getRunnerID()+","+
                                     ratings+","+
                                     reviews+","+
                                     datetime;

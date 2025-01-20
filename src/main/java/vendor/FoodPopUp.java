@@ -19,7 +19,7 @@ import method.RoundedButton;
  *
  * @author TPY
  */
-public class VendorFoodPopUp extends javax.swing.JPanel {
+public class FoodPopUp extends javax.swing.JPanel {
 
     Data data = new Data();
     public String foodId, foodName, priceTag, status, imagePath, filepath, description, vendorId, foodType;
@@ -28,7 +28,7 @@ public class VendorFoodPopUp extends javax.swing.JPanel {
     /**
      * Creates new form VendorFoodPopUp
      */
-    public VendorFoodPopUp() {
+    public FoodPopUp() {
         initComponents();
         titleLabel.setText("<html><u>Current Data</u></html>");
         roundedPanel.setOpaque(false);

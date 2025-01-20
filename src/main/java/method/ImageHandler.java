@@ -22,10 +22,18 @@ public class ImageHandler {
     public static BufferedImage loadImage(String imagepath) {
         BufferedImage loadedImage = null;
         try {
-            if(imagepath == null){
+            if (imagepath == null || imagepath.isEmpty()) {
                 imagepath = "src/main/java/image_repository/default-food.png";
             }
+
             File imageFile = new File(imagepath);
+
+            // Check if the file exists
+            if (!imageFile.exists()) {
+                System.err.println("File not found: " + imagepath + ". Using default image.");
+                imageFile = new File("src/main/java/image_repository/food-stall.png");
+            }
+
             loadedImage = ImageIO.read(imageFile);
         } catch (IOException e) {
             System.err.println("Error loading image: " + imagepath);
@@ -33,6 +41,7 @@ public class ImageHandler {
         }
         return loadedImage;
     }
+
     
     // Display an image on a JLabel
     public void displayImageOnLabel(BufferedImage image, JLabel label) {

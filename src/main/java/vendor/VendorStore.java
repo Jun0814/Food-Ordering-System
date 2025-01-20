@@ -24,6 +24,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import managefile.Data;
 import method.ImageHandler;
@@ -51,29 +52,52 @@ public class VendorStore extends javax.swing.JPanel {
         initComponents();        
         this.userId = userId;
         foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
-                        
+        
         intiCategoryButton();
         intiDefaultFoodCategory();
-        setJScrollPane();
+        setHorizontalScrollPane();
+        this.add(jLabel1);
+        setVerticalScrollPane();
     }
 
-    public String getCurrentFoodId() {
+    private String getCurrentFoodId() {
         return currentFoodId;
     }
 
-    public void setCurrentFoodId(String currentFoodId) {
+    private void setCurrentFoodId(String currentFoodId) {
         this.currentFoodId = currentFoodId;
     }
 
-    public String getCurrentFoodCategory() {
+    private String getCurrentFoodCategory() {
         return currentFoodCategory;
     }
 
-    public void setCurrentFoodCategory(String currentFoodCategory) {
+    private void setCurrentFoodCategory(String currentFoodCategory) {
         this.currentFoodCategory = currentFoodCategory;
     }
     
-    public void setMenuPanelHeight(){
+    private void setSubCategoryWidth() {
+        int dateBlockCount = 0;
+        int row;
+        int subCategoryWidth = 0;
+        
+        for (int i = 0; i < categoryPanel.getComponentCount(); i++) {
+            if (categoryPanel.getComponent(i) instanceof RoundedButton) {
+                dateBlockCount++;
+            }
+        }
+        
+        row = (int) dateBlockCount;
+        
+        if(row >= 6){
+            subCategoryWidth = 1000 + ((row-6)*(150));
+        }else{
+            subCategoryWidth = 1000;
+        }
+        categoryPanel.setPreferredSize(new Dimension(subCategoryWidth,60));
+    }
+    
+    private void setMenuPanelHeight(){
         int foodBlockCount = 0;
         int row;
         int menuPanelHeight = 600;
@@ -94,7 +118,22 @@ public class VendorStore extends javax.swing.JPanel {
         menuPanel.setPreferredSize(new Dimension(1000,menuPanelHeight));
     }
     
-    public void setJScrollPane(){
+    private void setHorizontalScrollPane(){
+        categoryPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        JScrollPane scrollPane2 = new JScrollPane(categoryPanel);
+        scrollPane2.setPreferredSize(new Dimension(1000,60));
+        scrollPane2.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane2.getHorizontalScrollBar().setUnitIncrement(10);
+            
+        JScrollBar hScrollBar = scrollPane2.getHorizontalScrollBar();
+        hScrollBar.setPreferredSize(new Dimension(6,6));
+        
+        this.add(scrollPane2);
+    }
+    
+    private void setVerticalScrollPane(){
         menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JScrollPane scrollPane = new JScrollPane(menuPanel);
         scrollPane.setPreferredSize(new Dimension(1000,610));
@@ -104,8 +143,8 @@ public class VendorStore extends javax.swing.JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         this.add(scrollPane);
     }
-        
-    public void intiDefaultFoodCategory(){
+    
+    private void intiDefaultFoodCategory(){
         for (String[] data : foodData) {
             try{
                 String foodType = data.length > 6 ? data[6].trim() : "";
@@ -119,14 +158,13 @@ public class VendorStore extends javax.swing.JPanel {
         }
     }
     
-    public void intiCategoryButton() {
+    private void intiCategoryButton() {
         Map<String, RoundedButton> foodTypeButtons = new HashMap<>();
 
         for (String[] data : foodData) {
             try {
                 String foodType = data.length > 6 ? data[6].trim() : "General";
-                
-                // Create a button for each food type
+
                 RoundedButton foodTypeButton = foodTypeButtons.get(foodType);
                 if (foodTypeButton == null) {
                     
@@ -154,8 +192,7 @@ public class VendorStore extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
-        
-        RoundedButton addRoundedButton = new RoundedButton();
+                RoundedButton addRoundedButton = new RoundedButton();
         addRoundedButton.setRadius(15);
         addRoundedButton.setPreferredSize(new Dimension(50, 50));
         addRoundedButton.setBorderColor(new Color(200,200,255));
@@ -172,9 +209,10 @@ public class VendorStore extends javax.swing.JPanel {
             intiPopUp();
         });
         categoryPanel.add(addRoundedButton);
+        setSubCategoryWidth();
     }
     
-    public void intiMenuPanel(String foodCategory){
+    private void intiMenuPanel(String foodCategory){
         closeMenuPanel();
         
         for (String[] data : foodData) {
@@ -223,13 +261,13 @@ public class VendorStore extends javax.swing.JPanel {
         menuPanel.revalidate();
     }
     
-    //** Create Pop Up **//
-    public void intiPopUp(){
-                
+    //** Create PopUp **//
+    private void intiPopUp(){
+
         String[] ids = data.retrieveIdsFromFile("src\\main\\java\\repository\\food.txt");
         List<String> idList = Arrays.asList(ids); 
         String foodId = primaryKey.incrementPrimaryKey(idList);
-        
+
         String foodName = "-";
         String status = "-";
         String foodDescription = "-";
@@ -239,7 +277,7 @@ public class VendorStore extends javax.swing.JPanel {
         price = Double.parseDouble(String.format("%.2f", price));
         String formattedPrice = String.format("%.2f", price);
 
-        VendorFoodPopUp popUp = new VendorFoodPopUp();
+        FoodPopUp popUp = new FoodPopUp();
         popUp.setFoodId(foodId);
         popUp.setFoodName(foodName);
         popUp.setPriceTag(formattedPrice);
@@ -267,7 +305,7 @@ public class VendorStore extends javax.swing.JPanel {
         uploadButton2.setVisible(true);
         RoundedButton addButton = popUp.getAddButton();
         addButton.setVisible(true);
-        
+
         addButton.addActionListener(e -> {
             boolean confimation = popUp.popUpButtonAction(4,"add this food to the store");
             if(confimation == true){
@@ -291,13 +329,13 @@ public class VendorStore extends javax.swing.JPanel {
         setCurrentFoodId(foodId);
         popUp.repaint();
         popUp.revalidate();
-        
+
         menuPanel.repaint();
         menuPanel.revalidate();
     }
     
     //** Update Pop Up **//
-    public void intiPopUp(String foodID){
+    private void intiPopUp(String foodID){
         for (String[] data : foodData) {
             try {
                 String firstId = data.length > 0 ? data[0].trim() : "";
@@ -312,7 +350,7 @@ public class VendorStore extends javax.swing.JPanel {
                     price = Double.parseDouble(String.format("%.2f", price));
                     String formattedPrice = String.format("%.2f", price);
                     
-                    VendorFoodPopUp popUp = new VendorFoodPopUp();
+                    FoodPopUp popUp = new FoodPopUp();
                     popUp.setFoodId(foodId);
                     popUp.setFoodName(foodName);
                     popUp.setPriceTag(formattedPrice);
@@ -380,7 +418,7 @@ public class VendorStore extends javax.swing.JPanel {
         menuPanel.revalidate();
     }
     
-    public void closeMenuPanel(){
+    private void closeMenuPanel(){
         Component[] componentList = menuPanel.getComponents();
         for(Component c : componentList){
             if(c instanceof FoodBlock){
@@ -389,7 +427,7 @@ public class VendorStore extends javax.swing.JPanel {
         }
     }
     
-    public void closeAllJDialog(){
+    private void closeAllJDialog(){
         for (Window window : Window.getWindows()) {
             if (window instanceof JDialog) {
                 JDialog dialog = (JDialog) window;
@@ -398,32 +436,32 @@ public class VendorStore extends javax.swing.JPanel {
         }
     }
     
-    public void reinitializeToPopUp() {
+    private void reinitializeToPopUp() {
         foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
         removeAll();
         revalidate();
         repaint();
         initComponents();
-        setJScrollPane();
+        setVerticalScrollPane();
         intiCategoryButton();
         intiDefaultFoodCategory();
         intiMenuPanel(getCurrentFoodCategory());
         intiPopUp(getCurrentFoodId());
     }
     
-    public void reinitializeToMenuPanel(){
+    private void reinitializeToMenuPanel(){
         foodData = data.retrieveDataAsArray(7, userId, "src\\main\\java\\repository\\food.txt");
         removeAll();
         revalidate();
         repaint();
         initComponents();
-        setJScrollPane();
+        setVerticalScrollPane();
         intiCategoryButton();
         intiDefaultFoodCategory();
         intiMenuPanel(getCurrentFoodCategory());
     }
         
-    public static void showPopUp(JPanel panel) {        
+    private static void showPopUp(JPanel panel) {        
         JDialog dialog = new JDialog();
         dialog.setUndecorated(true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -466,7 +504,6 @@ public class VendorStore extends javax.swing.JPanel {
         });
     }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
