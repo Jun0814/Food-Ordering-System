@@ -263,6 +263,8 @@ public class VendorHistory extends javax.swing.JPanel {
                         RoundedButton acceptButton = orderBlock.getAcceptButton();
                         RoundedButton rejectButton = orderBlock.getRejectButton();
                         RoundedButton doneButton = orderBlock.getDoneButton();
+                        RoundedButton cancelButton = orderBlock.getCancelButton();
+                        cancelButton.setVisible(false);
                         acceptButton.setVisible(false);
                         rejectButton.setVisible(false);
                         doneButton.setVisible(false);
@@ -343,15 +345,18 @@ public class VendorHistory extends javax.swing.JPanel {
                     
                     RoundedButton doneButton  = popUp.getDoneRoundedButton();
                     RoundedButton pendingButton  = popUp.getPendingRoundedButton();
+                    RoundedButton cancelButton  = popUp.getCancelRoundedButton();
                     doneButton.setVisible(true);
-                    pendingButton.setVisible(true);
+                    pendingButton.setVisible(false);
+                    cancelButton.setVisible(true);
+                    
                     
                     doneButton.addActionListener(e -> {
-                        JOptionPane.showMessageDialog(null, "Go to the vendor order page to update the status!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Go to the vendor order page or admin to update the status!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     });
                     
-                    pendingButton.addActionListener(e -> {
-                        JOptionPane.showMessageDialog(null, "Go to the vendor order page to update the status!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    cancelButton.addActionListener(e -> {
+                        JOptionPane.showMessageDialog(null, "Go to the vendor order page or admin to update the status!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     });
                     
                     container.add(popUp);

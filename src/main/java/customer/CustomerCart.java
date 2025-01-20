@@ -17,7 +17,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,7 +32,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import managefile.Customer;
 import managefile.Runner;
 import managefile.Vendor;
@@ -611,7 +609,9 @@ public class CustomerCart extends javax.swing.JFrame {
                             backend.addOrder(customerID,cartList,foodList,orderSelection,addressArea.getText(), totalPrice,totalPrice-initialTotal);
                             orderPlaced = true;
                         }
-                    }else if (!addressArea.getText().trim().toLowerCase().contains("bukit jalil")){
+                    }else if (!addressArea.getText().trim().toLowerCase().contains(",") ){
+                        JOptionPane.showMessageDialog(null, "Do not contain comma ','!","Place Order Failed",JOptionPane.WARNING_MESSAGE);
+                    } else if (!addressArea.getText().trim().toLowerCase().contains("bukit jalil")){
                         JOptionPane.showMessageDialog(null, "Please enter Bukit Jalil area location!","Place Order Failed",JOptionPane.WARNING_MESSAGE);
                     } else{
                         JOptionPane.showMessageDialog(null, "Please enter your delivery location!","Place Order Failed",JOptionPane.WARNING_MESSAGE);

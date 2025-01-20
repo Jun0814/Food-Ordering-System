@@ -9,13 +9,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -188,7 +191,24 @@ public class VendorStore extends javax.swing.JPanel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }        
+        }
+                RoundedButton addRoundedButton = new RoundedButton();
+        addRoundedButton.setRadius(15);
+        addRoundedButton.setPreferredSize(new Dimension(50, 50));
+        addRoundedButton.setBorderColor(new Color(200,200,255));
+        addRoundedButton.setColor(new Color(255,255,255));
+        addRoundedButton.setColorClick(new Color(243,222,138));
+        addRoundedButton.setColorOver(new Color(140,75,242));
+        addRoundedButton.setFontColor(Color.black);
+        addRoundedButton.setFontColorClick(Color.black);
+        addRoundedButton.setFontColorOver(Color.white);
+        addRoundedButton.setFont(new Font("FontName", Font.BOLD, 20));
+        addRoundedButton.setText("+");
+        addRoundedButton.addActionListener(e -> {
+            closeAllJDialog();
+            intiPopUp();
+        });
+        categoryPanel.add(addRoundedButton);
         setSubCategoryWidth();
     }
     
@@ -237,6 +257,79 @@ public class VendorStore extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
+        menuPanel.repaint();
+        menuPanel.revalidate();
+    }
+    
+    //** Create PopUp **//
+    private void intiPopUp(){
+
+        String[] ids = data.retrieveIdsFromFile("src\\main\\java\\repository\\food.txt");
+        List<String> idList = Arrays.asList(ids); 
+        String foodId = primaryKey.incrementPrimaryKey(idList);
+
+        String foodName = "-";
+        String status = "-";
+        String foodDescription = "-";
+        double price = 0;
+        String imagePath = null;
+        String foodType = "-";
+        price = Double.parseDouble(String.format("%.2f", price));
+        String formattedPrice = String.format("%.2f", price);
+
+        FoodPopUp popUp = new FoodPopUp();
+        popUp.setFoodId(foodId);
+        popUp.setFoodName(foodName);
+        popUp.setPriceTag(formattedPrice);
+        popUp.setStatus(status);
+        popUp.setFoodType(foodType);
+        popUp.setImagePath(imagePath);
+        popUp.setDescription(foodDescription);
+        popUp.setVendorId(userId);
+        popUp.setFilepath("src\\main\\java\\repository\\food.txt");
+
+        BufferedImage loadedImage = imageHandler.loadImage(imagePath);
+        JLabel label2 = popUp.getLabel();
+        label2.setBounds(0, 0, 400, 200);
+        imageHandler.displayImageOnLabel(loadedImage, label2);
+
+        RoundedButton backButton  = popUp.getBackButton();
+        backButton.setVisible(true);
+        RoundedButton deleteButton  = popUp.getDeleteButton();
+        deleteButton.setVisible(false);
+        RoundedButton saveButton  = popUp.getSaveButton();
+        saveButton.setVisible(false);
+        RoundedButton uploadButton = popUp.getUploadButton();
+        uploadButton.setVisible(false);
+        RoundedButton uploadButton2 = popUp.getUploadButton2();
+        uploadButton2.setVisible(true);
+        RoundedButton addButton = popUp.getAddButton();
+        addButton.setVisible(true);
+
+        addButton.addActionListener(e -> {
+            boolean confimation = popUp.popUpButtonAction(4,"add this food to the store");
+            if(confimation == true){
+                closeAllJDialog();
+                reinitializeToMenuPanel();
+            }
+        });
+        uploadButton2.addActionListener(e -> {
+            boolean confimation = popUp.popUpButtonAction(5,"upload new image to this food");
+            if(confimation == true){
+                closeAllJDialog();
+                reinitializeToPopUp();
+            }
+        });
+        backButton.addActionListener(e -> {
+            closeAllJDialog();
+        });
+
+        showPopUp(popUp);
+        setCurrentFoodCategory(foodType);
+        setCurrentFoodId(foodId);
+        popUp.repaint();
+        popUp.revalidate();
+
         menuPanel.repaint();
         menuPanel.revalidate();
     }

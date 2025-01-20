@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import main.MainMenu;
 import method.scaleImage;
 
@@ -65,9 +66,14 @@ public class VendorMain extends javax.swing.JFrame {
             switchToPanel(new VendorReview(userId));
         }else if(e.getSource() == revenueButton){
             switchToPanel(new VendorRevenue());
+        }else if(e.getSource() == notificationButton){
+            switchToPanel(new VendorNotification(userId));
         }else if(e.getSource() == exitButton){
-            this.dispose();
-            new MainMenu().run();
+            int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit vendor page?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) {
+                this.dispose();
+                new MainMenu().run();
+            }
         }
     }
     
@@ -88,6 +94,7 @@ public class VendorMain extends javax.swing.JFrame {
         historyButton = new method.RoundedButton();
         reviewButton = new method.RoundedButton();
         exitButton = new method.RoundedButton();
+        notificationButton = new method.RoundedButton();
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -160,7 +167,7 @@ public class VendorMain extends javax.swing.JFrame {
                 revenueButtonActionPerformed(evt);
             }
         });
-        menuPanel.add(revenueButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 397, 268, 42));
+        menuPanel.add(revenueButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 260, 40));
 
         historyButton.setBackground(new java.awt.Color(40, 40, 56));
         historyButton.setText("History");
@@ -200,7 +207,7 @@ public class VendorMain extends javax.swing.JFrame {
                 reviewButtonActionPerformed(evt);
             }
         });
-        menuPanel.add(reviewButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 343, 268, 42));
+        menuPanel.add(reviewButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 345, 268, 40));
 
         exitButton.setBackground(new java.awt.Color(40, 40, 56));
         exitButton.setText("Exit");
@@ -220,7 +227,27 @@ public class VendorMain extends javax.swing.JFrame {
                 exitButtonActionPerformed(evt);
             }
         });
-        menuPanel.add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 451, 268, 42));
+        menuPanel.add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 260, 42));
+
+        notificationButton.setBackground(new java.awt.Color(40, 40, 56));
+        notificationButton.setText("Notification");
+        notificationButton.setAlignmentX(0.5F);
+        notificationButton.setBorderColor(new java.awt.Color(40, 40, 56));
+        notificationButton.setColor(new java.awt.Color(40, 40, 56));
+        notificationButton.setColorClick(new java.awt.Color(243, 222, 138));
+        notificationButton.setColorOver(new java.awt.Color(140, 75, 242));
+        notificationButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        notificationButton.setFontColor(new java.awt.Color(227, 216, 255));
+        notificationButton.setFontColorClick(new java.awt.Color(40, 40, 56));
+        notificationButton.setFontColorOver(new java.awt.Color(227, 216, 255));
+        notificationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        notificationButton.setRadius(30);
+        notificationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notificationButtonActionPerformed(evt);
+            }
+        });
+        menuPanel.add(notificationButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 260, 42));
 
         getContentPane().add(menuPanel, java.awt.BorderLayout.WEST);
 
@@ -235,7 +262,7 @@ public class VendorMain extends javax.swing.JFrame {
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
@@ -267,12 +294,17 @@ public class VendorMain extends javax.swing.JFrame {
         actionPerformed(evt);
     }//GEN-LAST:event_exitButtonActionPerformed
 
+    private void notificationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificationButtonActionPerformed
+        actionPerformed(evt);
+    }//GEN-LAST:event_notificationButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private method.RoundedButton exitButton;
     private method.RoundedButton historyButton;
     protected javax.swing.JLabel logoLabel;
     private javax.swing.JPanel menuPanel;
+    private method.RoundedButton notificationButton;
     private method.RoundedButton orderButton;
     private method.RoundedButton revenueButton;
     private method.RoundedButton reviewButton;

@@ -174,6 +174,10 @@ public class OrderBlock extends JPanel {
         return doneRoundedButton;
     }
     
+    public RoundedButton getCancelButton(){
+        return cancelRoundedButton;
+    }
+    
     public JLabel getLabel(){
         return imageLabel;
     }
@@ -199,6 +203,7 @@ public class OrderBlock extends JPanel {
         rejectRoundedButton = new method.RoundedButton();
         doneRoundedButton = new method.RoundedButton();
         acceptRoundedButton = new method.RoundedButton();
+        cancelRoundedButton = new method.RoundedButton();
 
         setMinimumSize(new java.awt.Dimension(930, 200));
         setPreferredSize(new java.awt.Dimension(930, 200));
@@ -247,7 +252,7 @@ public class OrderBlock extends JPanel {
                 checkRoundedButtonActionPerformed(evt);
             }
         });
-        roundedPanel.add(checkRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 150, 110, 40));
+        roundedPanel.add(checkRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 140, 200, 40));
 
         orderTypeLabel.setBackground(new java.awt.Color(40, 40, 56));
         orderTypeLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -291,7 +296,7 @@ public class OrderBlock extends JPanel {
                 rejectRoundedButtonActionPerformed(evt);
             }
         });
-        roundedPanel.add(rejectRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 110, 40));
+        roundedPanel.add(rejectRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 20, 100, 40));
 
         doneRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
         doneRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
@@ -310,7 +315,7 @@ public class OrderBlock extends JPanel {
                 doneRoundedButtonActionPerformed(evt);
             }
         });
-        roundedPanel.add(doneRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 90, 110, 40));
+        roundedPanel.add(doneRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, 100, 40));
 
         acceptRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
         acceptRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
@@ -329,7 +334,26 @@ public class OrderBlock extends JPanel {
                 acceptRoundedButtonActionPerformed(evt);
             }
         });
-        roundedPanel.add(acceptRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 110, 40));
+        roundedPanel.add(acceptRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 100, 40));
+
+        cancelRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
+        cancelRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setText("Cancel");
+        cancelRoundedButton.setBorderColor(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setColor(new java.awt.Color(140, 75, 242));
+        cancelRoundedButton.setColorClick(new java.awt.Color(60, 200, 0));
+        cancelRoundedButton.setColorOver(new java.awt.Color(60, 200, 80));
+        cancelRoundedButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cancelRoundedButton.setFontColor(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setRadius(20);
+        cancelRoundedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelRoundedButtonActionPerformed(evt);
+            }
+        });
+        roundedPanel.add(cancelRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 60, 100, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -359,9 +383,14 @@ public class OrderBlock extends JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_acceptRoundedButtonActionPerformed
 
+    private void cancelRoundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelRoundedButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelRoundedButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private method.RoundedButton acceptRoundedButton;
+    private method.RoundedButton cancelRoundedButton;
     private method.RoundedButton checkRoundedButton;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JLabel detailLabel;

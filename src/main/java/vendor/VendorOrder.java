@@ -15,9 +15,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -41,6 +45,7 @@ public class VendorOrder extends javax.swing.JPanel {
     ImageHandler imageHandler = new ImageHandler();
     private String[][] orderData;
     private String userId, currentOrderId, currentOrderCategory;
+    primaryKey primaryKey = new primaryKey();
     
     /**
      * Creates new form VendorStore
@@ -159,8 +164,10 @@ public class VendorOrder extends javax.swing.JPanel {
         for (String[] orderDatas : orderData) {
             try {
                 String orderType = orderDatas.length > 5 ? orderDatas[5].trim() : "";
+                String orderStatus = orderDatas.length > 9 ? orderDatas[9].trim() : "";
                 if (orderCategory.equalsIgnoreCase(orderType)) {
-                    
+                    if(orderStatus.equalsIgnoreCase("Pending") || orderStatus.equalsIgnoreCase("Accept") || orderStatus.equalsIgnoreCase("Reject") || orderStatus.equalsIgnoreCase("Done")){
+                        
                     String orderId = orderDatas.length > 0 ? orderDatas[0].trim() : "";
                     String customerId = orderDatas.length > 1 ? orderDatas[1].trim() : "";
                     String deliveryId = orderDatas.length > 2 ? orderDatas[2].trim() : "";
@@ -175,7 +182,6 @@ public class VendorOrder extends javax.swing.JPanel {
                     double orderTotalAmount = orderDatas.length > 8 ? Math.round(Double.parseDouble(orderDatas[8].trim()) * 100.0) / 100.0 : 0.0;
                     orderTotalAmount = Double.parseDouble(String.format("%.2f", orderTotalAmount));
                     String formattedOrderTotalAmount = String.format("%.2f", orderTotalAmount);
-                    String orderStatus = orderDatas.length > 9 ? orderDatas[9].trim() : "";
                     
                     OrderBlock orderBlock = new OrderBlock();
                     orderBlock.setOrderType(type.toUpperCase());
@@ -206,20 +212,24 @@ public class VendorOrder extends javax.swing.JPanel {
                     RoundedButton acceptButton = orderBlock.getAcceptButton();
                     RoundedButton rejectButton = orderBlock.getRejectButton();
                     RoundedButton doneButton = orderBlock.getDoneButton();
+                    RoundedButton cancelButton = orderBlock.getCancelButton();
                     
                     if(orderStatus.equalsIgnoreCase("cancel")){
                         doneButton.setVisible(false);
                         acceptButton.setVisible(false);
                         rejectButton.setVisible(false);
+                        cancelButton.setVisible(false);
                     }else if(orderStatus.equalsIgnoreCase("completed")){
                         doneButton.setVisible(false);
                         acceptButton.setVisible(false);
                         rejectButton.setVisible(false);
+                        cancelButton.setVisible(false);
                     }else{
                         checkButton.setVisible(true);
                         acceptButton.setVisible(true);
                         rejectButton.setVisible(true);
                         doneButton.setVisible(true);
+                        cancelButton.setVisible(true);
                     }
                     
                     acceptButton.addActionListener(e ->{
@@ -240,11 +250,52 @@ public class VendorOrder extends javax.swing.JPanel {
                         }
                     });
                                         
-                    doneButton.addActionListener(e ->{
-                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to done the order?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    doneButton.addActionListener(e -> {
+                        int response = JOptionPane.showConfirmDialog(
+                            null, 
+                            "Are you sure you want to make the order done?", 
+                            "Confirmation", 
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE
+                        );
+
                         if (response == JOptionPane.YES_OPTION) {
-                            data.updateData(orderId, 9, "Completed", "src\\main\\java\\repository\\order.txt");
-                            data.updateData(orderId, 2,"Completed", 5, "src\\main\\java\\repository\\orderItems.txt");
+                            data.updateData(orderId, 9, "Done", "src\\main\\java\\repository\\order.txt");
+                            data.updateData(orderId, 1, "Done", 5, "src\\main\\java\\repository\\orderitems.txt");
+
+                            String[] ids = data.retrieveIdsFromFile("src\\main\\java\\repository\\notifications.txt");
+                            List<String> idList = Arrays.asList(ids);
+                            String notificationsId = primaryKey.incrementPrimaryKey(idList);
+
+                            LocalDate currentDate = LocalDate.now();
+                            LocalTime currentTime = LocalTime.now();
+                            String notificationTime = currentDate.toString()+"T" + currentTime.toString().split("\\.")[0];
+
+                            String newNotifications = notificationsId + "," 
+                                    + "Your order: " + orderId + " is done|" 
+                                    + "Price: " + formattedOrderTotalAmount + "|" 
+                                    + "Time Order: " + datetime + "|" 
+                                    + "," 
+                                    + notificationTime + "," 
+                                    + customerId;
+                            data.insertData(newNotifications, "src\\main\\java\\repository\\notifications.txt");
+
+                            JOptionPane.showMessageDialog(
+                                null, 
+                                "The order has been successfully updated!\nA notification is sent to the customer.", 
+                                "Success", 
+                                JOptionPane.INFORMATION_MESSAGE
+                            );
+
+                            reinitializeToMenuPanel();
+                        }
+                    });
+                    
+                    cancelButton.addActionListener(e ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the order?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                            data.updateData(orderId, 9, "Cancel", "src\\main\\java\\repository\\order.txt");
+                            data.updateData(orderId, 2,"Cancel", 5, "src\\main\\java\\repository\\orderItems.txt");
                             JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             reinitializeToMenuPanel();
                         }
@@ -260,6 +311,7 @@ public class VendorOrder extends javax.swing.JPanel {
                     setMenuPanelHeight();
                     orderBlock.repaint();
                     orderBlock.revalidate();
+                    }
                 }
             } catch(Exception e) {
                 e.printStackTrace();
@@ -326,12 +378,27 @@ public class VendorOrder extends javax.swing.JPanel {
                     
                     RoundedButton doneButton  = popUp.getDoneRoundedButton();
                     RoundedButton pendingButton  = popUp.getPendingRoundedButton();
+                    RoundedButton cancelButton  = popUp.getCancelRoundedButton();
+                    
+                    if(orderItemsStatus.equalsIgnoreCase("pending")){
+                        pendingButton.setVisible(false);
+                        doneButton.setVisible(true);
+                        cancelButton.setVisible(true);
+                    }else if(orderItemsStatus.equalsIgnoreCase("done")){
+                        pendingButton.setVisible(true);
+                        doneButton.setVisible(false);
+                        cancelButton.setVisible(false);
+                    }else if(orderItemsStatus.equalsIgnoreCase("cancel")){
+                        pendingButton.setVisible(true);
+                        doneButton.setVisible(false);
+                        cancelButton.setVisible(false);
+                    }
                     
                     doneButton.addActionListener(e ->{
                         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to make the order completed?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                         if (response == JOptionPane.YES_OPTION) {
                             closeAllJDialog();
-                            data.updateData(orderId, 1, "Completed", 5, "src\\main\\java\\repository\\orderitems.txt");
+                            data.updateData(orderId, 1, "Done", 5, "src\\main\\java\\repository\\orderitems.txt");
                             JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             reinitializeToPopUp();
                         }
@@ -342,6 +409,16 @@ public class VendorOrder extends javax.swing.JPanel {
                         if (response == JOptionPane.YES_OPTION) {
                             closeAllJDialog();
                             data.updateData(orderId, 1, "Pending", 5, "src\\main\\java\\repository\\orderitems.txt");
+                            JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            reinitializeToPopUp();
+                        }
+                    });
+                    
+                    cancelButton.addActionListener(e ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the order?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                            closeAllJDialog();
+                            data.updateData(orderId, 1, "Cancel", 5, "src\\main\\java\\repository\\orderitems.txt");
                             JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             reinitializeToPopUp();
                         }

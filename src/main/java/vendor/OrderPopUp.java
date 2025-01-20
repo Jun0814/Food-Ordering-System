@@ -153,6 +153,10 @@ public class OrderPopUp extends javax.swing.JPanel {
         return pendingRoundedButton;
     }
     
+    public RoundedButton getCancelRoundedButton() {
+        return cancelRoundedButton;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -166,11 +170,12 @@ public class OrderPopUp extends javax.swing.JPanel {
         ImageLabel = new javax.swing.JLabel();
         foodNameLabel = new javax.swing.JLabel();
         statusLabel = new javax.swing.JLabel();
-        pendingRoundedButton = new method.RoundedButton();
         quantityLabel = new javax.swing.JLabel();
         amountLabel = new javax.swing.JLabel();
         doneRoundedButton = new method.RoundedButton();
         remarkLabel = new javax.swing.JLabel();
+        cancelRoundedButton = new method.RoundedButton();
+        pendingRoundedButton = new method.RoundedButton();
 
         setMinimumSize(new java.awt.Dimension(380, 300));
         setPreferredSize(new java.awt.Dimension(380, 300));
@@ -196,20 +201,6 @@ public class OrderPopUp extends javax.swing.JPanel {
         statusLabel.setForeground(new java.awt.Color(140, 75, 242));
         statusLabel.setText("Status:");
         roundedPanel.add(statusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 340, 30));
-
-        pendingRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
-        pendingRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
-        pendingRoundedButton.setText("Pending");
-        pendingRoundedButton.setBorderColor(new java.awt.Color(248, 248, 248));
-        pendingRoundedButton.setColor(new java.awt.Color(140, 75, 242));
-        pendingRoundedButton.setColorClick(new java.awt.Color(60, 200, 0));
-        pendingRoundedButton.setColorOver(new java.awt.Color(60, 200, 80));
-        pendingRoundedButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        pendingRoundedButton.setFontColor(new java.awt.Color(248, 248, 248));
-        pendingRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
-        pendingRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
-        pendingRoundedButton.setRadius(20);
-        roundedPanel.add(pendingRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 130, 50));
 
         quantityLabel.setBackground(new java.awt.Color(40, 40, 56));
         quantityLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -243,6 +234,34 @@ public class OrderPopUp extends javax.swing.JPanel {
         remarkLabel.setText("Remarks:");
         roundedPanel.add(remarkLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 340, 30));
 
+        cancelRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
+        cancelRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setText("Cancel");
+        cancelRoundedButton.setBorderColor(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setColor(new java.awt.Color(140, 75, 242));
+        cancelRoundedButton.setColorClick(new java.awt.Color(60, 200, 0));
+        cancelRoundedButton.setColorOver(new java.awt.Color(60, 200, 80));
+        cancelRoundedButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cancelRoundedButton.setFontColor(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
+        cancelRoundedButton.setRadius(20);
+        roundedPanel.add(cancelRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 130, 50));
+
+        pendingRoundedButton.setBackground(new java.awt.Color(140, 75, 242));
+        pendingRoundedButton.setForeground(new java.awt.Color(248, 248, 248));
+        pendingRoundedButton.setText("Pending");
+        pendingRoundedButton.setBorderColor(new java.awt.Color(248, 248, 248));
+        pendingRoundedButton.setColor(new java.awt.Color(140, 75, 242));
+        pendingRoundedButton.setColorClick(new java.awt.Color(60, 200, 0));
+        pendingRoundedButton.setColorOver(new java.awt.Color(60, 200, 80));
+        pendingRoundedButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        pendingRoundedButton.setFontColor(new java.awt.Color(248, 248, 248));
+        pendingRoundedButton.setFontColorClick(new java.awt.Color(248, 248, 248));
+        pendingRoundedButton.setFontColorOver(new java.awt.Color(248, 248, 248));
+        pendingRoundedButton.setRadius(20);
+        roundedPanel.add(pendingRoundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 130, 50));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -259,6 +278,7 @@ public class OrderPopUp extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ImageLabel;
     private javax.swing.JLabel amountLabel;
+    private method.RoundedButton cancelRoundedButton;
     private method.RoundedButton doneRoundedButton;
     private javax.swing.JLabel foodNameLabel;
     private method.RoundedButton pendingRoundedButton;

@@ -20,21 +20,22 @@ import method.ImageHandler;
  *
  * @author TPY
  */
-public class VendorReview extends javax.swing.JPanel {
+public class VendorNotification extends javax.swing.JPanel {
 
     Data data = new Data();
     Vendor vendor = new Vendor();
     ImageHandler imageHandler = new ImageHandler();
-    private String[][] reviewData;
+    private String[][] notificationsData;
     private String userId;
     
     /**
-     * Creates new form VendorStore
+     * Creates new form VendorNotification
      */
-    public VendorReview(String userId) {
+    
+    public VendorNotification(String userId) {
         initComponents();
         this.userId = userId;
-        reviewData = data.retrieveDataAsArray(1, userId, "src\\main\\java\\repository\\orderreview.txt");
+        notificationsData = data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\notifications.txt");
         intiMenuPanel();
         setJScrollPane();
     }
@@ -50,8 +51,7 @@ public class VendorReview extends javax.swing.JPanel {
             }
         }
         
-        row = (int) orderBlockCount;
-        
+        row = (int) orderBlockCount;     
         if(row >= 3){
             menuPanelHeight = 750 + ((row-3)*(200));
         }else{
@@ -72,42 +72,43 @@ public class VendorReview extends javax.swing.JPanel {
     }
     
     private void intiMenuPanel(){        
-        for (String[] reviewDatas : reviewData) {
+        for (String[] notificationsDatas : notificationsData) {
             try {
-                String vendorId = reviewDatas.length > 1 ? reviewDatas[1].trim() : "";
+                String vendorId = notificationsDatas.length > 3 ? notificationsDatas[3].trim() : "";
                 if (vendorId.equalsIgnoreCase(userId)) {
                     
-                    String reviewId = reviewDatas.length > 0 ? reviewDatas[0].trim() : "";
-                    String rating = reviewDatas.length > 2 ? reviewDatas[2].trim() : "";
-                    String reviewContent = reviewDatas.length > 3 ? reviewDatas[3].trim() : "";
+                    String nofityId = notificationsDatas.length > 0 ? notificationsDatas[0].trim() : "";
+                    String content = notificationsDatas.length > 1 ? notificationsDatas[1].trim() : "";
+                    String notifyDate = notificationsDatas.length > 2 ? notificationsDatas[2].trim() : "";
                     
-                    ReviewBlock reviewBlock = new ReviewBlock();
-                    reviewBlock.setReviewId(reviewId);
-                    reviewBlock.setRating(rating);
-                    reviewBlock.setComment(reviewContent);
-                    reviewBlock.setEdgeColor(new Color(200,200,255));
-                    reviewBlock.setBackgroundColor(new Color(255,255,255));
+                    NotifyBlock notifyBlock = new NotifyBlock();
+                    notifyBlock.setNotifyId(nofityId);
+                    notifyBlock.setComment(content);
+                    String [] dateNotify = notifyDate.split("T", 2);
+                    notifyBlock.setDate(dateNotify[0]);
+                    notifyBlock.setEdgeColor(new Color(200,200,255));
+                    notifyBlock.setBackgroundColor(new Color(255,255,255));
                     
                     String imagePath = data.retrieveData(userId, 7, vendor.getFilepath());
                     
                     BufferedImage loadedImage = imageHandler.loadImage(imagePath);
-                    JLabel label = reviewBlock.getLabel();
+                    JLabel label = notifyBlock.getLabel();
                     label.setBounds(0, 0, 200, 200);
                     imageHandler.displayImageOnLabel(loadedImage, label);
                     
-                    menuPanel.add(reviewBlock);
-                    setMenuPanelHeight();
-                    reviewBlock.repaint();
-                    reviewBlock.revalidate();
+                    menuPanel.add(notifyBlock);
+                    notifyBlock.repaint();
+                    notifyBlock.revalidate();
                 }
             } catch(Exception e) {
                 e.printStackTrace();
             }
         }
+        setMenuPanelHeight();
         menuPanel.repaint();
         menuPanel.revalidate();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,18 +123,16 @@ public class VendorReview extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(200, 200, 255));
         setMinimumSize(new java.awt.Dimension(1000, 800));
-        setPreferredSize(new java.awt.Dimension(1000, 800));
 
         jLabel1.setBackground(new java.awt.Color(39, 40, 56));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(140, 75, 242));
-        jLabel1.setText("Customer Review");
+        jLabel1.setText("Notification");
         add(jLabel1);
 
         menuPanel.setBackground(new java.awt.Color(200, 200, 255));
         menuPanel.setAutoscrolls(true);
         menuPanel.setMinimumSize(new java.awt.Dimension(1000, 750));
-        menuPanel.setPreferredSize(new java.awt.Dimension(1000, 750));
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
