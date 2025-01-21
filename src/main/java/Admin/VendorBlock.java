@@ -98,7 +98,7 @@ public class VendorBlock extends JPanel {
     }
     
     public RoundedButton getButton(){
-        return editUserButton;
+        return editVendorButton;
     }
     
     public JLabel getLabel(){
@@ -111,8 +111,8 @@ public class VendorBlock extends JPanel {
 
         vendorPanel = new method.RoundedPanel();
         Phone = new javax.swing.JLabel();
-        editUserButton = new method.RoundedButton();
-        deleteUserButton = new method.RoundedButton();
+        editVendorButton = new method.RoundedButton();
+        deleteVendorButton = new method.RoundedButton();
         vendorStallName = new javax.swing.JLabel();
         UserId = new javax.swing.JLabel();
         Email = new javax.swing.JLabel();
@@ -134,43 +134,43 @@ public class VendorBlock extends JPanel {
         Phone.setText("018-7783486");
         vendorPanel.add(Phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 370, 30));
 
-        editUserButton.setBackground(new java.awt.Color(140, 75, 242));
-        editUserButton.setForeground(new java.awt.Color(248, 248, 248));
-        editUserButton.setText("Edit");
-        editUserButton.setBorderColor(new java.awt.Color(248, 248, 248));
-        editUserButton.setColor(new java.awt.Color(140, 75, 242));
-        editUserButton.setColorClick(new java.awt.Color(50, 255, 130));
-        editUserButton.setColorOver(new java.awt.Color(50, 255, 100));
-        editUserButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        editUserButton.setFontColor(new java.awt.Color(248, 248, 248));
-        editUserButton.setFontColorClick(new java.awt.Color(248, 248, 248));
-        editUserButton.setFontColorOver(new java.awt.Color(248, 248, 248));
-        editUserButton.setRadius(20);
-        editUserButton.addActionListener(new java.awt.event.ActionListener() {
+        editVendorButton.setBackground(new java.awt.Color(140, 75, 242));
+        editVendorButton.setForeground(new java.awt.Color(248, 248, 248));
+        editVendorButton.setText("Edit");
+        editVendorButton.setBorderColor(new java.awt.Color(248, 248, 248));
+        editVendorButton.setColor(new java.awt.Color(140, 75, 242));
+        editVendorButton.setColorClick(new java.awt.Color(50, 255, 130));
+        editVendorButton.setColorOver(new java.awt.Color(50, 255, 100));
+        editVendorButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        editVendorButton.setFontColor(new java.awt.Color(248, 248, 248));
+        editVendorButton.setFontColorClick(new java.awt.Color(248, 248, 248));
+        editVendorButton.setFontColorOver(new java.awt.Color(248, 248, 248));
+        editVendorButton.setRadius(20);
+        editVendorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editUserButtonActionPerformed(evt);
+                editVendorButtonActionPerformed(evt);
             }
         });
-        vendorPanel.add(roundedButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 120, 50));
+        vendorPanel.add(editVendorButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 120, 50));
 
-        deleteUserButton.setBackground(new java.awt.Color(255, 51, 51));
-        deleteUserButton.setForeground(new java.awt.Color(248, 248, 248));
-        deleteUserButton.setText("Delete");
-        deleteUserButton.setBorderColor(new java.awt.Color(248, 248, 248));
-        deleteUserButton.setColor(new java.awt.Color(255, 51, 51));
-        deleteUserButton.setColorClick(new java.awt.Color(204, 0, 51));
-        deleteUserButton.setColorOver(new java.awt.Color(204, 0, 51));
-        deleteUserButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        deleteUserButton.setFontColor(new java.awt.Color(248, 248, 248));
-        deleteUserButton.setFontColorClick(new java.awt.Color(248, 248, 248));
-        deleteUserButton.setFontColorOver(new java.awt.Color(248, 248, 248));
-        deleteUserButton.setRadius(20);
-        deleteUserButton.addActionListener(new java.awt.event.ActionListener() {
+        deleteVendorButton.setBackground(new java.awt.Color(255, 51, 51));
+        deleteVendorButton.setForeground(new java.awt.Color(248, 248, 248));
+        deleteVendorButton.setText("Delete");
+        deleteVendorButton.setBorderColor(new java.awt.Color(248, 248, 248));
+        deleteVendorButton.setColor(new java.awt.Color(255, 51, 51));
+        deleteVendorButton.setColorClick(new java.awt.Color(204, 0, 51));
+        deleteVendorButton.setColorOver(new java.awt.Color(204, 0, 51));
+        deleteVendorButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        deleteVendorButton.setFontColor(new java.awt.Color(248, 248, 248));
+        deleteVendorButton.setFontColorClick(new java.awt.Color(248, 248, 248));
+        deleteVendorButton.setFontColorOver(new java.awt.Color(248, 248, 248));
+        deleteVendorButton.setRadius(20);
+        deleteVendorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteUserButtonActionPerformed(evt);
+                deleteVendorButtonActionPerformed(evt);
             }
         });
-        vendorPanel.add(roundedButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 140, 120, 50));
+        vendorPanel.add(deleteVendorButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 140, 120, 50));
 
         vendorStallName.setBackground(new java.awt.Color(40, 40, 56));
         vendorStallName.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -220,13 +220,13 @@ public class VendorBlock extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
-    private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserButtonActionPerformed
+    private void editVendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVendorButtonActionPerformed
         // actionPerformed(evt);
-    }//GEN-LAST:event_editUserButtonActionPerformed
+    }//GEN-LAST:event_editVendorButtonActionPerformed
 
-    private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
+    private void deleteVendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVendorButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteUserButtonActionPerformed
+    }//GEN-LAST:event_deleteVendorButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -236,9 +236,9 @@ public class VendorBlock extends JPanel {
     private javax.swing.JLabel UserId;
     private javax.swing.JLabel VendorId;
     private javax.swing.JLabel VendorName;
-    private method.RoundedButton deleteUserButton;
-    private method.RoundedButton editUserButton;
-    method.RoundedPanel roundedPanel;
+    private method.RoundedButton deleteVendorButton;
+    private method.RoundedButton editVendorButton;
+    method.RoundedPanel vendorPanel;
     private javax.swing.JLabel vendorStallName;
     // End of variables declaration//GEN-END:variables
 }
