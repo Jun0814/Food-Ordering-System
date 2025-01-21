@@ -383,7 +383,7 @@ public class VendorHistory extends javax.swing.JPanel {
         menuPanel.revalidate();
     }
     
-    public String generateTimeKey(String dateTime, String category) {
+    private String generateTimeKey(String dateTime, String category) {
         String[] date = dateTime.split("T");
         String[] dateComponents = date[0].split("-");
         

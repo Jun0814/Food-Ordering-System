@@ -65,7 +65,7 @@ public class VendorMain extends javax.swing.JFrame {
         }else if(e.getSource() == reviewButton){
             switchToPanel(new VendorReview(userId));
         }else if(e.getSource() == revenueButton){
-            switchToPanel(new VendorRevenue());
+            switchToPanel(new VendorRevenue(userId));
         }else if(e.getSource() == notificationButton){
             switchToPanel(new VendorNotification(userId));
         }else if(e.getSource() == exitButton){
