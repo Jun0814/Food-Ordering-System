@@ -12,4 +12,3 @@ F10,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/de
 F11,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F12,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
 F13,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F14,Fried Chicken,Available,,10,src/main/java/image_repository/default-food.png,Desert,V2

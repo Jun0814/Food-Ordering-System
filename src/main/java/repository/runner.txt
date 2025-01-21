@@ -1,4 +1,4 @@
-RunnerID,Name,Email,Phone,Password,Avatar,Status
-R1,Chin Xuan Han,xuanhanchin@gmail.com,010-545544565,xuanhan,null,Available
-R2,Darren Chong Xin Chang,darrenhonggan@gmail.com,012-7776666,dcxc,null,Available
-R3,Rex Kan Wei Hong,rexdamn@gmail.com,019-6668888,durex,null,Unavailable
+RunnerId,Name,Email,Phone,Password,Status
+R1,Chin Xuan Han,xuanhanchin@gmail.com,010-545544565,xuanhan,Unavailable
+R2,Darren Chong Xin Chang,darrenhonggan@gmail.com,012-7776666,dcxc,Available
+R3,Rex Kan Wei Hong,rexdamn@gmail.com,019-6668888,durex,Available

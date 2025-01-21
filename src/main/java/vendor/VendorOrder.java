@@ -9,14 +9,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,9 +43,9 @@ public class VendorOrder extends javax.swing.JPanel {
 
     Data data = new Data();
     ImageHandler imageHandler = new ImageHandler();
-    primaryKey primaryKey = new primaryKey();
     private String[][] orderData;
     private String userId, currentOrderId, currentOrderCategory;
+    primaryKey primaryKey = new primaryKey();
     
     /**
      * Creates new form VendorStore
@@ -52,23 +53,13 @@ public class VendorOrder extends javax.swing.JPanel {
     public VendorOrder(String userId) {
         initComponents();      
         this.userId = userId;
-        orderData = reverse2DArray(data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\order.txt"));
+        orderData = data.reverse2DArray(data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\order.txt"));
                 
         intiCategoryButton();
         intiDefaultOrderCategory();
         setJScrollPane();
     }
-    
-    // Method to reverse a 2D array
-    private static String[][] reverse2DArray(String[][] array) {
-        int rowCount = array.length;
-        String[][] reversed = new String[rowCount][];
-        for (int i = 0; i < rowCount; i++) {
-            reversed[i] = array[rowCount - 1 - i]; // Copy rows in reverse order
-        }
-        return reversed;
-    }
-    
+        
     private String getCurrentOrderId() {
         return currentOrderId;
     }
@@ -107,7 +98,7 @@ public class VendorOrder extends javax.swing.JPanel {
     }
     
     private void setJScrollPane(){
-        menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JScrollPane scrollPane = new JScrollPane(menuPanel);
         scrollPane.setPreferredSize(new Dimension(1000,610));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -133,7 +124,7 @@ public class VendorOrder extends javax.swing.JPanel {
     
     private void intiCategoryButton() {
         Map<String, RoundedButton> foodTypeButtons = new HashMap<>();
-
+        
         for (String[] data : orderData) {
             try {
                 String orderType = data.length > 5 ? data[5].trim().toUpperCase() : "General";
@@ -173,8 +164,10 @@ public class VendorOrder extends javax.swing.JPanel {
         for (String[] orderDatas : orderData) {
             try {
                 String orderType = orderDatas.length > 5 ? orderDatas[5].trim() : "";
+                String orderStatus = orderDatas.length > 9 ? orderDatas[9].trim() : "";
                 if (orderCategory.equalsIgnoreCase(orderType)) {
-                    
+                    if(orderStatus.equalsIgnoreCase("Pending") || orderStatus.equalsIgnoreCase("Accept") || orderStatus.equalsIgnoreCase("Reject") || orderStatus.equalsIgnoreCase("Done")){
+                        
                     String orderId = orderDatas.length > 0 ? orderDatas[0].trim() : "";
                     String customerId = orderDatas.length > 1 ? orderDatas[1].trim() : "";
                     String deliveryId = orderDatas.length > 2 ? orderDatas[2].trim() : "";
@@ -189,7 +182,6 @@ public class VendorOrder extends javax.swing.JPanel {
                     double orderTotalAmount = orderDatas.length > 8 ? Math.round(Double.parseDouble(orderDatas[8].trim()) * 100.0) / 100.0 : 0.0;
                     orderTotalAmount = Double.parseDouble(String.format("%.2f", orderTotalAmount));
                     String formattedOrderTotalAmount = String.format("%.2f", orderTotalAmount);
-                    String orderStatus = orderDatas.length > 9 ? orderDatas[9].trim() : "";
                     
                     OrderBlock orderBlock = new OrderBlock();
                     orderBlock.setOrderType(type.toUpperCase());
@@ -220,20 +212,24 @@ public class VendorOrder extends javax.swing.JPanel {
                     RoundedButton acceptButton = orderBlock.getAcceptButton();
                     RoundedButton rejectButton = orderBlock.getRejectButton();
                     RoundedButton doneButton = orderBlock.getDoneButton();
+                    RoundedButton cancelButton = orderBlock.getCancelButton();
                     
                     if(orderStatus.equalsIgnoreCase("cancel")){
                         doneButton.setVisible(false);
                         acceptButton.setVisible(false);
                         rejectButton.setVisible(false);
+                        cancelButton.setVisible(false);
                     }else if(orderStatus.equalsIgnoreCase("completed")){
                         doneButton.setVisible(false);
                         acceptButton.setVisible(false);
                         rejectButton.setVisible(false);
+                        cancelButton.setVisible(false);
                     }else{
                         checkButton.setVisible(true);
                         acceptButton.setVisible(true);
                         rejectButton.setVisible(true);
                         doneButton.setVisible(true);
+                        cancelButton.setVisible(true);
                     }
                     
                     acceptButton.addActionListener(e ->{
@@ -254,11 +250,52 @@ public class VendorOrder extends javax.swing.JPanel {
                         }
                     });
                                         
-                    doneButton.addActionListener(e ->{
-                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to done the order?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    doneButton.addActionListener(e -> {
+                        int response = JOptionPane.showConfirmDialog(
+                            null, 
+                            "Are you sure you want to make the order done?", 
+                            "Confirmation", 
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE
+                        );
+
                         if (response == JOptionPane.YES_OPTION) {
-                            data.updateData(orderId, 9, "Completed", "src\\main\\java\\repository\\order.txt");
-                            data.updateData(orderId, 2,"Completed", 5, "src\\main\\java\\repository\\orderItems.txt");
+                            data.updateData(orderId, 9, "Done", "src\\main\\java\\repository\\order.txt");
+                            data.updateData(orderId, 1, "Done", 5, "src\\main\\java\\repository\\orderitems.txt");
+
+                            String[] ids = data.retrieveIdsFromFile("src\\main\\java\\repository\\notifications.txt");
+                            List<String> idList = Arrays.asList(ids);
+                            String notificationsId = primaryKey.incrementPrimaryKey(idList);
+
+                            LocalDate currentDate = LocalDate.now();
+                            LocalTime currentTime = LocalTime.now();
+                            String notificationTime = currentDate.toString()+"T" + currentTime.toString().split("\\.")[0];
+
+                            String newNotifications = notificationsId + "," 
+                                    + "Your order: " + orderId + " is done|" 
+                                    + "Price: " + formattedOrderTotalAmount + "|" 
+                                    + "Time Order: " + datetime + "|" 
+                                    + "," 
+                                    + notificationTime + "," 
+                                    + customerId;
+                            data.insertData(newNotifications, "src\\main\\java\\repository\\notifications.txt");
+
+                            JOptionPane.showMessageDialog(
+                                null, 
+                                "The order has been successfully updated!\nA notification is sent to the customer.", 
+                                "Success", 
+                                JOptionPane.INFORMATION_MESSAGE
+                            );
+
+                            reinitializeToMenuPanel();
+                        }
+                    });
+                    
+                    cancelButton.addActionListener(e ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the order?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                            data.updateData(orderId, 9, "Cancel", "src\\main\\java\\repository\\order.txt");
+                            data.updateData(orderId, 2,"Cancel", 5, "src\\main\\java\\repository\\orderItems.txt");
                             JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             reinitializeToMenuPanel();
                         }
@@ -274,6 +311,7 @@ public class VendorOrder extends javax.swing.JPanel {
                     setMenuPanelHeight();
                     orderBlock.repaint();
                     orderBlock.revalidate();
+                    }
                 }
             } catch(Exception e) {
                 e.printStackTrace();
@@ -286,20 +324,19 @@ public class VendorOrder extends javax.swing.JPanel {
     private void intiPopUp(String orderId){
         
         JDialog dialog = new JDialog();
-        dialog.setUndecorated(true);
-        dialog.setBackground(new Color(248,248,248));
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setUndecorated(false);
+        dialog.setBackground(new Color(200,200,255));
         dialog.setLayout(new BorderLayout());
 
         RoundedPanel container = new RoundedPanel();
         container.setCornerRadius(25);
         container.setLayout(new FlowLayout(FlowLayout.CENTER));
-        container.setOpaque(true);
+        container.setBackgroundColor(new Color(200,200,255));
         
         JScrollPane scrollPane = new JScrollPane(container);
-        scrollPane.setPreferredSize(new Dimension(1000, 330));
+        scrollPane.setPreferredSize(new Dimension(1000, 350));
                         
-        String[][] orderItemData = reverse2DArray(data.retrieveDataAsArray(1, orderId, "src\\main\\java\\repository\\orderitems.txt"));
+        String[][] orderItemData = data.reverse2DArray(data.retrieveDataAsArray(1, orderId, "src\\main\\java\\repository\\orderitems.txt"));
         String foodName = null, formattedorderItemTotalAmount, imagePath = null;
         
         for (String[] orderItemDatas : orderItemData) {
@@ -332,6 +369,7 @@ public class VendorOrder extends javax.swing.JPanel {
                     popUp.setTotalAmount(formattedorderItemTotalAmount);
                     popUp.setStatus(orderItemsStatus);
                     popUp.setRemark(orderIemsRemark);
+                    popUp.setEdgeColor(new Color(200,200,255));
                     
                     BufferedImage loadedImage = imageHandler.loadImage(imagePath);
                     JLabel label = popUp.getLabel();
@@ -340,12 +378,27 @@ public class VendorOrder extends javax.swing.JPanel {
                     
                     RoundedButton doneButton  = popUp.getDoneRoundedButton();
                     RoundedButton pendingButton  = popUp.getPendingRoundedButton();
+                    RoundedButton cancelButton  = popUp.getCancelRoundedButton();
+                    
+                    if(orderItemsStatus.equalsIgnoreCase("pending")){
+                        pendingButton.setVisible(false);
+                        doneButton.setVisible(true);
+                        cancelButton.setVisible(true);
+                    }else if(orderItemsStatus.equalsIgnoreCase("done")){
+                        pendingButton.setVisible(true);
+                        doneButton.setVisible(false);
+                        cancelButton.setVisible(false);
+                    }else if(orderItemsStatus.equalsIgnoreCase("cancel")){
+                        pendingButton.setVisible(true);
+                        doneButton.setVisible(false);
+                        cancelButton.setVisible(false);
+                    }
                     
                     doneButton.addActionListener(e ->{
                         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to make the order completed?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                         if (response == JOptionPane.YES_OPTION) {
                             closeAllJDialog();
-                            data.updateData(orderId, 1, "Completed", 5, "src\\main\\java\\repository\\orderitems.txt");
+                            data.updateData(orderId, 1, "Done", 5, "src\\main\\java\\repository\\orderitems.txt");
                             JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             reinitializeToPopUp();
                         }
@@ -361,6 +414,16 @@ public class VendorOrder extends javax.swing.JPanel {
                         }
                     });
                     
+                    cancelButton.addActionListener(e ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the order?","Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                            closeAllJDialog();
+                            data.updateData(orderId, 1, "Cancel", 5, "src\\main\\java\\repository\\orderitems.txt");
+                            JOptionPane.showMessageDialog(null, "The order has been successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            reinitializeToPopUp();
+                        }
+                    });
+                    
                     container.add(popUp);
                     setCurrentOrderId(orderId);
                     popUp.repaint();
@@ -370,22 +433,6 @@ public class VendorOrder extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
-        
-        RoundedButton closeButton = new RoundedButton();
-        closeButton.setPreferredSize(new Dimension(380,300));
-        closeButton.setText("Back To Menu");
-        closeButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        closeButton.setRadius(30);
-        closeButton.setFontColor(new Color(248,248,248));
-        closeButton.setFontColorClick(new Color(248,248,248));
-        closeButton.setFontColorOver(new Color(248,248,248));
-        closeButton.setBackground(new Color(140,75,242));
-        closeButton.setColor(new Color(140,75,242));
-        closeButton.setColorClick(new Color(200,50,120));
-        closeButton.setColorOver(new Color(200,50,120));
-        closeButton.setBorderColor(new Color(248,248,248));
-        closeButton.addActionListener(e -> dialog.dispose());
-        container.add(closeButton);
             
         dialog.add(scrollPane, BorderLayout.CENTER);
         dialog.setVisible(true);
@@ -421,7 +468,7 @@ public class VendorOrder extends javax.swing.JPanel {
     }
     
     private void reinitializeToPopUp() {
-        orderData = reverse2DArray(data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\order.txt"));
+        orderData = data.reverse2DArray(data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\order.txt"));
         removeAll();
         revalidate();
         repaint();
@@ -434,7 +481,7 @@ public class VendorOrder extends javax.swing.JPanel {
     }
     
     private void reinitializeToMenuPanel(){
-        orderData = reverse2DArray(data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\order.txt"));
+        orderData = data.reverse2DArray(data.retrieveDataAsArray(3, userId, "src\\main\\java\\repository\\order.txt"));
         removeAll();
         revalidate();
         repaint();
@@ -449,7 +496,6 @@ public class VendorOrder extends javax.swing.JPanel {
         final int[] mouseX = {0};
         final int[] mouseY = {0};
 
-        // Mouse Pressed: Record the mouse starting point
         dialog.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -485,7 +531,6 @@ public class VendorOrder extends javax.swing.JPanel {
         setBackground(new java.awt.Color(200, 200, 255));
         setMinimumSize(new java.awt.Dimension(1000, 800));
         setPreferredSize(new java.awt.Dimension(1000, 800));
-        setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel2.setBackground(new java.awt.Color(39, 40, 56));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -495,7 +540,6 @@ public class VendorOrder extends javax.swing.JPanel {
 
         categoryPanel.setBackground(new java.awt.Color(200, 200, 255));
         categoryPanel.setPreferredSize(new java.awt.Dimension(1000, 60));
-        categoryPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         add(categoryPanel);
 
         jLabel1.setBackground(new java.awt.Color(39, 40, 56));

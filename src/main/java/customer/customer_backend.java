@@ -20,11 +20,14 @@ import managefile.Feedback;
 import managefile.Notification;
 import managefile.OrderItems;
 import managefile.Runner;
+import managefile.RunnerNotification;
 import managefile.Vendor;
 import managefile.VendorReview;
 import managefile.readFile;
+import managefile.writeFile;
 import method.primaryKey;
 import method.scaleImage;
+import runner.NotificationService;
 
 /**
  *
@@ -45,9 +48,13 @@ public class customer_backend{
     private final String deliveryReviewFile = "src\\main\\java\\repository\\deliveryreview.txt";
     private final String orderReviewFile = "src\\main\\java\\repository\\orderreview.txt";
     private final String feedbackFile = "src\\main\\java\\repository\\feedback.txt";
+    RunnerNotification runnerNotification = new RunnerNotification();
+    private final String runnerNotificationFile = runnerNotification.getFilepath();
     private readFile read = new readFile();
+    private writeFile write = new writeFile();
     scaleImage scale = new scaleImage();
     method.primaryKey pri = new primaryKey();
+    NotificationService notificationService = new NotificationService();
     LocalDate currentDate = LocalDate.now();
     LocalTime currentTime = LocalTime.now();
     String datetime = currentDate.toString()+"T" + currentTime.toString().split("\\.")[0];
@@ -482,13 +489,14 @@ public class customer_backend{
         return vendorReviews;
     }
     
-    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice,double deliveryfees) throws IOException{
+    public void addOrder(String customerID,List<managefile.Cart> cartList,List<managefile.Food> foodList,String orderType,String orderTypeDetails,double totalPrice,double deliveryfees, String runnerId) throws IOException{
         System.out.println(deliveryfees);
         Map<Object, Object> allOrders = getOrder(customerID);
         List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.Runner> runners = read.readRunner(runnerFile);
         List<managefile.Delivery> deliverys = read.readDelivery(deliveryFile);
         List<managefile.VendorReview> vendorReviews = read.readVendorReview(orderReviewFile);
+        List <managefile.RunnerNotification> runnerNotifications = read.readRunnerNotification(runnerNotificationFile);
         
         List orderIDList = new ArrayList();
         for (managefile.Order order : orders) {
@@ -501,6 +509,16 @@ public class customer_backend{
             deliveryIDList.add(delivery.getDeliveryID());
         }
         String latestDeliveryID = deliveryIDList.isEmpty() ? "D1" : pri.incrementPrimaryKey(deliveryIDList);
+        
+        //send notification to runner
+        List runnerNotificationIdList = new ArrayList();
+        for (managefile.RunnerNotification runnerNotification : runnerNotifications){
+            runnerNotificationIdList.add(runnerNotification.getNotificationId());
+        }
+        String latestRunnerNotificationId = runnerNotificationIdList.isEmpty() ? "RN1" : pri.incrementPrimaryKey(runnerNotificationIdList);
+        List<RunnerNotification> notifications = new ArrayList<>();
+        notifications.add(new RunnerNotification(latestRunnerNotificationId, runnerId, latestOrderID, "Pending"));
+        write.writeRunnerNotification(notifications, runnerNotificationFile, true);
         
         List vendorReviewIDList = new ArrayList();
         for (managefile.VendorReview vendorReview : vendorReviews) {
@@ -541,7 +559,7 @@ public class customer_backend{
             deliveryStore.add(latestDeliveryID);
             deliveryStore.add(latestDeliveryReviewID);
             deliveryStore.add(latestOrderID);
-            deliveryStore.add(runners.getFirst().getId());
+            deliveryStore.add(runnerId);
             deliveryStore.add(String.valueOf(deliveryfees));
             deliveryStore.add(null);
             deliveryStore.add(datetime);
@@ -715,7 +733,7 @@ public class customer_backend{
             if (deliveryReview.getReviewID().equals(deliveryReviewID)){
                 String updateData = deliveryReviewID+","+
                                     deliveryReview.getCustomerID()+","+
-                                    deliveryReview.getRunnerID()+","+
+                                    deliverys.getFirst().getRunnerID()+","+
                                     ratings+","+
                                     reviews+","+
                                     datetime;

@@ -54,6 +54,7 @@ public class CustomerHome extends javax.swing.JFrame implements ActionListener{
     
     public CustomerHome(String customerID) {
         this.customerID = customerID;
+        System.out.println("hihi");
         initComponents();
         Customer customerDetails = backend.getSpecificCustomerDetail(customerID);
         jLabel3.setText(customerDetails.getName());
