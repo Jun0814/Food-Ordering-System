@@ -4,11 +4,15 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import method.RoundedButton;
+import method.RoundedPanel;
 
 public class VendorBlock extends JPanel {
 
     public String vendorName, vendorId, stallName, email, phone;
     public Color edgeColor, backgroundColor, themeColor;
+    RoundedPanel vendorPanel = new RoundedPanel();
+    RoundedButton roundedButton = new RoundedButton();
+    RoundedButton roundedButton1 = new RoundedButton();
 
     public VendorBlock() {
         initComponents();

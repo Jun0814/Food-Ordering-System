@@ -218,11 +218,9 @@ public class Data {
             String headerLine = br.readLine();
             String line;
 
-            // Read through all rows in the file
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length > 0) {
-                    // Add the first column (ID) to the list
                     ids.add(data[0]);
                 }
             }
