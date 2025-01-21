@@ -1,7 +1,12 @@
 ReviewID,CustomerId,RunnerId,Rating,Comments,Datetime
-RD1,C1,R1,2.0,Runner looks ugly!,2024-11-02
-RD2,C1,R2,5,,2025-01-16T09:49:35
-RD3,C1,R1,2.0,Runner looks ugly!,2024-11-02
-RD4,C1,R1,2.0,Runner looks ugly!,2024-11-02
-RD5,D3,R1,null,null
-RD6,D4,R1,null,null
+RD1,C1,R1,2.0,Runner looks ugly!,null
+RD2,C1,R2,5,,null
+RD3,C1,R1,2.0,Runner looks ugly!,null
+RD4,C1,R1,2.0,Runner looks ugly!,null
+RD5,D3,R1,null,null,null
+RD6,D4,R1,null,null,null
+RD7,D5,R1,null,null,null
+RD8,D6,R1,null,null,null
+RD9,D7,R1,null,null,null
+RD10,D8,R2,null,null,null
+RD11,D9,R2,null,null,null

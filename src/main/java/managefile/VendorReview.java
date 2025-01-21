@@ -13,6 +13,9 @@ public class VendorReview {
     private String vendorID;
     private String rating;
     private String comments;
+    private String filepath ="src\\main\\java\\repository\\orderreview.txt";
+    
+    public VendorReview(){}
 
     public VendorReview(String reviewID, String vendorID, String rating, String comments) {
         this.reviewID = reviewID;
@@ -51,6 +54,10 @@ public class VendorReview {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    
+    public String getFilepath(){
+        return filepath;
     }
     
 }

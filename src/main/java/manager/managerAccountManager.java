@@ -217,5 +217,25 @@ public class managerAccountManager {
         return dailySalesForYear;
     }
     
+    public static double calculateTotalRatings(List<String> ratings){
+        double totalRatings = 0.0;
+        int validRatingsCount = 0;
+        
+        if(ratings == null || ratings.isEmpty()){
+            return totalRatings;
+        }
+        
+        for (String rating : ratings){
+            if(rating != null && !rating.isEmpty()){
+                try{
+                    totalRatings += Double.parseDouble(rating);
+                    validRatingsCount++;
+                }catch (NumberFormatException e){
+                    // Ignore invalid numbers (e.g., "null")
+                }
+            }
+        }
+        return totalRatings/validRatingsCount;
+    }
     
 }

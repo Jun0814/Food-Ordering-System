@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import managefile.Delivery;
 import managefile.readFile;
 
@@ -19,30 +18,23 @@ import managefile.readFile;
  *
  * @author Asus
  */
-public class RunnerTask extends javax.swing.JPanel {
+public class RunnerHistory extends javax.swing.JPanel {
     private String runnerId;
     Delivery delivery = new Delivery();
     readFile read = new readFile();
     private JPanel containerPanel;
     private JScrollPane scrollPane;
     /**
-     * Creates new form RunnnerTask
+     * Creates new form RunnerHistory
      */
-    public RunnerTask(String runnerId) {
+    public RunnerHistory(String runnerId) {
         initComponents();
         this.runnerId = runnerId;
         this.setSize(1000, 300);
         this.setLayout(new BorderLayout());
-        containerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        containerPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         
-//        List<Delivery> deliveries = read.readDelivery(delivery.getFilepath());
-//        for(Delivery delivery : deliveries){
-//            if(delivery.getRunnerID().equals(runnerId) && delivery.getStatus().equals("Accepted")){
-//                String deliveryId = delivery.getDeliveryID();
-//                RunnerTaskPanel taskPanel = new RunnerTaskPanel(deliveryId);
-//                containerPanel.add(taskPanel);
-//            }
-//        }
+        
         JScrollPane scrollPane = new JScrollPane(containerPanel);
         scrollPane.setPreferredSize(new Dimension(628,460));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -58,37 +50,12 @@ public class RunnerTask extends javax.swing.JPanel {
     private void initializeTasks(){
         List<Delivery> deliveries = read.readDelivery(delivery.getFilepath());
         for(Delivery delivery : deliveries){
-            if(delivery.getRunnerID().equals(runnerId) && delivery.getStatus().equals("Accepted")){
+            if((delivery.getRunnerID().equals(runnerId) && delivery.getStatus().equals("Completed")) || (delivery.getRunnerID().equals(runnerId) && delivery.getStatus().equals("Rejected"))){
                 String deliveryId = delivery.getDeliveryID();
-                RunnerTaskPanel taskPanel = new RunnerTaskPanel(deliveryId, this);
-                containerPanel.add(taskPanel);
+                RunnerHistoryPanel historyPanel = new RunnerHistoryPanel(deliveryId);
+                containerPanel.add(historyPanel);
             }
         }
-    }
-    
-    public void refreshTasks(){
-        // Check if containerPanel is not null before attempting to clear
-        if (containerPanel != null) {
-            containerPanel.removeAll();
-        }
-
-        // Reload feedbacks and repopulate
-        initializeTasks();
-
-        // Refresh the UI
-        containerPanel.revalidate();
-        containerPanel.repaint();
-    }
-    
-    public void removeTaskPanel(RunnerTaskPanel panel){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                containerPanel.remove(panel); // Remove the panel
-                containerPanel.revalidate();  // Revalidate the layout
-                containerPanel.repaint();     // Repaint the container to reflect the change
-            }
-        });
     }
 
     /**
@@ -100,30 +67,19 @@ public class RunnerTask extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-
-        jLabel1.setText("hihi");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(235, 235, 235)
-                .addComponent(jLabel1)
-                .addContainerGap(746, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel1)
-                .addContainerGap(215, Short.MAX_VALUE))
+            .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

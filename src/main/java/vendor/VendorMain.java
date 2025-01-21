@@ -29,6 +29,7 @@ public class VendorMain extends javax.swing.JFrame {
     
     public VendorMain(String userId) {
         initComponents();
+        System.out.println("hihi");
         this.userId = userId;
         switchToPanel(new VendorHome(userId));
         this.setTitle("Vendor");
