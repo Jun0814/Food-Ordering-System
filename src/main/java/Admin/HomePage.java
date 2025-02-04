@@ -21,7 +21,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
     public HomePage(String userId) {
         initComponents();
         this.userId = userId;
-        switchToPanel(new AdminHome(userId));
+        switchToPanel(new VendorList());
         this.setTitle("Admin");
         this.setSize(new Dimension(1280, 800));
         this.setResizable(false);
@@ -38,11 +38,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         contentPanel.add(targetPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
-        
-        logoLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) { switchToPanel(new AdminHome(userId)); }
-        });
     }
     
     public void run( ) {

@@ -64,7 +64,7 @@ public class VendorList extends javax.swing.JPanel {
             
             BufferedImage loadedImage = imageHandler.loadImage(imagePath);
             JLabel label = vb.getLabel();
-            label.setBounds(0, 0, 220, 160);
+            label.setBounds(0, 0, 150, 150);
             
             if (loadedImage != null) {
                 imageHandler.displayImageOnLabel(loadedImage, label);
