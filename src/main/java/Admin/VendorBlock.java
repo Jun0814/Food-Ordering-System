@@ -1,6 +1,12 @@
 package Admin;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import method.RoundedButton;
@@ -226,6 +232,46 @@ public class VendorBlock extends JPanel {
 
     private void deleteVendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVendorButtonActionPerformed
         // TODO add your handling code here:
+        String filePath = "src\\main\\java\\repository\\vendor.txt";
+        String tempFilePath = "src\\main\\java\\repository\\vendor_temp.txt";
+        String vendorToDelete = VendorId.getText();
+
+        File inputFile = new File(filePath);
+        File tempFile = new File(tempFilePath);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String currentLine;
+            boolean isHeader = true;
+
+            while ((currentLine = reader.readLine()) != null) {
+                if (isHeader) { 
+                    writer.write(currentLine);
+                    writer.newLine();
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] vendorData = currentLine.split(",");
+                if (!vendorData[0].equals(vendorToDelete)) {
+                    writer.write(currentLine);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (inputFile.delete()) {
+            tempFile.renameTo(inputFile);
+        } else {
+            System.out.println("Error deleting file");
+        }
+
+        getParent().remove(this);
+        getParent().revalidate();
+        getParent().repaint();
     }//GEN-LAST:event_deleteVendorButtonActionPerformed
 
 

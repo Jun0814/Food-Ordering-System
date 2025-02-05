@@ -10,12 +10,12 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import method.RoundedButton;
 
-public class UserBlock extends JPanel {
+public class RunnerBlock extends JPanel {
 
     public String username, userId, email, phone;
     public Color edgeColor, backgroundColor, themeColor;
 
-    public UserBlock() {
+    public RunnerBlock() {
         initComponents();
         setMinimumSize(new java.awt.Dimension(916, 200));
         setPreferredSize(new java.awt.Dimension(916, 200));
@@ -195,8 +195,8 @@ public class UserBlock extends JPanel {
 
     private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
         // TODO add your handling code here:
-        String filePath = "src\\main\\java\\repository\\customer.txt";
-        String tempFilePath = "src\\main\\java\\repository\\customer_temp.txt";
+        String filePath = "src\\main\\java\\repository\\runner.txt";
+        String tempFilePath = "src\\main\\java\\repository\\runner_temp.txt";
         String userToDelete = UserId.getText();
 
         File inputFile = new File(filePath);

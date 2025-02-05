@@ -73,7 +73,6 @@
                       <Component id="customerButton" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
                       <Component id="runnerButton" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
                       <Component id="creditButton" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
-                      <Component id="transactionButton" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="6" max="32767" attributes="0"/>
               </Group>
@@ -89,7 +88,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="logoLabel" min="-2" pref="175" max="-2" attributes="0"/>
-                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                   <Component id="vendorButton" min="-2" pref="42" max="-2" attributes="0"/>
                   <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                   <Component id="customerButton" min="-2" pref="42" max="-2" attributes="0"/>
@@ -97,9 +96,7 @@
                   <Component id="runnerButton" min="-2" pref="42" max="-2" attributes="0"/>
                   <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                   <Component id="creditButton" min="-2" pref="42" max="-2" attributes="0"/>
-                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                  <Component id="transactionButton" min="-2" pref="42" max="-2" attributes="0"/>
-                  <EmptySpace pref="286" max="32767" attributes="0"/>
+                  <EmptySpace pref="255" max="32767" attributes="0"/>
                   <Component id="logoutButton" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
@@ -190,44 +187,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customerButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="method.RoundedButton" name="transactionButton">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="28" red="28" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Transaction"/>
-            <Property name="alignmentX" type="float" value="0.5"/>
-            <Property name="borderColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="28" red="28" type="rgb"/>
-            </Property>
-            <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="28" red="28" type="rgb"/>
-            </Property>
-            <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="8a" green="de" red="f3" type="rgb"/>
-            </Property>
-            <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="4b" red="8c" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
-            <Property name="fontColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
-            </Property>
-            <Property name="fontColorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="28" red="28" type="rgb"/>
-            </Property>
-            <Property name="fontColorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="d8" red="e3" type="rgb"/>
-            </Property>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="radius" type="int" value="30"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transactionButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="method.RoundedButton" name="runnerButton">

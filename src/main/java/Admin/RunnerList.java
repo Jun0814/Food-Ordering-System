@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class RunnerList extends javax.swing.JPanel {
+public class RunnerList extends JPanel {
     
     public RunnerList() {
         initComponents();
@@ -26,7 +26,7 @@ public class RunnerList extends javax.swing.JPanel {
             String line;
             boolean skipHeader = true;
             while ((line = br.readLine()) != null) {
-                if (skipHeader) { // Skip the first header row
+                if (skipHeader) {
                     skipHeader = false;
                     continue;
                 }
@@ -48,13 +48,13 @@ public class RunnerList extends javax.swing.JPanel {
             String email = runner[2];
             String phone = runner[3];
 
-            UserBlock ub = new UserBlock();
-            ub.setUsername(name);
-            ub.setUserId(runnerId);
-            ub.setEmail(email);
-            ub.setPhone(phone);
+            RunnerBlock rb = new RunnerBlock();
+            rb.setUsername(name);
+            rb.setUserId(runnerId);
+            rb.setEmail(email);
+            rb.setPhone(phone);
             
-            runnerPanel.add(ub);
+            runnerPanel.add(rb);
         }
 
         setMenuPanelHeight();

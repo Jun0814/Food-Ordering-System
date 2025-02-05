@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import main.MainMenu;
-import main.UserLogin;
 import method.scaleImage;
 
 public class HomePage extends javax.swing.JFrame implements ActionListener {
@@ -51,8 +48,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
             switchToPanel(new CustomerList());
         }else if(e.getSource() == runnerButton){
             switchToPanel(new RunnerList());
-        }else if(e.getSource() == transactionButton){
-            switchToPanel(new Transaction());
         }else if(e.getSource() == creditButton){
             switchToPanel(new CreditTopUp());
         }else if (e.getSource()== logoutButton){
@@ -70,7 +65,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         logoLabel = new javax.swing.JLabel();
         vendorButton = new method.RoundedButton();
         customerButton = new method.RoundedButton();
-        transactionButton = new method.RoundedButton();
         runnerButton = new method.RoundedButton();
         creditButton = new method.RoundedButton();
         logoutButton = new javax.swing.JButton();
@@ -120,25 +114,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         customerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 customerButtonActionPerformed(evt);
-            }
-        });
-
-        transactionButton.setBackground(new java.awt.Color(40, 40, 56));
-        transactionButton.setText("Transaction");
-        transactionButton.setAlignmentX(0.5F);
-        transactionButton.setBorderColor(new java.awt.Color(40, 40, 56));
-        transactionButton.setColor(new java.awt.Color(40, 40, 56));
-        transactionButton.setColorClick(new java.awt.Color(243, 222, 138));
-        transactionButton.setColorOver(new java.awt.Color(140, 75, 242));
-        transactionButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        transactionButton.setFontColor(new java.awt.Color(227, 216, 255));
-        transactionButton.setFontColorClick(new java.awt.Color(40, 40, 56));
-        transactionButton.setFontColorOver(new java.awt.Color(227, 216, 255));
-        transactionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        transactionButton.setRadius(30);
-        transactionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                transactionButtonActionPerformed(evt);
             }
         });
 
@@ -199,8 +174,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
                     .addComponent(vendorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(customerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(runnerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(creditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(transactionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(creditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
@@ -212,7 +186,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
+                .addGap(91, 91, 91)
                 .addComponent(vendorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(customerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,9 +194,7 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
                 .addComponent(runnerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(creditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(transactionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
@@ -277,10 +249,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
         actionPerformed(evt);
     }//GEN-LAST:event_customerButtonActionPerformed
 
-    private void transactionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionButtonActionPerformed
-        actionPerformed(evt);
-    }//GEN-LAST:event_transactionButtonActionPerformed
-
     private void runnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerButtonActionPerformed
         actionPerformed(evt);
     }//GEN-LAST:event_runnerButtonActionPerformed
@@ -302,7 +270,6 @@ public class HomePage extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton logoutButton;
     private javax.swing.JPanel menuPanel;
     private method.RoundedButton runnerButton;
-    private method.RoundedButton transactionButton;
     private method.RoundedButton vendorButton;
     // End of variables declaration//GEN-END:variables
 }

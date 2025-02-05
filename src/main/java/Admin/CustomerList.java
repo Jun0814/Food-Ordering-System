@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class CustomerList extends javax.swing.JPanel {
+public class CustomerList extends JPanel {
     
     public CustomerList() {
         initComponents();
