@@ -228,6 +228,23 @@ public class VendorBlock extends JPanel {
     
     private void editVendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVendorButtonActionPerformed
         // actionPerformed(evt);
+        String vendorId = VendorId.getText();
+        
+        javax.swing.JDialog dialog = new javax.swing.JDialog();
+        dialog.setTitle("Edit Vendor");
+        dialog.setSize(450, 600);
+        dialog.setLocationRelativeTo(this);
+
+        EditVendor editVendorPanel = new EditVendor();
+        editVendorPanel.loadVendorDetails(vendorId); // Custom method to load vendor details
+
+        // Set the content pane of the dialog to the EditVendor panel
+        dialog.setContentPane(editVendorPanel);
+
+        // Make the dialog modal and visible
+        dialog.setModal(true);
+        dialog.setVisible(true);
+        
     }//GEN-LAST:event_editVendorButtonActionPerformed
 
     private void deleteVendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVendorButtonActionPerformed
