@@ -191,6 +191,22 @@ public class RunnerBlock extends JPanel {
     
     private void roundedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButtonActionPerformed
         // actionPerformed(evt);
+        String userId = UserId.getText();
+        
+        javax.swing.JDialog dialog = new javax.swing.JDialog();
+        dialog.setTitle("Edit Runner");
+        dialog.setSize(450, 470);
+        dialog.setLocationRelativeTo(this);
+
+        EditRunner editUserPanel = new EditRunner();
+        editUserPanel.loadUserDetails(userId); // Custom method to load vendor details
+
+        // Set the content pane of the dialog to the EditVendor panel
+        dialog.setContentPane(editUserPanel);
+
+        // Make the dialog modal and visible
+        dialog.setModal(true);
+        dialog.setVisible(true);
     }//GEN-LAST:event_roundedButtonActionPerformed
 
     private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
