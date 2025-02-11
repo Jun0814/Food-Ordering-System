@@ -22,14 +22,14 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public MainMenu() {
-        initComponents();     
+        initComponents();
         System.out.println("hihi");
         this.setTitle("Main Menu");
         this.setSize(1000, 600);
         this.setLocationRelativeTo(null);
         
         logoLabel.setIcon(scaleImage.processImage("src\\main\\java\\image_repository\\gastrogo.png", 250, 192));
-                        
+        
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -45,15 +45,14 @@ public class MainMenu extends javax.swing.JFrame {
         });        
         
         leftPanel.setLayout(new GridBagLayout());
-
+        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;  
         gbc.gridy = 0;  
         gbc.anchor = GridBagConstraints.CENTER; 
-        gbc.fill = GridBagConstraints.NONE; 
-
-        leftPanel.add(logoLabel, gbc);
+        gbc.fill = GridBagConstraints.NONE;
         
+        leftPanel.add(logoLabel, gbc);
     }
         
     public void run() {
@@ -236,34 +235,33 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerButtonActionPerformed
+        this.dispose();
         UserLogin userlogin = new UserLogin("runner");
         userlogin.run();
-        this.dispose();
     }//GEN-LAST:event_runnerButtonActionPerformed
 
     private void vendorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorButtonActionPerformed
+        this.dispose();
         UserLogin userlogin = new UserLogin("vendor");
         userlogin.run();
-        this.dispose();
     }//GEN-LAST:event_vendorButtonActionPerformed
 
     private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
         this.dispose();
         UserLogin userlogin = new UserLogin("manager");
         userlogin.run();
-        this.dispose();
     }//GEN-LAST:event_managerButtonActionPerformed
 
     private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
+        this.dispose();
         UserLogin userlogin = new UserLogin("admin");
         userlogin.run();
-        this.dispose();
     }//GEN-LAST:event_adminButtonActionPerformed
 
     private void customerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerButtonActionPerformed
+        this.dispose();
         UserLogin userlogin = new UserLogin("customer");
         userlogin.run();
-        this.dispose();
     }//GEN-LAST:event_customerButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

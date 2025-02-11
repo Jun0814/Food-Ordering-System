@@ -51,8 +51,11 @@ public class ReviewBlock extends javax.swing.JPanel {
 
     public void setComment(String comment) {
         this.comment = comment;
-        if (reviewContentLabel != null) {
-            reviewContentLabel.setText(comment != null ? comment : "NULL");
+        if (comment != null && !comment.isEmpty()) {
+            String formattedComment = "<html>" + comment + "</html>";
+            reviewContentLabel.setText(formattedComment);
+        } else {
+            reviewContentLabel.setText("No comments found.");
         }
     }
     
@@ -132,14 +135,14 @@ public class ReviewBlock extends javax.swing.JPanel {
         reviewContentLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         reviewContentLabel.setForeground(new java.awt.Color(40, 40, 56));
         reviewContentLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        roundedPanel.add(reviewContentLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, 510, 120));
+        roundedPanel.add(reviewContentLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, 520, 120));
 
         reviewLabel.setBackground(new java.awt.Color(40, 40, 56));
         reviewLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         reviewLabel.setForeground(new java.awt.Color(40, 40, 56));
         reviewLabel.setText("Comment:");
         reviewLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        roundedPanel.add(reviewLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 100, 30));
+        roundedPanel.add(reviewLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, -1, 120));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

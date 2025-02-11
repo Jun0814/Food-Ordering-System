@@ -123,7 +123,6 @@ public class UserLogin extends javax.swing.JFrame {
                             this.dispose();
                             managerMain mainpage = new managerMain(managerid);
                             mainpage.run();
-                            this.dispose();
                         }else{
                             JOptionPane.showMessageDialog(null,"Login Failed!\nYou have "+(3-clickCount)+ " attempts remaining.","Login Unsuccessful",JOptionPane.ERROR_MESSAGE);
                         }
