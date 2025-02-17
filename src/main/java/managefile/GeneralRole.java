@@ -8,7 +8,7 @@ package managefile;
  *
  * @author Asus
  */
-public class GeneralRole {
+public abstract class GeneralRole {
     private String id;
     private String name;
     private String email;

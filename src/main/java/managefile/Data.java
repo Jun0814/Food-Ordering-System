@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 
 public class Data {
     
-    
     //*** Get absolute path from relative path ***//
     private String getResolvedPath(String relativeFilePath){        
          String resolvedPath = "";
@@ -191,8 +190,8 @@ public class Data {
                     rows.add(data);
                 }
             }
-        } catch (IOException e) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "Error reading file: " + filepath, e);
+        } catch (IOException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
         }
         return rows.toArray(new String[rows.size()][]);
     }
@@ -261,7 +260,7 @@ public class Data {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, "File I/O error", ex);
         } catch (NumberFormatException ex) {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }
@@ -291,8 +290,8 @@ public class Data {
                     }
                 }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (NumberFormatException ex) {
             System.out.println("Error parsing the file content. Ensure proper formatting.");
         }

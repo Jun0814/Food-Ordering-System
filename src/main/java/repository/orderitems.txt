@@ -14,7 +14,7 @@ OI12,O9,F1,4,40.0,Completed,GG dot com
 OI13,O10,F4,6,120.0,Pending,Tell me something
 OI14,O10,F2,1,10.0,Pending,Tell me something
 OI15,O11,F5,2,30.0,Pending,Tell me something
-OI16,O12,F5,1,15.0,Pending,Tell me something
+OI16,O12,F5,1,15.0,Done,Tell me something
 OI17,O13,F5,1,15.0,Pending,Tell me something
 OI18,O14,F5,1,15.0,Pending,Tell me something
 OI19,O15,F2,1,10.0,Pending,Tell me something

@@ -4,7 +4,6 @@
  */
 package managefile;
 
-import customer.CustomerCart;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,27 +16,6 @@ import java.util.ArrayList;
  * @author USER
  */
 public class readFile {
-    public List readUserAccount(String filePath){
-        List<GeneralRole> users = new ArrayList<>();
-        try{
-            FileReader fr = new FileReader(filePath);
-            BufferedReader br = new BufferedReader(fr);
-            br.readLine();
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] fields = line.split(",");
-                String id = fields[0].trim();
-                String name = fields[1].trim();
-                String email = fields[2].trim();
-                String phone = fields[3].trim();
-                String password = fields[4].trim();
-                users.add(new GeneralRole(id, name, email, phone, password));
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return users;
-    }
     public List readCustomerAccount(String filePath){
         List<Customer> users = new ArrayList<>();
         try{
