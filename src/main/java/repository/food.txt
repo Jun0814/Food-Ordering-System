@@ -1,14 +1,6 @@
-FoodID, Name, Status, Description, Price, Imagepath, Category, VendorID
-F1,Fried Chicken,Unavailable,Delicious and Juicy Fresh Chicken Delicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke,10,null, Rice,V1
-F2,Fried Duck,Available,Delicious and Juicy Fresh Chicken,10,null,Rice, V1
+FoodID,Name,Status,Description,Price,Imagepath,Category,VendorId
+F1,Fried Chicken,Unavailable,Delicious and Juicy Fresh Chicken Delicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke elicious and Juicy Fresh Chicke,10,null,Rice,V1
+F2,Fried Duck,Available,Delicious and Juicy Fresh Chicken,10,null,Rice,V1
 F3,Fried Rice,Available,Delicious and Juicy Fresh Chicken,15,null,Rice,V1
 F4,Fried Cake,Available,Delicious and Juicy Fresh Chicken,20,null,Rice,V1
 F5,Fried Noodle,Available,Savor the perfect blend of stir-fried noodles tossed with tender slices of meat (or tofu) and seasoned with a rich savory sauce,15.00,src/main/java/image_repository/F5.png,Rice,V2
-F6,Fried Chicken,Available,Ice & Lemon Tea,21,src/main/java/image_repository/default-food.png,Rice,V2
-F7,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F8,Fried Chicken,Available,Ice & Lemon Tea,15,src/main/java/image_repository/default-food.png,Beverage,V2
-F9,Fried Chicken,Available,Ice & Lemon Tea,21,src/main/java/image_repository/default-food.png,Japanese,V2
-F10,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F11,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F12,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2
-F13,Fried Chicken,Available,Ice & Lemon Tea,10,src/main/java/image_repository/default-food.png,Desert,V2

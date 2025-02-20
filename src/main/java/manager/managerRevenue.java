@@ -39,7 +39,8 @@ public class managerRevenue extends javax.swing.JPanel {
             String vendorName = vendor[1];
             String vendorStallName = vendor[5];
             String vendorStallType = vendor[6];
-            vendorPanel panel = new vendorPanel("Revenue", vendorId, vendorName, vendorStallName, vendorStallType);
+            String vendorImagePath = vendor[7];
+            vendorPanel panel = new vendorPanel("Revenue", vendorId, vendorName, vendorStallName, vendorStallType, vendorImagePath);
             containerPanel.add(panel);
         }
         JScrollPane scrollPane = new JScrollPane(containerPanel);

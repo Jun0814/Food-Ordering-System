@@ -41,8 +41,8 @@ public class UserLogin extends javax.swing.JFrame {
     public UserLogin(String role) {
         initComponents();
         this.role = role.toLowerCase();
-        usernameTextField.setText("jiajunchong00@gmail.com");
-        passwordTextField.setText("cjj6693");
+        usernameTextField.setText("haosheanliew@gmail.com");
+        passwordTextField.setText("abcd1234");
         
         titleLabel.setText("LOGIN AS " + this.role.toUpperCase());
 

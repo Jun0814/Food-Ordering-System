@@ -50,10 +50,10 @@ public class RunnerReview extends javax.swing.JPanel {
     }
     
     private void initializeReviews(){
-        List<Delivery> deliveryReviews = read.readDelivery(delivery.getFilepath());
-        for(Delivery review : deliveryReviews){
-            if(review.getRunnerID().equals(runnerId)){
-                String reviewId = review.getDeliveryReviewID();
+        List<DeliveryReview> deliveryReviews = read.readDeliveryReview(deliveryReview.getFilepath());
+        for(DeliveryReview review : deliveryReviews){
+            if(review.getRunnerID().equals(runnerId) & !review.getRating().equals("null")){
+                String reviewId = review.getReviewID();
                 RunnerReviewPanel reviewPanel = new RunnerReviewPanel(reviewId);
                 containerPanel.add(reviewPanel);
             }

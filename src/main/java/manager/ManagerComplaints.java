@@ -36,7 +36,7 @@ public class ManagerComplaints extends javax.swing.JPanel {
         this.managerId = managerId;
         this.setSize(1000,300);
         this.setLayout(new BorderLayout());
-        containerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        containerPanel = new JPanel(new GridLayout(0, 1, 0, 0));
 //        List <String[]> feedbacks = data.readRolesFromFile(feedbackFilepath);
 //        
 //        for (String[] feedback : feedbacks){
@@ -47,7 +47,7 @@ public class ManagerComplaints extends javax.swing.JPanel {
 //            }
 //        }
         JScrollPane scrollPane = new JScrollPane(containerPanel);
-        scrollPane.setPreferredSize(new Dimension(1200,300));
+        scrollPane.setPreferredSize(new Dimension(1000,420));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
@@ -61,10 +61,11 @@ public class ManagerComplaints extends javax.swing.JPanel {
     private void initializeComplaints() {
         // Read feedbacks from file
         List<String[]> feedbacks = data.readRolesFromFile(feedbackFilepath);
-
+        
         // Populate the container panel with unapproved feedbacks
         for (String[] feedback : feedbacks) {
-            if (feedback[1].equals("Null")) {
+            System.out.println(Arrays.toString(feedback));
+            if (feedback[2].equals("null")) {
                 String feedbackId = feedback[0];
                 FeedbackPanel feedbackPanel = new FeedbackPanel(feedbackId, managerId, this); // Pass `this` reference
                 containerPanel.add(feedbackPanel); // This will now work as containerPanel is initialized

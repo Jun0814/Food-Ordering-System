@@ -6,6 +6,7 @@ package manager;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ public class runnerDetails extends javax.swing.JFrame {
     private String runnerEmail;
     private String runnerPhone;
     private String runnerStatus;
+    private double totalRatings;
     Runner runner = new Runner();
     managerAccountManager backend = new managerAccountManager();
     Data data = new Data();
@@ -37,10 +39,11 @@ public class runnerDetails extends javax.swing.JFrame {
     /**
      * Creates new form runnerReviews
      */
-    public runnerDetails(String runnerId) {
+    public runnerDetails(String runnerId, double totalRatings) {
         initComponents();
         this.runnerId = runnerId;
-        this.setSize(500,500);
+        this.totalRatings = totalRatings;
+        this.setSize(600,650);
         String[][] runnerDetails = data.retrieveDataAsArray(0,runnerId,runnerFilepath);
         for (String[] runnerInfo : runnerDetails){
             this.runnerName = runnerInfo[1];
@@ -48,6 +51,9 @@ public class runnerDetails extends javax.swing.JFrame {
             this.runnerPhone = runnerInfo[3];
             this.runnerStatus = runnerInfo[5];
         }
+        ratingLabel.setText(Double.toString(totalRatings));
+        runnerImage.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\man.png", 190, 155));
+        ratingImage.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\star.png", 48, 50));
         System.out.println(runnerName);
         runnerNameLabel.setText(runnerName);
         runnerEmailLabel.setText(runnerEmail);
@@ -59,17 +65,19 @@ public class runnerDetails extends javax.swing.JFrame {
     }
     
     public void showRunnerReviews(){
-        reviewHistoryPanel.setLayout(new BorderLayout());
-        JPanel containerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        reviewHistoryPanel.setLayout(new FlowLayout());
+        JPanel containerPanel = new JPanel(new GridLayout(0, 1, 1, 1));
         
         String[][] reviewsHistory = data.retrieveDataAsArray(2,runnerId,reviewFilepath);
         System.out.println(Arrays.deepToString(reviewsHistory));
         for (String[] reviews : reviewsHistory){
-            ratingPanel panel = new ratingPanel(reviews);
-            containerPanel.add(panel);
+            if(!reviews[3].equals("null")){
+                ratingPanel panel = new ratingPanel(reviews);
+                containerPanel.add(panel);
+            }
         }
         JScrollPane scrollPane = new JScrollPane(containerPanel);
-        scrollPane.setPreferredSize(new Dimension(628,200));
+        scrollPane.setPreferredSize(new Dimension(600,340));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
@@ -89,32 +97,20 @@ public class runnerDetails extends javax.swing.JFrame {
     private void initComponents() {
 
         runnerDetailsPanel = new javax.swing.JPanel();
-        runnerImage = new javax.swing.JPanel();
         runnerDetails = new javax.swing.JPanel();
         runnerNameLabel = new javax.swing.JLabel();
         runnerEmailLabel = new javax.swing.JLabel();
         runnerPhoneLabel = new javax.swing.JLabel();
         runnerStatusLabel = new javax.swing.JLabel();
+        runnerImage = new javax.swing.JLabel();
         reviewHistoryPanel = new javax.swing.JPanel();
         totalRatingsPanel = new javax.swing.JPanel();
         totalRatingsLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        ratingLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        ratingImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        runnerImage.setBackground(java.awt.Color.black);
-
-        javax.swing.GroupLayout runnerImageLayout = new javax.swing.GroupLayout(runnerImage);
-        runnerImage.setLayout(runnerImageLayout);
-        runnerImageLayout.setHorizontalGroup(
-            runnerImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 167, Short.MAX_VALUE)
-        );
-        runnerImageLayout.setVerticalGroup(
-            runnerImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 149, Short.MAX_VALUE)
-        );
 
         runnerNameLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         runnerNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -139,13 +135,13 @@ public class runnerDetails extends javax.swing.JFrame {
         runnerDetails.setLayout(runnerDetailsLayout);
         runnerDetailsLayout.setHorizontalGroup(
             runnerDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(runnerNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+            .addComponent(runnerNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
             .addComponent(runnerEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(runnerDetailsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(runnerDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runnerStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(runnerPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(runnerPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(runnerStatusLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         runnerDetailsLayout.setVerticalGroup(
@@ -153,52 +149,56 @@ public class runnerDetails extends javax.swing.JFrame {
             .addGroup(runnerDetailsLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(runnerNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(runnerEmailLabel)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runnerPhoneLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runnerStatusLabel)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        runnerImage.setPreferredSize(new java.awt.Dimension(190, 155));
 
         javax.swing.GroupLayout runnerDetailsPanelLayout = new javax.swing.GroupLayout(runnerDetailsPanel);
         runnerDetailsPanel.setLayout(runnerDetailsPanelLayout);
         runnerDetailsPanelLayout.setHorizontalGroup(
             runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(runnerImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addComponent(runnerImage, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(runnerDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
         runnerDetailsPanelLayout.setVerticalGroup(
             runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(runnerDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(runnerImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(runnerDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(runnerImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        reviewHistoryPanel.setPreferredSize(new java.awt.Dimension(215, 215));
 
         javax.swing.GroupLayout reviewHistoryPanelLayout = new javax.swing.GroupLayout(reviewHistoryPanel);
         reviewHistoryPanel.setLayout(reviewHistoryPanelLayout);
         reviewHistoryPanelLayout.setHorizontalGroup(
             reviewHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 604, Short.MAX_VALUE)
         );
         reviewHistoryPanelLayout.setVerticalGroup(
             reviewHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 216, Short.MAX_VALUE)
+            .addGap(0, 215, Short.MAX_VALUE)
         );
 
         totalRatingsLabel.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
         totalRatingsLabel.setText("Total Ratings:");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
-        jLabel1.setText("4.5");
+        ratingLabel.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
+        ratingLabel.setText("4.5");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel2.setText("Reviews");
@@ -211,8 +211,10 @@ public class runnerDetails extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRatingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addComponent(ratingLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ratingImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81))
             .addGroup(totalRatingsPanelLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -224,7 +226,8 @@ public class runnerDetails extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(totalRatingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totalRatingsLabel)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ratingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ratingImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -234,17 +237,18 @@ public class runnerDetails extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(runnerDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(reviewHistoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
             .addComponent(totalRatingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(reviewHistoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(runnerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalRatingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(reviewHistoryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(totalRatingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(reviewHistoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -255,17 +259,18 @@ public class runnerDetails extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public void run() {
-        new runnerDetails(runnerId).setVisible(true);
+        new runnerDetails(runnerId, totalRatings).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel ratingImage;
+    private javax.swing.JLabel ratingLabel;
     private javax.swing.JPanel reviewHistoryPanel;
     private javax.swing.JPanel runnerDetails;
     private javax.swing.JPanel runnerDetailsPanel;
     private javax.swing.JLabel runnerEmailLabel;
-    private javax.swing.JPanel runnerImage;
+    private javax.swing.JLabel runnerImage;
     private javax.swing.JLabel runnerNameLabel;
     private javax.swing.JLabel runnerPhoneLabel;
     private javax.swing.JLabel runnerStatusLabel;
