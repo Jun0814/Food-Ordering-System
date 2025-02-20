@@ -423,7 +423,11 @@ public class customer_backend{
         result.put("customers", matchingCustomer);
         return result;
     }
-    
+    public List<managefile.Transaction> getTransaction(){
+        List<managefile.Transaction> transactions = read.readTransaction(transactionFile);
+        
+        return transactions;
+    }
     
     public List<managefile.Transaction> getTransaction(String customerID){
         List<managefile.Transaction> transactions = read.readTransaction(transactionFile);
@@ -466,7 +470,7 @@ public class customer_backend{
     }
     
     public String addTransaction(String customerID,String generalID,String totalPrice,String type,String paymentMethod) throws IOException{
-        List<managefile.Transaction> transactions = getTransaction(customerID);
+        List<managefile.Transaction> transactions = getTransaction();
         List transactionIDList = new ArrayList();
         for (managefile.Transaction transaction : transactions) {
             transactionIDList.add(transaction.getTransactionID());
