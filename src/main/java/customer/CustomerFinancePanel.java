@@ -97,8 +97,9 @@ public class CustomerFinancePanel extends javax.swing.JPanel {
         List<managefile.Delivery> deliverys = (List<managefile.Delivery>) deliveryDetails.get("deliverys");
         List<managefile.Runner> runners = (List<managefile.Runner>) deliveryDetails.get("runners");
 
-        managefile.Delivery delivery = deliverys.getFirst();
-        managefile.Runner runner = runners.getFirst();
+        System.out.println(deliverys);
+        managefile.Delivery delivery = !deliverys.isEmpty() ? deliverys.getFirst():null;
+        System.out.println(delivery);
         
         JPanel transactionPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
