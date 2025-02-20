@@ -27,6 +27,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import managefile.Vendor;
 import managefile.VendorReview;
+import managefile.VendorReview1;
 
 /**
  *
@@ -55,9 +56,8 @@ public class CustomerMenu extends javax.swing.JFrame {
     
     private void addVendorScrollPane(){
         vendorList = backend.getVendors();
-        Map<Object, Object> vendorReviewList = backend.getVendorsReviews();
-        List<managefile.Vendor> vendors = (List<managefile.Vendor>) vendorReviewList.get("vendors");
-        List<managefile.VendorReview> vendorReviews = (List<managefile.VendorReview>) vendorReviewList.get("reviews");
+        
+        List<VendorReview1> vendorReviews = backend.setVendorReviews();
 
         JPanel vendorPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -192,7 +192,7 @@ public class CustomerMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cartButtonActionPerformed
     
-    private JPanel addVendorPanel(Vendor vendor,List<managefile.VendorReview> vendorReview){
+    private JPanel addVendorPanel(Vendor vendor,List<managefile.VendorReview1> vendorReview){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -218,7 +218,7 @@ public class CustomerMenu extends javax.swing.JFrame {
         vendorName.setFont(new Font("Segeo UI",Font.BOLD,18));
         
         double aveRating = countRating(vendor,vendorReview);
-        JPanel rating = homepage.createRatingPanel(String.format("%.1f",aveRating)+" Ratings",18);
+        JPanel rating = homepage.createRatingPanel(!String.format("%.1f",aveRating).equals("NaN")?String.format("%.1f",aveRating)+" Ratings":"0.0"+" Ratings",18);
         
         panel.addMouseListener(new MouseAdapter() {
             @Override
@@ -243,10 +243,10 @@ public class CustomerMenu extends javax.swing.JFrame {
         return panel;
     }
     
-    public double countRating(Vendor vendor,List<managefile.VendorReview> vendorReview){
+    public double countRating(Vendor vendor,List<managefile.VendorReview1> vendorReview){
         double totalRating = 0.0;
         int count = 0;
-        for (VendorReview vendorReview1 : vendorReview) {
+        for (VendorReview1 vendorReview1 : vendorReview) {
             if (vendorReview1.getVendorID().equals(vendor.getId())){
                 if (vendorReview1.getRating() != null && !vendorReview1.getRating().equals("null")){
                     int rating = Integer.parseInt(vendorReview1.getRating());
