@@ -43,7 +43,7 @@ public class managerDelivery extends javax.swing.JPanel {
             containerPanel.add(panel);
         }
         JScrollPane scrollPane = new JScrollPane(containerPanel);
-        scrollPane.setPreferredSize(new Dimension(628,460));
+        scrollPane.setPreferredSize(new Dimension(628,480));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);

@@ -20,11 +20,13 @@ import managefile.Manager;
 import managefile.Vendor;
 import managefile.readFile;
 import managefile.writeFile;
+import method.scaleImage;
 /**
  *
  * @author Asus
  */
 public class managerAccountManager {
+    scaleImage scale = new scaleImage();
     Manager manager = new Manager();
     Order order = new Order();
     Vendor vendor = new Vendor();

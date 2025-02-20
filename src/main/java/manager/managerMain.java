@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JPanel;
+import main.UserLogin;
 import managefile.Data;
 import managefile.Manager;
 import manager.ManagerHome;
@@ -19,6 +20,7 @@ import manager.ManagerHome;
 public class managerMain extends javax.swing.JFrame {
     private String managerId;
     Manager manager = new Manager();
+    managerAccountManager backend = new managerAccountManager();
     Data data = new Data();
     /**
      * Creates new form managerMain
@@ -32,12 +34,7 @@ public class managerMain extends javax.swing.JFrame {
         
         managerName = data.retrieveData(managerId, 1, manager.getFilepath());
         jLabel2.setText("Manager " + managerName);
-        
-        LocalDateTime now = LocalDateTime.now();
-        // Format the date and time as desired
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedDateTime = now.format(formatter);
-        jLabel3.setText(formattedDateTime);
+        logout.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\log-out.png", 40, 40));
        
         ManagerHome home = new ManagerHome(managerId);
         switchToPanel(home);
@@ -65,6 +62,10 @@ public class managerMain extends javax.swing.JFrame {
         }else if(e.getSource() == vendorBtn){
             ManagerVendor managerVendor = new ManagerVendor();
             switchToPanel(managerVendor);
+        }else if (e.getSource() == logout) {
+            UserLogin loginpage = new UserLogin("manager");
+            loginpage.run();
+            this.dispose();
         }
     }
 
@@ -86,7 +87,7 @@ public class managerMain extends javax.swing.JFrame {
         welcomePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        logout = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -101,43 +102,76 @@ public class managerMain extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1060, 500));
 
         jPanel4.setBackground(new java.awt.Color(235, 148, 134));
-        jPanel4.setLayout(new java.awt.GridLayout());
 
+        revenueBtn.setBackground(new java.awt.Color(243, 222, 138));
+        revenueBtn.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         revenueBtn.setText("Revenue");
+        revenueBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         revenueBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 revenueBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(revenueBtn);
 
+        deliveryBtn.setBackground(new java.awt.Color(243, 222, 138));
+        deliveryBtn.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         deliveryBtn.setText("Delivery");
+        deliveryBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         deliveryBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deliveryBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(deliveryBtn);
 
+        complaintsBtn.setBackground(new java.awt.Color(243, 222, 138));
+        complaintsBtn.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         complaintsBtn.setText("Complaints");
+        complaintsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         complaintsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 complaintsBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(complaintsBtn);
 
+        vendorBtn.setBackground(new java.awt.Color(243, 222, 138));
+        vendorBtn.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         vendorBtn.setText("Vendor");
+        vendorBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         vendorBtn.setPreferredSize(new java.awt.Dimension(75, 50));
         vendorBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 vendorBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(vendorBtn);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(revenueBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(deliveryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(complaintsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(vendorBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(revenueBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deliveryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(complaintsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vendorBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         welcomePanel.setBackground(new java.awt.Color(39, 40, 56));
         welcomePanel.setPreferredSize(new java.awt.Dimension(1000, 100));
@@ -146,17 +180,21 @@ public class managerMain extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Welcome back,");
-        welcomePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 6, -1, 41));
+        welcomePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 6, 370, 41));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
         jLabel2.setForeground(java.awt.Color.white);
         jLabel2.setText("Manager <<Name>>");
-        welcomePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 59, 434, -1));
+        welcomePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 59, 550, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
-        jLabel3.setForeground(java.awt.Color.white);
-        jLabel3.setText("<<DATETIME>>");
-        welcomePanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(662, 28, -1, 50));
+        logout.setBackground(new java.awt.Color(39, 40, 56));
+        logout.setBorder(null);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        welcomePanel.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(952, 20, 80, 70));
 
         contentPanel.setPreferredSize(new java.awt.Dimension(1000, 300));
 
@@ -168,20 +206,19 @@ public class managerMain extends javax.swing.JFrame {
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 302, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1061, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(26, 26, 26)))
+            .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1035, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,8 +226,9 @@ public class managerMain extends javax.swing.JFrame {
                 .addComponent(welcomePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -217,6 +255,11 @@ public class managerMain extends javax.swing.JFrame {
         actionPerformed(evt); 
     }//GEN-LAST:event_revenueBtnActionPerformed
 
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+        actionPerformed(evt);
+    }//GEN-LAST:event_logoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,9 +276,9 @@ public class managerMain extends javax.swing.JFrame {
     private javax.swing.JButton deliveryBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton logout;
     private javax.swing.JButton revenueBtn;
     private javax.swing.JButton vendorBtn;
     private javax.swing.JPanel welcomePanel;

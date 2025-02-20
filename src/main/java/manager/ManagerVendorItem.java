@@ -7,6 +7,7 @@ package manager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFrame;
@@ -42,11 +43,16 @@ public class ManagerVendorItem extends javax.swing.JFrame {
     public ManagerVendorItem(String vendorId) {
         this.vendorId = vendorId;
         initComponents();
-        this.setSize(1000,500);
+        this.setSize(1000,520);
         String filepath = vendor.getFilepath();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Vendor vendorDetails = backend.getVendorDetails(vendorId);
-        System.out.println(vendorDetails);
+        File imageFile = new File(vendorDetails.getImagePath());
+        if (imageFile.exists()){
+            vendorImage.setIcon(backend.scale.processImage(vendorDetails.getImagePath(), 240, 204));
+        }else{
+            vendorImage.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 240, 204));
+        }
         vendorNameLabel.setText(vendorDetails.getName());
         vendorEmailLabel.setText(vendorDetails.getEmail());
         vendorPhoneNumberLabel.setText(vendorDetails.getPhone());
@@ -106,6 +112,7 @@ public class ManagerVendorItem extends javax.swing.JFrame {
                 containerPanel.remove(panel); // Remove the panel
                 containerPanel.revalidate();  // Revalidate the layout
                 containerPanel.repaint();     // Repaint the container to reflect the change
+                
             }
         });
     }
@@ -129,7 +136,7 @@ public class ManagerVendorItem extends javax.swing.JFrame {
         stallTypeLabel = new javax.swing.JLabel();
         statusLabel = new javax.swing.JLabel();
         stallNameLabel = new javax.swing.JLabel();
-        vendorImage = new javax.swing.JPanel();
+        vendorImage = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         foodListLabel = new javax.swing.JLabel();
         foodListPanel = new javax.swing.JPanel();
@@ -194,36 +201,23 @@ public class ManagerVendorItem extends javax.swing.JFrame {
                 .addComponent(statusLabel))
         );
 
-        vendorImage.setBackground(java.awt.Color.black);
-
-        javax.swing.GroupLayout vendorImageLayout = new javax.swing.GroupLayout(vendorImage);
-        vendorImage.setLayout(vendorImageLayout);
-        vendorImageLayout.setHorizontalGroup(
-            vendorImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 241, Short.MAX_VALUE)
-        );
-        vendorImageLayout.setVerticalGroup(
-            vendorImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 204, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vendorImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(vendorImage, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(vendorImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(vendorImage, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
         );
@@ -303,7 +297,7 @@ public class ManagerVendorItem extends javax.swing.JFrame {
     private javax.swing.JLabel statusLabel;
     private javax.swing.JPanel vendorDetailsPanel;
     private javax.swing.JLabel vendorEmailLabel;
-    private javax.swing.JPanel vendorImage;
+    private javax.swing.JLabel vendorImage;
     private javax.swing.JLabel vendorNameLabel;
     private javax.swing.JLabel vendorPhoneNumberLabel;
     // End of variables declaration//GEN-END:variables

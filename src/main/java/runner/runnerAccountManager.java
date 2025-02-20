@@ -12,12 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 import managefile.Delivery;
 import managefile.Runner;
+import method.scaleImage;
 
 /**
  *
  * @author Asus
  */
 public class runnerAccountManager {
+    scaleImage scale = new scaleImage();
     Runner runner = new Runner();
     Delivery delivery = new Delivery();
     private final String runnerFilepath = runner.getFilepath();

@@ -4,6 +4,7 @@
  */
 package manager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import managefile.VendorReview;
@@ -18,6 +19,7 @@ public class vendorPanel extends javax.swing.JPanel {
     private String vendorName;
     private String vendorStallName;
     private String vendorStallType;
+    private String vendorImagePath;
     private String type;
     VendorReview orderReview = new VendorReview();
     readFile read = new readFile();
@@ -26,14 +28,20 @@ public class vendorPanel extends javax.swing.JPanel {
     /**
      * Creates new form vendorPanel
      */
-    public vendorPanel(String type, String vendorId, String vendorName, String vendorStallName, String vendorStallType) {
+    public vendorPanel(String type, String vendorId, String vendorName, String vendorStallName, String vendorStallType, String vendorImagePath) {
         this.vendorId = vendorId;
         this.vendorName = vendorName;
         this.vendorStallName = vendorStallName;
         this.vendorStallType = vendorStallType;
+        this.vendorImagePath = vendorImagePath;
         this.type = type;
         initComponents();
         this.setSize(300,190);
+        if (!vendorImagePath.equals("null")){
+            vendorImage.setIcon(acc.scale.processImage(vendorImagePath, 311, 175));
+        }else{
+            vendorImage.setIcon(acc.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 311, 175));
+        }
         vendorStallNameLabel.setText(vendorStallName);
         vendorNameLabel.setText(vendorName);
         vendorTypeLabel.setText(vendorStallType);
@@ -46,7 +54,8 @@ public class vendorPanel extends javax.swing.JPanel {
             }
         }
         double totalRatings = acc.calculateTotalRatings(ratings);
-        ratingsLabel.setText("*" + Double.toString(totalRatings));
+        ratingsLabel.setText(String.format("%.1f", totalRatings));
+        ratingImage.setIcon(acc.scale.processImage("src\\main\\java\\image_repository\\star.png", 33, 33));
     }
 
     /**
@@ -59,30 +68,17 @@ public class vendorPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        vendorImagePanel = new javax.swing.JPanel();
         vendorDetailsPanel = new javax.swing.JPanel();
         vendorStallNameLabel = new javax.swing.JLabel();
         vendorNameLabel = new javax.swing.JLabel();
         vendorTypeLabel = new javax.swing.JLabel();
         ratingsLabel = new javax.swing.JLabel();
         viewBtn = new javax.swing.JButton();
+        ratingImage = new javax.swing.JLabel();
+        vendorImage = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(200, 200));
         setLayout(new java.awt.BorderLayout());
-
-        vendorImagePanel.setBackground(java.awt.Color.black);
-        vendorImagePanel.setPreferredSize(new java.awt.Dimension(280, 130));
-
-        javax.swing.GroupLayout vendorImagePanelLayout = new javax.swing.GroupLayout(vendorImagePanel);
-        vendorImagePanel.setLayout(vendorImagePanelLayout);
-        vendorImagePanelLayout.setHorizontalGroup(
-            vendorImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        vendorImagePanelLayout.setVerticalGroup(
-            vendorImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 114, Short.MAX_VALUE)
-        );
 
         vendorStallNameLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         vendorStallNameLabel.setText("Vendor Stall Name");
@@ -93,6 +89,7 @@ public class vendorPanel extends javax.swing.JPanel {
         vendorTypeLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         vendorTypeLabel.setText("Vendor Type");
 
+        ratingsLabel.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         ratingsLabel.setText("Ratings");
 
         viewBtn.setText("View");
@@ -102,20 +99,23 @@ public class vendorPanel extends javax.swing.JPanel {
             }
         });
 
+        ratingImage.setPreferredSize(new java.awt.Dimension(33, 33));
+
         javax.swing.GroupLayout vendorDetailsPanelLayout = new javax.swing.GroupLayout(vendorDetailsPanel);
         vendorDetailsPanel.setLayout(vendorDetailsPanelLayout);
         vendorDetailsPanelLayout.setHorizontalGroup(
             vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(vendorStallNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ratingsLabel)
-                        .addGap(14, 14, 14))
+                        .addComponent(vendorStallNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ratingImage, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addGroup(vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(vendorTypeLabel)
                             .addComponent(vendorNameLabel))
@@ -126,38 +126,43 @@ public class vendorPanel extends javax.swing.JPanel {
         vendorDetailsPanelLayout.setVerticalGroup(
             vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
                 .addGroup(vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(vendorStallNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(vendorStallNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ratingImage, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vendorDetailsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
                 .addGroup(vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(vendorNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(vendorTypeLabel))
                     .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(viewBtn)
+                        .addComponent(viewBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
+
+        vendorImage.setOpaque(true);
+        vendorImage.setPreferredSize(new java.awt.Dimension(311, 175));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(vendorImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+            .addComponent(vendorImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(vendorImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(vendorImage, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -178,9 +183,10 @@ public class vendorPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel ratingImage;
     private javax.swing.JLabel ratingsLabel;
     private javax.swing.JPanel vendorDetailsPanel;
-    private javax.swing.JPanel vendorImagePanel;
+    private javax.swing.JLabel vendorImage;
     private javax.swing.JLabel vendorNameLabel;
     private javax.swing.JLabel vendorStallNameLabel;
     private javax.swing.JLabel vendorTypeLabel;
