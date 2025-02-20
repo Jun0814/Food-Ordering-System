@@ -4,6 +4,7 @@
  */
 package manager;
 import java.awt.BorderLayout;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class vendorRevenue extends javax.swing.JFrame {
     public vendorRevenue(String vendorId) {
         initComponents();
         this.vendorId = vendorId;
-        this.setSize(1000,500);
+        this.setSize(1000,520);
         String filepath = vendor.getFilepath();
         String[][] vendorDetails = data.retrieveDataAsArray(0,vendorId,filepath);
         for (String[] vendorInfo : vendorDetails) {
@@ -51,6 +52,12 @@ public class vendorRevenue extends javax.swing.JFrame {
             this.stallType = vendorInfo[6];
             this.imagePath = vendorInfo[7];
             this.vendorStatus = vendorInfo[8];
+        }
+        File imageFile = new File(imagePath);
+        if (imageFile.exists()){
+            vendorImage.setIcon(backend.scale.processImage(imagePath, 495, 214));
+        }else{
+            vendorImage.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\food-stall.png", 495, 214));
         }
         stallNameLabel.setText(stallName);
         vendorNameLabel.setText(vendorName);
@@ -139,7 +146,7 @@ public class vendorRevenue extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        vendorImagePanel = new javax.swing.JPanel();
+        roundedPanel1 = new method.RoundedPanel();
         vendorDetailsPanel = new javax.swing.JPanel();
         stallNameLabel = new javax.swing.JLabel();
         vendorNameLabel = new javax.swing.JLabel();
@@ -147,27 +154,13 @@ public class vendorRevenue extends javax.swing.JFrame {
         vendorPhoneNumberLabel = new javax.swing.JLabel();
         stallTypeLabel = new javax.swing.JLabel();
         statusLabel = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        vendorImage = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         yearlyTotalRevenuePanel = new javax.swing.JPanel();
         yearlyTotalRevenueLabel = new javax.swing.JLabel();
         yearlyRevenueChartPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        vendorImagePanel.setBackground(java.awt.Color.black);
-
-        javax.swing.GroupLayout vendorImagePanelLayout = new javax.swing.GroupLayout(vendorImagePanel);
-        vendorImagePanel.setLayout(vendorImagePanelLayout);
-        vendorImagePanelLayout.setHorizontalGroup(
-            vendorImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 215, Short.MAX_VALUE)
-        );
-        vendorImagePanelLayout.setVerticalGroup(
-            vendorImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         stallNameLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         stallNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -204,12 +197,16 @@ public class vendorRevenue extends javax.swing.JFrame {
         vendorDetailsPanel.setLayout(vendorDetailsPanelLayout);
         vendorDetailsPanelLayout.setHorizontalGroup(
             vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(stallNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(stallTypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(vendorPhoneNumberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(stallNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
             .addComponent(vendorEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(vendorNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(vendorDetailsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(stallTypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(vendorPhoneNumberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         vendorDetailsPanelLayout.setVerticalGroup(
             vendorDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,60 +214,54 @@ public class vendorRevenue extends javax.swing.JFrame {
                 .addComponent(stallNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(vendorNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(vendorEmailLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(vendorPhoneNumberLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stallTypeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(statusLabel))
-        );
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel1.setText("Sales");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
+
+        javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
+        roundedPanel1.setLayout(roundedPanel1Layout);
+        roundedPanel1Layout.setHorizontalGroup(
+            roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+        roundedPanel1Layout.setVerticalGroup(
+            roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        vendorImage.setMaximumSize(new java.awt.Dimension(495, 214));
+        vendorImage.setMinimumSize(new java.awt.Dimension(495, 214));
+        vendorImage.setName(""); // NOI18N
+        vendorImage.setPreferredSize(new java.awt.Dimension(495, 214));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(vendorImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(vendorImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(vendorImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(vendorDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(vendorImage, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addComponent(roundedPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         yearlyTotalRevenueLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
@@ -283,7 +274,7 @@ public class vendorRevenue extends javax.swing.JFrame {
             .addGroup(yearlyTotalRevenuePanelLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addComponent(yearlyTotalRevenueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         yearlyTotalRevenuePanelLayout.setVerticalGroup(
             yearlyTotalRevenuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,16 +341,15 @@ public class vendorRevenue extends javax.swing.JFrame {
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private method.RoundedPanel roundedPanel1;
     private javax.swing.JLabel stallNameLabel;
     private javax.swing.JLabel stallTypeLabel;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JPanel vendorDetailsPanel;
     private javax.swing.JLabel vendorEmailLabel;
-    private javax.swing.JPanel vendorImagePanel;
+    private javax.swing.JLabel vendorImage;
     private javax.swing.JLabel vendorNameLabel;
     private javax.swing.JLabel vendorPhoneNumberLabel;
     private javax.swing.JPanel yearlyRevenueChartPanel;

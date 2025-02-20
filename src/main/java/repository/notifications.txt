@@ -50,3 +50,6 @@ NT48,Your Order #O15 is placed order!,2025-01-19T18:42:18,C1
 NT49,You received Order #O15|x1 Fried Duck is placed order!|,2025-01-19T18:42:18,C1
 NT50,Your Order #O16 is placed order!,2025-01-20T11:15:23,C1
 NT51,You received Order #O16|x1 Fried Cake is placed order!|,2025-01-20T11:15:23,C1
+NT52,Your Order #O12 is placed order!,2025-02-20T15:37:28,C1
+NT53,You received Order #O12|x1 Fried Noodle is placed order!|,2025-02-20T15:37:28,C1
+NT54,Your delivery order is received!,2025-02-20T15:42:51,C1

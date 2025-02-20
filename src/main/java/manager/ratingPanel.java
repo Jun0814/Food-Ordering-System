@@ -4,21 +4,25 @@
  */
 package manager;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author Asus
  */
 public class ratingPanel extends javax.swing.JPanel {
-
+    managerAccountManager acc = new managerAccountManager();
     /**
      * Creates new form ratingPanel
      */
     public ratingPanel(String[] reviews) {
         initComponents();
-        this.setSize(500,80);
+        this.setPreferredSize(new Dimension(400, 110));
+        this.setMaximumSize(new Dimension(500,110));
         reviewIdLabel.setText(reviews[0]);
         reviewCommentLabel.setText(reviews[4]);
         ratingsLabel.setText(reviews[3]);
+        ratingImage.setIcon(acc.scale.processImage("src\\main\\java\\image_repository\\star.png", 44, 43));
         datatimeLabel.setText(reviews[5]);
     }
 
@@ -32,55 +36,47 @@ public class ratingPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        roundedPanel1 = new method.RoundedPanel();
         reviewIdLabel = new javax.swing.JLabel();
         reviewCommentLabel = new javax.swing.JLabel();
-        ratingsLabel = new javax.swing.JLabel();
         datatimeLabel = new javax.swing.JLabel();
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        reviewIdLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        reviewIdLabel.setText("reviewId");
-
-        reviewCommentLabel.setText("reviewComment");
-
-        ratingsLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        ratingsLabel.setText("ratings");
-
-        datatimeLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        datatimeLabel.setText("dateTime");
+        ratingsLabel = new javax.swing.JLabel();
+        ratingImage = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(reviewIdLabel)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(reviewCommentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(datatimeLabel)
-                .addGap(18, 18, 18)
-                .addComponent(ratingsLabel)
-                .addContainerGap(27, Short.MAX_VALUE))
+            .addGap(0, 100, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(datatimeLabel))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(reviewIdLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reviewCommentLabel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        setPreferredSize(new java.awt.Dimension(380, 110));
+
+        roundedPanel1.setMaximumSize(new java.awt.Dimension(530, 98));
+        roundedPanel1.setMinimumSize(new java.awt.Dimension(530, 98));
+        roundedPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        reviewIdLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        reviewIdLabel.setText("reviewId");
+        roundedPanel1.add(reviewIdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        reviewCommentLabel.setText("reviewComment");
+        roundedPanel1.add(reviewCommentLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 422, -1));
+
+        datatimeLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        datatimeLabel.setText("dateTime");
+        roundedPanel1.add(datatimeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 10, 262, -1));
+
+        ratingsLabel.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
+        ratingsLabel.setText("ratings");
+        roundedPanel1.add(ratingsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(438, 16, 62, 58));
+
+        ratingImage.setPreferredSize(new java.awt.Dimension(44, 43));
+        roundedPanel1.add(ratingImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 25, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -88,14 +84,15 @@ public class ratingPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -103,8 +100,10 @@ public class ratingPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel datatimeLabel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel ratingImage;
     private javax.swing.JLabel ratingsLabel;
     private javax.swing.JLabel reviewCommentLabel;
     private javax.swing.JLabel reviewIdLabel;
+    private method.RoundedPanel roundedPanel1;
     // End of variables declaration//GEN-END:variables
 }

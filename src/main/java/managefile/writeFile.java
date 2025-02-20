@@ -65,14 +65,15 @@ public class writeFile {
     public void writeFeedback(List<Feedback> feedbacks, String filepath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
             // Write the header
-            writer.write("FeedbackId,ManagerId,Description,Datetime");
+            writer.write("FeedbackId,CustomerId,ManagerId,Description,Datetime");
             writer.newLine();
 
             // Write each feedback as a line in the CSV format
             for (Feedback feedback : feedbacks) {
-                String line = String.format("%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s",
                         feedback.getFeedbackID(),
-                        feedback.getManagerID() == null ? "Null" : feedback.getManagerID(),
+                        feedback.getCustomerID(),
+                        feedback.getManagerID(),
                         feedback.getDescription(),
                         feedback.getDatetime());
                 writer.write(line);

@@ -18,6 +18,7 @@ public class runnerPanel extends javax.swing.JPanel {
     private String name;
     private String phoneNumber;
     private String email;
+    private Double totalRatings;
     DeliveryReview deliveryReview = new DeliveryReview();
     readFile read = new readFile();
     managerAccountManager acc = new managerAccountManager();
@@ -31,6 +32,7 @@ public class runnerPanel extends javax.swing.JPanel {
         this.email = email;
         initComponents();
         this.setSize(300,190);
+        jLabel1.setIcon(acc.scale.processImage("src\\main\\java\\image_repository\\man.png", 320, 189));
         runnerNameLabel.setText(name);
         runnerPhoneLabel.setText(phoneNumber);
         runnerEmailLabel.setText(email);
@@ -42,7 +44,9 @@ public class runnerPanel extends javax.swing.JPanel {
             }
         }
         double totalRatings = acc.calculateTotalRatings(ratings);
-        ratingsLabel.setText("*" + Double.toString(totalRatings));
+        this.totalRatings = totalRatings;
+        ratingsLabel.setText(String.format("%.1f", totalRatings));
+        ratingImage.setIcon(acc.scale.processImage("src\\main\\java\\image_repository\\star.png", 31, 31));
     }
     
 
@@ -57,35 +61,27 @@ public class runnerPanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        vendorImagePanel = new javax.swing.JPanel();
         runnerDetailsPanel = new javax.swing.JPanel();
         runnerNameLabel = new javax.swing.JLabel();
         runnerEmailLabel = new javax.swing.JLabel();
         runnerPhoneLabel = new javax.swing.JLabel();
         ratingsLabel = new javax.swing.JLabel();
         viewBtn = new javax.swing.JButton();
+        ratingImage = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
+        setPreferredSize(new java.awt.Dimension(200, 250));
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 200));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        vendorImagePanel.setBackground(java.awt.Color.black);
-        vendorImagePanel.setPreferredSize(new java.awt.Dimension(280, 130));
-
-        javax.swing.GroupLayout vendorImagePanelLayout = new javax.swing.GroupLayout(vendorImagePanel);
-        vendorImagePanel.setLayout(vendorImagePanelLayout);
-        vendorImagePanelLayout.setHorizontalGroup(
-            vendorImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        vendorImagePanelLayout.setVerticalGroup(
-            vendorImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 114, Short.MAX_VALUE)
-        );
-
         runnerNameLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         runnerNameLabel.setText("Runner Name");
+        runnerNameLabel.setMaximumSize(new java.awt.Dimension(140, 32));
+        runnerNameLabel.setMinimumSize(new java.awt.Dimension(140, 32));
+        runnerNameLabel.setPreferredSize(new java.awt.Dimension(140, 32));
 
         runnerEmailLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         runnerEmailLabel.setText("Runner Email");
@@ -93,6 +89,7 @@ public class runnerPanel extends javax.swing.JPanel {
         runnerPhoneLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         runnerPhoneLabel.setText("Phone Number");
 
+        ratingsLabel.setFont(new java.awt.Font("Segoe UI", 3, 30)); // NOI18N
         ratingsLabel.setText("Ratings");
 
         viewBtn.setText("View");
@@ -107,55 +104,56 @@ public class runnerPanel extends javax.swing.JPanel {
         runnerDetailsPanelLayout.setHorizontalGroup(
             runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
-                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(runnerNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                    .addComponent(runnerEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(runnerPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(viewBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(runnerEmailLabel)
-                            .addComponent(runnerPhoneLabel)))
-                    .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(runnerNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, runnerDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(viewBtn)
-                        .addGap(50, 50, 50))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, runnerDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))))
+                        .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ratingImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         runnerDetailsPanelLayout.setVerticalGroup(
-            runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(runnerNameLabel)
-                .addGap(0, 2, Short.MAX_VALUE)
-                .addComponent(runnerEmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE)
-                .addComponent(runnerPhoneLabel))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, runnerDetailsPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewBtn)
-                .addContainerGap())
+            runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, runnerDetailsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(runnerNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(runnerEmailLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(runnerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(runnerPhoneLabel)
+                            .addComponent(viewBtn)))
+                    .addGroup(runnerDetailsPanelLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(ratingImage, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ratingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(runnerDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(vendorImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(runnerDetailsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(vendorImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(runnerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 92, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(runnerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -166,21 +164,22 @@ public class runnerPanel extends javax.swing.JPanel {
     private void viewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewBtnActionPerformed
         // TODO add your handling code here:
         System.out.println(runnerId);
-        runnerDetails runnerDetails = new runnerDetails(runnerId);
+        runnerDetails runnerDetails = new runnerDetails(runnerId, totalRatings);
         runnerDetails.run();
        
     }//GEN-LAST:event_viewBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel ratingImage;
     private javax.swing.JLabel ratingsLabel;
     private javax.swing.JPanel runnerDetailsPanel;
     private javax.swing.JLabel runnerEmailLabel;
     private javax.swing.JLabel runnerNameLabel;
     private javax.swing.JLabel runnerPhoneLabel;
-    private javax.swing.JPanel vendorImagePanel;
     private javax.swing.JButton viewBtn;
     // End of variables declaration//GEN-END:variables
 }

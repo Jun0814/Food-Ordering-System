@@ -1,4 +1,4 @@
 ID,Name,Email,Phone,Password,Stall Name, Stall Type, Image path,Status
-V1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,null,Available
+V1,Chin Xuan Han,xuanhanchin@gmail.com,010-3891107,1234,JoJo,Fast Food,null,Unavailable
 V2,PoYeh,poyehtan@gmail.com,010-3891107,1234,YoYo,Chinese Food,src/main/java/image_repository/esquites.png,Available
 V3,Charles Hor Yuan Li,yuanlicjb@gmail.com,012-3335555,chyl,Shit Producer,Shit Food,null,Available
