@@ -23,6 +23,7 @@ import managefile.Runner;
 import managefile.RunnerNotification;
 import managefile.Vendor;
 import managefile.VendorReview;
+import managefile.VendorReview1;
 import managefile.readFile;
 import managefile.writeFile;
 import method.primaryKey;
@@ -810,5 +811,81 @@ public class customer_backend{
         feedbackStore.add(description);
         feedbackStore.add(datetime);
         data.addGeneralFile(feedbackStore, feedbackFile);
+    }
+    public List<VendorReview1> setVendorReviews() {
+        List<String> reviewVendor = read.readVendorReview1(orderReviewFile);
+        List<String> vendor = read.readVendorAccount1(vendorFile);
+        Map<String, Vendor> vendorMap = new HashMap<>();
+
+        for (String vendorLine : vendor) {
+            String[] parts = vendorLine.split(",");
+            String id = parts[0];
+            String name = parts[1];
+            String email = parts[2];
+            String phone = parts[3];
+            String password = parts[4];
+            String stallName = parts[5];
+            String stallType = parts[6];
+            String imagePath = parts[7];
+            String status = parts[8];
+            
+            Vendor vendors = new Vendor(id, name, email, phone, password, stallName, stallType, imagePath, status);
+            vendorMap.put(id, vendors);
+        }
+
+        List<VendorReview1> reviews1 = new ArrayList<>();
+        for (String reviewLine : reviewVendor) {
+            String[] parts = reviewLine.split(",");
+            String reviewId = parts[0];
+            String vendorId = parts[1];
+            String rating = parts[2];
+            String comments = parts[3];
+
+            Vendor vendors = vendorMap.get(vendorId);
+            if (vendors != null) {
+                VendorReview1 review = new VendorReview1(reviewId, vendors, vendorId, rating, comments);
+                reviews1.add(review);
+            }
+        }
+        return reviews1;
+    }
+    public List<VendorReview1> setVendorReviews(String targetVendor) {
+        List<String> reviewVendor = read.readVendorReview1(orderReviewFile);
+        List<String> vendor = read.readVendorAccount1(vendorFile);
+        Map<String, Vendor> vendorMap = new HashMap<>();
+
+        for (String vendorLine : vendor) {
+            String[] parts = vendorLine.split(",");
+            String id = parts[0];
+            String name = parts[1];
+            String email = parts[2];
+            String phone = parts[3];
+            String password = parts[4];
+            String stallName = parts[5];
+            String stallType = parts[6];
+            String imagePath = parts[7];
+            String status = parts[8];
+            
+            Vendor vendors = new Vendor(id, name, email, phone, password, stallName, stallType, imagePath, status);
+            vendorMap.put(id, vendors);
+        }
+
+        List<VendorReview1> reviews1 = new ArrayList<>();
+        for (String reviewLine : reviewVendor) {
+            String[] parts = reviewLine.split(",");
+            String reviewId = parts[0];
+            String vendorId = parts[1];
+            String rating = parts[2];
+            String comments = parts[3];
+
+            if (vendorId.equals(targetVendor)) {
+                Vendor vendors = vendorMap.get(vendorId);
+                if (vendors != null) {
+                    VendorReview1 review = new VendorReview1(reviewId, vendors, vendorId, rating, comments);
+                    reviews1.add(review);
+                }
+            }
+        }
+        return reviews1;
     }
 }

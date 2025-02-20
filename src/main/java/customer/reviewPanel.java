@@ -24,6 +24,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import managefile.Vendor;
 import managefile.VendorReview;
+import managefile.VendorReview1;
 
 /**
  *
@@ -46,11 +47,9 @@ public class reviewPanel extends javax.swing.JPanel {
     }
     
     private void getReviewDetails(){
-        Map<Object, Object> vendorReviewList = backend.getVendorsReviews(vendorID);
-        List<managefile.Vendor> vendors1 = (List<managefile.Vendor>) vendorReviewList.get("vendors");
-        List<managefile.VendorReview> vendorReviews1 = (List<managefile.VendorReview>) vendorReviewList.get("reviews");
+        List<VendorReview1> reviewData = backend.setVendorReviews(vendorID);
+        Vendor vendor = reviewData.getFirst().getVendor();
         
-        Vendor vendor = vendors1.getFirst();
         File imageFile = new File(vendor.getImagePath());
         if (imageFile.exists()){
             jLabel2.setIcon(backend.scale.processImage(vendor.getImagePath(), 50, 50));
@@ -71,7 +70,8 @@ public class reviewPanel extends javax.swing.JPanel {
         ImageIcon icon = backend.scale.processImage("src\\main\\java\\image_repository\\star.png", 20, 20);
         int totalRate = 0;
         List<String> ratingList = new ArrayList<>();
-        for (VendorReview vendorReview : vendorReviews1) {
+        for (VendorReview1 vendorReview : reviewData) {
+            System.out.println(vendorReview.getReviewID());
             String rating = vendorReview.getRating();
             String comments = vendorReview.getComments();
             if (!rating.equals("null") || !comments.equals("null")){
@@ -144,7 +144,7 @@ public class reviewPanel extends javax.swing.JPanel {
         jLabel3.setText("("+totalCount+")");
     }
     
-    private JPanel createReviewPanel(VendorReview vendorReview){
+    private JPanel createReviewPanel(VendorReview1 vendorReview){
         String reviewID = vendorReview.getReviewID();
         reviewListPanel panel = new reviewListPanel(reviewID,vendorReview);
         

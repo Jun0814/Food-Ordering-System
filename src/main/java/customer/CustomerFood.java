@@ -35,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import managefile.Vendor;
+import managefile.VendorReview1;
 
 /**
  *
@@ -90,9 +91,7 @@ public class CustomerFood extends javax.swing.JFrame{
         List<Vendor> vendors = (List<Vendor>) details.get("vendors");
         List<managefile.Food> foods = (List<managefile.Food>) details.get("foods");
         
-        Map<Object, Object> vendorReviewList = backend.getVendorsReviews();
-        List<managefile.Vendor> vendors1 = (List<managefile.Vendor>) vendorReviewList.get("vendors");
-        List<managefile.VendorReview> vendorReviews1 = (List<managefile.VendorReview>) vendorReviewList.get("reviews");
+        List<VendorReview1> reviewData = backend.setVendorReviews(vendorID);
         
         for(Vendor vendor:vendors){
             File imageFile = new File(vendor.getImagePath());
@@ -109,7 +108,7 @@ public class CustomerFood extends javax.swing.JFrame{
             stallType.setText(vendor.getStallType());
             vendorName.setText(vendor.getName());
             phoneNum.setText(vendor.getPhone());
-            double aveRating = cm.countRating(vendor,vendorReviews1);
+            double aveRating = cm.countRating(vendor,reviewData);
             JPanel ratingPanel = homepage.createRatingPanel(String.format("%.1f",aveRating),16);
             jPanel5.setLayout(new BorderLayout());
             jPanel5.add(ratingPanel,BorderLayout.CENTER);

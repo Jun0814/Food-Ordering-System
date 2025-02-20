@@ -14,9 +14,11 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import managefile.Customer;
 import managefile.Food;
 import managefile.OrderItems;
 import managefile.VendorReview;
+import managefile.VendorReview1;
 
 /**
  *
@@ -32,14 +34,16 @@ public class reviewListPanel extends javax.swing.JPanel {
     /**
      * Creates new form reviewListPanel
      */
-    public reviewListPanel(String reviewID,VendorReview vendorReview) {
+    public reviewListPanel(String reviewID,VendorReview1 vendorReview) {
         Map<Object, Object> allOrders = backend.getOrderByOrderReviewID(reviewID);
         List<managefile.Order> orders = (List<managefile.Order>) allOrders.get("orders");
         List<managefile.OrderItems> orderItems = (List<managefile.OrderItems>) allOrders.get("ordersItems");
         List<managefile.Food> foodItems = (List<managefile.Food>) allOrders.get("foodItems");
         List<managefile.Customer> customers = (List<managefile.Customer>) allOrders.get("customers");
         initComponents();
-        jLabel1.setText(customers.getFirst().getName().split(" ")[0]+" XXXX XXX");
+        
+        System.out.println(customers.getFirst().getName());
+        jLabel1.setText(customers.getFirst().getName());
         jLabel2.setText(vendorReview.getComments());
         
         int rating = Integer.parseInt(vendorReview.getRating());

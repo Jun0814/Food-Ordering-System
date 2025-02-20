@@ -297,6 +297,51 @@ public class readFile {
         }
         return reviews;
     }
+    public List readVendorAccount1(String filePath){
+        List<String> users = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+                String id = fields[0].trim();
+                String name = fields[1].trim();
+                String email = fields[2].trim();
+                String phone = fields[3].trim();
+                String password = fields[4].trim();
+                String stallname = fields[5].trim();
+                String stalltype = fields[6].trim();
+                String imagepath = fields[7].trim();
+                String status = fields[8].trim();
+                users.add(id+","+name+","+email+","+phone+","+password+","+stallname+","+stalltype+","+imagepath+","+status);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+    public List readVendorReview1(String filePath){
+        List<String> reviews = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+                String reviewID = fields[0].trim();
+                String vendorID = fields[1].trim();
+                String rating = fields[2].trim();
+                String comments = fields[3].trim();
+                reviews.add(reviewID+","+vendorID+","+rating+","+comments);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return reviews;
+    }
     public List readDeliveryReview(String filePath){
         List<DeliveryReview> reviews = new ArrayList<>();
         try{
