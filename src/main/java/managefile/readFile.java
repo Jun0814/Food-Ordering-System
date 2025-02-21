@@ -80,6 +80,8 @@ public class readFile {
                 String status = fields[8].trim();
                 users.add(new Vendor(id,name,email,phone,password,stallname,stalltype,imagepath,status));
             }
+            fr.close();
+            br.close();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -292,6 +294,8 @@ public class readFile {
                 String comments = fields[3].trim();
                 reviews.add(new VendorReview(reviewID,vendorID, rating, comments));
             }
+            fr.close();
+            br.close();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -317,6 +321,8 @@ public class readFile {
                 String status = fields[8].trim();
                 users.add(id+","+name+","+email+","+phone+","+password+","+stallname+","+stalltype+","+imagepath+","+status);
             }
+            fr.close();
+            br.close();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -337,6 +343,8 @@ public class readFile {
                 String comments = fields[3].trim();
                 reviews.add(reviewID+","+vendorID+","+rating+","+comments);
             }
+            fr.close();
+            br.close();
         }catch(IOException e){
             e.printStackTrace();
         }

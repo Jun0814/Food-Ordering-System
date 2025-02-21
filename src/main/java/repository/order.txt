@@ -1,11 +1,10 @@
 OrderID,CustomerID,DeliveryID,VendorID,VendorReviewID,Type,TypeDetails,Datetime,TotalAmount,Status
-O1,C1,null,V1,VR1,dine in,198,2025-01-11T22:36:23,143.0,Completed
-O2,C1,null,V2,VR2,dine in,83,2025-01-11T22:38:07,118.80000000000001,Completed
-O3,C1,null,V1,VR3,pickup,16:20,2025-01-12T16:18:28,12.0,Completed
-O4,C1,null,V2,VR4,pickup,09:00,2025-01-12T16:22:55,17.0,Completed
-O5,C1,null,V2,VR5,dine in,200,2025-01-13T08:40:49,66.0,Cancel
-O6,C1,D1,V1,VR6,delivery,Bukit Jalil,2025-01-13T09:27:18,28.0,Cancel
-O7,C1,null,V1,VR7,dine in,115,2025-01-14T10:00:39,110.00000000000001,Cancel
-O8,C1,null,V1,VR8,dine in,100,2025-01-14T10:04:40,121,Cancel
-O9,C1,D2,V1,VR9,delivery,bukit jalil,2025-01-14T10:32:40,48.0,Completed
-O10,C1,D3,V1,VR10,delivery,bukit jalil,2024-01-17T22:59:51,130.0,Pending
+O1,C1,null,V1,VR1,dine in,101,2025-02-20T22:53:29,53.35,Cancel
+O2,C1,null,V1,VR2,dine in,101,2025-02-20T22:55:03,22.0,Completed
+O3,C1,D2,V1,VR3,delivery,ppa1m bukit jalil,2025-02-20T23:35:38,10.0,Completed
+O4,C1,D3,V1,VR4,delivery,parkhill bukit jalil,2024-03-25T23:44:35,8.5,Completed
+O5,C1,D4,V1,VR5,delivery,ppa1m bukit jalil,2025-02-20T23:48:50,10.0,Completed
+O6,C1,D5,V1,VR6,delivery,ppa1m bukit jalil,2025-02-21T23:59:36,10.0,Completed
+O7,C1,null,V1,VR7,dine in,101,2025-02-21T01:01:18,39.050000000000004,Cancel
+O8,C1,D6,V1,VR8,delivery,parkhill bukit jalil,2025-02-21T01:03:04,10.0,Completed
+O9,C1,D7,V1,VR9,delivery,ppa1m bukit jalil,2025-02-21T02:19:46,18.5,Accepted

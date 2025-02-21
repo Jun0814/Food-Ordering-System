@@ -1,55 +1,34 @@
 NotificationID,Description,Datetime,UserID
-NT1,Your Order #O1 is placed order!,2025-01-11T22:36:23,C1
-NT2,You received Order #O1|x1 Fried Chicken is placed order!|x6 Fried Cake is placed order!|,2025-01-11T22:36:23,V1
-NT3,Your Order #O2 is placed order!,2025-01-11T22:38:07,C1
-NT4,You received Order #O2|x3 Fried Noodle is placed order!|x3 Fried Chicken is placed order!|,2025-01-11T22:38:07,V2
-NT5,Your Order #O3 is placed order!,2025-01-12T16:18:28,C1
-NT6,You received Order #O3|x1 Fried Duck is placed order!|,2025-01-12T16:18:28,V1
-NT7,Your Order #O4 is placed order!,2025-01-12T16:22:55,C1
-NT8,You received Order #O4|x1 Fried Noodle is placed order!|,2025-01-12T16:22:55,V2
-NT9,Your Order #O5 is placed order!,2025-01-13T08:40:49,C1
-NT10,You received Order #O5|x4 Fried Noodle is placed order!|,2025-01-13T08:40:49,V2
-NT11,Your Order #O6 is placed order!,2025-01-13T09:27:18,C1
-NT12,You received Order #O6|x2 Fried Chicken is placed order!|,2025-01-13T09:27:18,C1
-NT13,RM 22.40 is refunded.,2025-01-13T09:29:07,C1
-NT14,Your delivery order is cancel.|The total of RM 22.40 is refunded.,2025-01-13T22:55:32,C1
-NT15,Your Order #O7 is placed order!,2025-01-14T10:00:39,C1
-NT16,You received Order #O7|x5 Fried Cake is placed order!|,2025-01-14T10:00:39,C1
-NT17,Your Order #O8 is placed order!,2025-01-14T10:04:40,C1
-NT18,You received Order #O8|x1 Fried Chicken is placed order!|x5 Fried Cake is placed order!|,2025-01-14T10:04:40,C1
-NT19,Your order is cancel.|The total of RM 96.80 is refunded.,2025-01-14T10:05:08,C1
-NT20,Your order is cancel.|The total of RM 88.00 is refunded.,2025-01-14T10:14:24,C1
-NT21,Your delivery order is cancel.|The total of RM 22.40 is refunded.,2025-01-14T10:21:44,C1
-NT22,Your order is cancel.|The total of RM 52.80 is refunded.,2025-01-14T10:26:45,C1
-NT23,Your Order #O9 is placed order!,2025-01-14T10:32:40,C1
-NT24,You received Order #O9|x4 Fried Chicken is placed order!|,2025-01-14T10:32:40,C1
-NT25,Your delivery order is cancel.|The total of RM 38.40 is refunded.,2025-01-14T10:42:42,C1
-NT26,Your delivery order is cancel.|The total of RM 38.40 is refunded.,2025-01-15T20:05:47,C1
-NT27,Your delivery order is received!,2025-01-16T08:28:07,C1
-NT28,Your delivery order is received!,2025-01-16T09:22:48,C1
-NT29,Your delivery order is received!,2025-01-16T09:23:58,C1
-NT30,Your delivery order is received!,2025-01-16T09:25:33,C1
-NT31,Your delivery order is received!,2025-01-16T09:26:35,C1
-NT32,Your delivery order is received!,2025-01-16T09:49:35,C1
-NT33,You have top up RM 20 to your e-wallet successfully!,2025-01-17T09:17:16,C1
-NT34,You have top up RM 150 to your e-wallet successfully!,2025-01-17T09:20:50,C1
-NT35,You have top up RM 180 to your e-wallet successfully!,2025-01-17T09:23:05,C1
-NT36,You have top up RM 200 to your e-wallet successfully!,2025-01-17T09:24:34,C1
-NT37,Your Order #O10 is placed order!,2025-01-17T22:59:51,C1
-NT38,You received Order #O10|x6 Fried Cake is placed order!|x1 Fried Duck is placed order!|,2025-01-17T22:59:51,C1
-NT39,Your Order #O11 is placed order!,2025-01-18T17:51:44,C1
-NT40,You received Order #O11|x2 Fried Noodle is placed order!|,2025-01-18T17:51:44,C1
-NT41,Your delivery order is cancel.|The total of RM 24.00 is refunded.,2025-01-18T18:16:47,C1
-NT42,Your Order #O12 is placed order!,2025-01-18T18:17:06,C1
-NT43,You received Order #O12|x1 Fried Noodle is placed order!|,2025-01-18T18:17:06,C1
-NT44,Your Order #O13 is placed order!,2025-01-18T18:18:33,C1
-NT45,You received Order #O13|x1 Fried Noodle is placed order!|,2025-01-18T18:18:33,C1
-NT46,Your Order #O14 is placed order!,2025-01-18T18:41:24,C1
-NT47,You received Order #O14|x1 Fried Noodle is placed order!|,2025-01-18T18:41:24,C1
-NT48,Your Order #O15 is placed order!,2025-01-19T18:42:18,C1
-NT49,You received Order #O15|x1 Fried Duck is placed order!|,2025-01-19T18:42:18,C1
-NT50,Your Order #O16 is placed order!,2025-01-20T11:15:23,C1
-NT51,You received Order #O16|x1 Fried Cake is placed order!|,2025-01-20T11:15:23,C1
-NT52,Your Order #O12 is placed order!,2025-02-20T15:37:28,C1
-NT53,You received Order #O12|x1 Fried Noodle is placed order!|,2025-02-20T15:37:28,C1
-NT54,Your delivery order is received!,2025-02-20T15:42:51,C1
+NT1,You have top up RM 1000 to your e-wallet successfully!,2025-02-20T22:45:38,C1
+NT2,Your Order #O1 is placed order!,2025-02-20T22:53:29,C1
+NT3,You received Order #O1|x4 Pasta is placed order!|x1 Burger is placed order!|,2025-02-20T22:53:29,C1
+NT4,Your order is cancel.|The total of RM 42.68 is refunded.,2025-02-20T22:54:12,C1
+NT5,Your Order #O2 is placed order!,2025-02-20T22:55:03,C1
+NT6,You received Order #O2|x2 Pasta is placed order!|,2025-02-20T22:55:03,C1
+NT7,Your order: O2 is done|Price: 22.00|Time Order: 2025-02-20T22:55:03|,2025-02-20T23:12:35,C1
+NT8,Your order is received!,2025-02-20T23:18:42,C1
+NT9,Your order is received!,2025-02-20T23:24:03,C1
+NT10,Your Order #O3 is placed order!,2025-02-20T23:27:40,C1
+NT11,You received Order #O3|x1 Pasta is placed order!|,2025-02-20T23:27:40,C1
+NT12,Your order is received!,2025-02-20T23:35:07,C1
+NT13,Your Order #O3 is placed order!,2025-02-20T23:35:38,C1
+NT14,You received Order #O3|x1 Pasta is placed order!|,2025-02-20T23:35:38,C1
+NT15,Your Order #O4 is placed order!,2025-02-20T23:44:35,C1
+NT16,You received Order #O4|x1 Burger is placed order!|,2025-02-20T23:44:35,C1
+NT17,Your Order #O5 is placed order!,2025-02-20T23:48:50,C1
+NT18,You received Order #O5|x1 Pasta is placed order!|,2025-02-20T23:48:50,C1
+NT19,Your delivery order is received!,2025-02-20T23:50:02,C1
+NT20,Your order is received!,2025-02-20T23:58:53,C1
+NT21,Your Order #O6 is placed order!,2025-02-20T23:59:36,C1
+NT22,You received Order #O6|x1 Pasta is placed order!|,2025-02-20T23:59:36,C1
+NT23,Your delivery order is received!,2025-02-21T00:01:54,C1
+NT24,You have top up RM 520 to your e-wallet successfully!,2025-02-21T00:37:06,C1
+NT25,Your Order #O7 is placed order!,2025-02-21T01:01:18,C1
+NT26,You received Order #O7|x1 Pasta is placed order!|x3 Burger is placed order!|,2025-02-21T01:01:18,C1
+NT27,Your order is cancel.|The total of RM 31.24 is refunded.,2025-02-21T01:01:50,C1
+NT28,Your Order #O8 is placed order!,2025-02-21T01:03:04,C1
+NT29,You received Order #O8|x1 Pasta is placed order!|,2025-02-21T01:03:04,C1
+NT30,Your delivery order is received!,2025-02-21T01:09:40,C1
+NT31,You have top up RM 190 to your e-wallet successfully!,2025-02-21T01:45:42,C1
+NT32,Your Order #O9 is placed order!,2025-02-21T02:19:46,C1
+NT33,You received Order #O9|x1 Pasta is placed order!|x1 Burger is placed order!|,2025-02-21T02:19:46,C1

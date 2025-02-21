@@ -530,6 +530,7 @@ public class customer_backend{
             vendorReviewIDList.add(vendorReview.getReviewID());
         }
         String latestVendorReviewID = vendorReviewIDList.isEmpty() ? "VR1" : pri.incrementPrimaryKey(vendorReviewIDList);
+
         
         //main order store
         List<String> orderStore = new ArrayList<>();
@@ -639,7 +640,7 @@ public class customer_backend{
         }
         
         if (orders.getFirst().getOrderType().equalsIgnoreCase("delivery")){
-            data.updateData(orders.getFirst().getDeliveryID(), 6, "Completed", deliveryFile);
+            data.updateData(orders.getFirst().getDeliveryID(), 7, "Completed", deliveryFile);
             sendNotifications(customerID, "Your delivery order is received!");
         }else{
             sendNotifications(customerID, "Your order is received!");

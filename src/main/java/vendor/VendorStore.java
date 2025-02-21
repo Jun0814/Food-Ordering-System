@@ -272,7 +272,7 @@ public class VendorStore extends javax.swing.JPanel {
         String status = "-";
         String foodDescription = "-";
         double price = 0;
-        String imagePath = null;
+        String imagePath = "src\\main\\java\\image_repository\\default-food.png";
         String foodType = "-";
         price = Double.parseDouble(String.format("%.2f", price));
         String formattedPrice = String.format("%.2f", price);

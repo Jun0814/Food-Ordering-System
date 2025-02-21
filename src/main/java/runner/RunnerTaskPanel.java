@@ -257,8 +257,8 @@ public class RunnerTaskPanel extends javax.swing.JPanel {
 
     private void completeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeBtnActionPerformed
         // TODO add your handling code here:
-        data.updateData(deliveryId,7,"Completed",delivery.getFilepath());
-        data.updateData(orderId,9,"Completed",order.getFilepath());
+        data.updateData(deliveryId,7,"Sent",delivery.getFilepath());
+        data.updateData(orderId,9,"Sent",order.getFilepath());
         data.updateData(runnerId,5,"Available",runner.getFilepath());
         parent.removeTaskPanel(this);
         JOptionPane.showMessageDialog(

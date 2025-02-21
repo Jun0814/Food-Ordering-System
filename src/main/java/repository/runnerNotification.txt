@@ -1,10 +1,8 @@
 NotificationId,RunnerId,OrderId,Status
-N1,R1,O10,Accepted
-N2,R2,O15,Accepted
-N3,R2,O16,Accepted
-N4,R2,O12,Accepted
-N5,R1,O13,Accepted
-N6,R1,O14,Pending
-N7,R1,O14,Pending
-N8,R1,O14,Pending
-N9,R1,O13,Pending
+RN1,R1,O3,Accepted
+RN2,R1,O4,Accepted
+RN3,R1,O5,Accepted
+RN4,R1,O6,Accepted
+RN5,null,O7,Pending
+RN6,R1,O8,Accepted
+RN7,R2,O9,Accepted

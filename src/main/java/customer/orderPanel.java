@@ -166,7 +166,7 @@ public class orderPanel extends javax.swing.JPanel {
         if (status.equalsIgnoreCase("pending")){
             cancelButton.setVisible(true);
             cancelButton.setText("Cancel Order");
-        }else if (status.equalsIgnoreCase("done")){
+        }else if (status.equalsIgnoreCase("done") || status.equalsIgnoreCase("sent")){
             cancelButton.setVisible(true);
             cancelButton.setText("Order Received");
         }else if(status.equalsIgnoreCase("completed") || status.equalsIgnoreCase("cancel")){

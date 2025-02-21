@@ -587,12 +587,13 @@ public class CustomerCart extends javax.swing.JFrame {
                 orderPlaced = false;
                 JOptionPane.showMessageDialog(null, "Please add something into your cart!");
             }
-            if (currentTime.isBefore(start) || currentTime.isAfter(end)) {
-                orderPlaced = false;
-                JOptionPane.showMessageDialog(null, "Our opening hours is from 9:00a.m. to 6:00p.m. only!","Place Order Failed", JOptionPane.WARNING_MESSAGE);
-            }else{
-                availableTime = true;
-            }
+//            if (currentTime.isBefore(start) || currentTime.isAfter(end)) {
+//                orderPlaced = false;
+//                JOptionPane.showMessageDialog(null, "Our opening hours is from 9:00a.m. to 6:00p.m. only!","Place Order Failed", JOptionPane.WARNING_MESSAGE);
+//            }else{
+//                availableTime = true;
+//            }
+            availableTime = true;
             if (credit>totalPrice){
                 if (orderSelection.equals("delivery")){
                     for (Runner runner : runners) {

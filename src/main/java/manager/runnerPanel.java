@@ -39,7 +39,7 @@ public class runnerPanel extends javax.swing.JPanel {
         List<DeliveryReview> reviews = read.readDeliveryReview(deliveryReview.getFilepath());
         List<String> ratings = new ArrayList();
         for (DeliveryReview review : reviews){
-            if(review.getRunnerID().equals(runnerId)){
+            if(review.getRunnerID().equals(runnerId) & !review.getRating().equals("null")){
                 ratings.add(review.getRating());
             }
         }

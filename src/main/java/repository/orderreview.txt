@@ -1,12 +1,10 @@
 VendorReviewID,VendorID,Rating,Review
-VR1,V1,4,null
-VR2,V2,5,The sushi was fresh and the presentation was beautiful. I loved the variety in the platter but the wasabi could’ve been spicier.
-VR3,V1,2,null
-VR4,V2,5,Best ramen I’ve had in a while! The broth was rich and flavorful. The noodles were perfectly chewy and the pork melted in my mouth. I’ll definitely be back for more!
-VR5,V5,null,null
-VR6,V6,null,null
-VR7,V7,null,null
-VR8,V8,null,null
-VR9,V9,5,null
-VR11,V2,4,The pasta was perfectly cooked and the sauce had just the right balance of flavors. The only reason I’m giving 4 stars instead of 5 is because the breadsticks were a bit too salty for my taste.
-VR12,V2,3,I tried the chicken sandwich and while the chicken was juicy the bun felt a little stale. The fries were crispy though and the dipping sauce was a nice touch. It was an okay meal but I expected more for the price.
+VR1,V1,null,null
+VR2,V1,null,null
+VR3,V1,5,good!
+VR4,V1,null,null
+VR5,V1,null,null
+VR6,V1,null,null
+VR7,V1,null,null
+VR8,V1,null,null
+VR9,V1,null,null

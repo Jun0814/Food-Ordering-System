@@ -51,7 +51,7 @@ public class runnerDetails extends javax.swing.JFrame {
             this.runnerPhone = runnerInfo[3];
             this.runnerStatus = runnerInfo[5];
         }
-        ratingLabel.setText(Double.toString(totalRatings));
+        ratingLabel.setText(String.format("%.1f", totalRatings));
         runnerImage.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\man.png", 190, 155));
         ratingImage.setIcon(backend.scale.processImage("src\\main\\java\\image_repository\\star.png", 48, 50));
         System.out.println(runnerName);

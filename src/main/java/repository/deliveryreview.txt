@@ -1,16 +1,7 @@
 ReviewID,CustomerId,RunnerId,Rating,Comments,Datetime
-RD1,C1,R1,2.0,Runner looks ugly!,null
-RD2,C1,R2,5,,null
-RD3,C1,R1,2.0,Runner looks ugly!,null
-RD4,C1,R1,2.0,Runner looks ugly!,null
-RD5,D3,R1,null,null,null
-RD6,D4,R1,5,Good,null
-RD7,D5,R1,null,null,null
-RD8,D6,R1,null,null,null
-RD9,D7,R1,null,null,null
-RD10,D8,R2,null,null,null
-RD11,D9,R2,null,null,null
-RD12,D10,R2,null,null,null
-RD13,D11,R1,null,null,null
-RD14,D12,R1,null,null,null
-RD15,D11,R1,null,null,null
+DR1,D2,R1,null,null,null
+DR2,D3,R1,null,null,null
+DR3,D4,R1,5,good!,null
+DR4,D5,R1,5,good!,null
+DR5,D6,R1,4,good!,null
+DR6,D7,R2,null,null,null
