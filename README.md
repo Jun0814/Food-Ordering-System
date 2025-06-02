@@ -1,1 +1,1 @@
-Our project is strong as fuck!!!
+Our project is strong!!!
